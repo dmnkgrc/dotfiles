@@ -1,3 +1,4 @@
+# vim: set filetype=zsh
 source ~/antigen.zsh
 
 export NVM_DIR="$HOME/.nvm"
@@ -37,8 +38,8 @@ antigen apply
 alias vim='nvim'
 alias v='nvim'
 alias vs='vim $(fzf)'
-alias vimrc='v ~/.config/nvim/init.vim'
-alias zshrc='vim ~/.zshrc'
+alias vimrc='chezmoi edit ~/.config/nvim/init.vim --apply --prompt'
+alias zshrc='chezmoi edit ~/.zshrc --apply --prompt'
 alias szshrc='source ~/.zshrc'
 alias ya='yarn'
 alias n='npm'
@@ -62,3 +63,5 @@ export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export PATH="/usr/local/opt/flutter/bin:$PATH"
+
+if [ "$TMUX" = "" ]; then TERM=xterm-256color tmux; fi

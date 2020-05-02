@@ -12,7 +12,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
 Plug 'reinh/vim-makegreen'
 Plug 'janko-m/vim-test'
-let test#strategy = "neovim"
+let test#strategy = "vimux"
 Plug 'tpope/vim-dispatch'
 Plug 'Townk/vim-autoclose'
 Plug 'tpope/vim-surround'
