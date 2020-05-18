@@ -263,6 +263,7 @@ let g:coc_global_extensions = [
   \ 'coc-html',
   \ 'coc-solargraph',
   \ 'coc-kite',
+  \ 'coc-angular'
   \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
@@ -296,7 +297,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:kite_supported_languages = ['python', 'go', 'javascript']
+let g:kite_supported_languages = ['python', 'javascript']
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
