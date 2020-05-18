@@ -47,7 +47,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ciaranm/inkpot'
 Plug 'ajh17/Spacegray.vim'
 Plug 'vim-airline/vim-airline'
-let g:airline#extensions#ale#enabled = 1
 Plug 'vim-airline/vim-airline-themes'
 
 " Ruby
@@ -291,6 +290,8 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+let g:kite_supported_languages = ['python', 'go', 'javascript']
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
