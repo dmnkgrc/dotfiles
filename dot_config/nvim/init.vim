@@ -263,7 +263,7 @@ let g:coc_global_extensions = [
   \ 'coc-html',
   \ 'coc-solargraph',
   \ 'coc-kite',
-  \ 'coc-angular'
+  \ 'coc-angular',
   \ 'coc-tailwindcss'
   \ ]
 " from readme
