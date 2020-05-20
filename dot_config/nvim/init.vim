@@ -264,6 +264,7 @@ let g:coc_global_extensions = [
   \ 'coc-solargraph',
   \ 'coc-kite',
   \ 'coc-angular'
+  \ 'coc-tailwindcss'
   \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
