@@ -51,6 +51,7 @@ Plug 'airblade/vim-gitgutter'
 " UI
 Plug 'ciaranm/inkpot'
 Plug 'ajh17/Spacegray.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
