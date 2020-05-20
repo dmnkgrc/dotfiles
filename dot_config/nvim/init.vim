@@ -99,11 +99,11 @@ filetype on
 syntax on
 set t_Co=256
 " let g:solarized_termcolors=256
-set guifont=Monaco\ 12
+set guifont=MonoLisa\ 12
 set background=dark
-colorscheme spacegray
-let g:spacegray_underline_search = 1
-let g:spacegray_italicize_comments = 1
+colorscheme dracula
+" let g:spacegray_underline_search = 1
+" let g:spacegray_italicize_comments = 1
 set colorcolumn=90
 set termguicolors
 " }}}
