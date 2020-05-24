@@ -265,7 +265,8 @@ let g:coc_global_extensions = [
   \ 'coc-solargraph',
   \ 'coc-kite',
   \ 'coc-angular',
-  \ 'coc-tailwindcss'
+  \ 'coc-tailwindcss',
+  \ 'coc-explorer'
   \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
@@ -380,7 +381,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
@@ -393,6 +394,8 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+nmap <space>e :CocCommand explorer<CR>
 
 " }}}
 " vim:foldmethod=marker:foldlevel=0
