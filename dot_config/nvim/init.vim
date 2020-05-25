@@ -18,6 +18,7 @@ Plug 'Townk/vim-autoclose'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/CSSMinister'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'mhinz/vim-startify'
 
 " Terraform
 Plug 'hashivim/vim-terraform'
