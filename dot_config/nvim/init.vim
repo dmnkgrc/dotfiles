@@ -16,7 +16,7 @@ source $HOME/.config/nvim/plug-config/coc.vim
 " let g:solarized_termcolors=256
 colorscheme spacegray
 let g:spacegray_underline_search = 1
-let g:spacegray_italicize_comments = 1
+let gspacegray_italicize_comments = 1
 set colorcolumn=90
 set termguicolors
 " }}}
