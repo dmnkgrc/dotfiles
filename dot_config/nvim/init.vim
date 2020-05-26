@@ -7,39 +7,16 @@
 
 " Always source these
 source $HOME/.config/nvim/vim-plug/plugins.vim
+source $HOME/.config/nvim/general/settings.vim
 " Colors {{{
-filetype on
-syntax on
-set t_Co=256
 " let g:solarized_termcolors=256
-set guifont=MonoLisa\ 12
-set background=dark
 colorscheme spacegray
 let g:spacegray_underline_search = 1
 let g:spacegray_italicize_comments = 1
 set colorcolumn=90
 set termguicolors
 " }}}
-" Spaces and Tabs {{{
-filetype indent on
-set nowrap
-set tabstop=2
-set shiftwidth=2
-set expandtab " tabs are spaces
-set smartindent
-set autoindent
-set softtabstop=2 " number of spaces when editing
-set ff=unix
-" }}}
 " UI Config {{{
-set number
-set numberwidth=5
-set relativenumber
-set showcmd
-set cursorline
-set wildmenu " visual autocomplete for command menu
-set lazyredraw " only redraw when we need to
-set showmatch " hightlight matching [{()}]
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -54,8 +31,6 @@ inoremap <expr> <c-k> ("\<C-p>")
 hi Comment gui=italic cterm=italic
 hi htmlArg gui=italic cterm=italic
 " Searching {{{
-set incsearch " search as characters are entered
-set hlsearch " highlight matches
 " turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
 " }}}
@@ -71,14 +46,6 @@ if executable('ag')
   " bind K to grep word under cursor
   nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 endif
-" Folding {{{
-set foldenable " enable folding
-set foldlevelstart=10
-set foldnestmax=10
-" space open/closes folds
-nnoremap <space> za
-set foldmethod=indent " fold based on indent
-" }}}
 " Movement {{{
 nnoremap B ^
 nnoremap E $
@@ -114,13 +81,6 @@ else
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
-" }}}
-" Backups {{{
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
 " }}}
 " FZF {{{
 set rtp+=/usr/local/opt/fzf
@@ -181,22 +141,6 @@ let g:coc_global_extensions = [
   \ 'coc-tailwindcss',
   \ 'coc-explorer'
   \ ]
-" from readme
-" if hidden is not set, TextEdit might fail.
-set hidden
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
-" Better display for messages
-set cmdheight=2
-" You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
 
 " Prettier format on save
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
@@ -312,8 +256,6 @@ nmap <space>e :CocCommand explorer<CR>
 
 " }}}
 " vim:foldmethod=marker:foldlevel=0
-set list
-set listchars=tab:¦·,trail:·
 
 " Vim Startify configuration
 
