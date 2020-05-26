@@ -1,100 +1,12 @@
-" Plugins {{{
-call plug#begin('~/.vim/plugged')
-
-" Utility
-Plug 'chr4/nginx.vim'
-Plug 'qwertologe/nextval.vim'
-Plug 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'benmills/vimux'
-Plug 'reinh/vim-makegreen'
-Plug 'janko-m/vim-test'
-let test#strategy = "vimux"
-Plug 'tpope/vim-dispatch'
-Plug 'Townk/vim-autoclose'
-Plug 'tpope/vim-surround'
-Plug 'vim-scripts/CSSMinister'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-Plug 'mhinz/vim-startify'
-
-" Terraform
-Plug 'hashivim/vim-terraform'
-
-" Generic programming
-Plug 'Yggdroot/indentLine'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
-Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
-Plug 'ryanoasis/vim-devicons'
-autocmd BufNewFile,BufRead .eslintrc set filetype=json
-Plug 'tomtom/tcomment_vim'
-Plug 'elzr/vim-json'
-let g:vim_json_syntax_conceal = 0
-
-" Git
-Plug 'kablamo/vim-git-log'
-Plug 'gregsexton/gitv', {'on': ['Gitv']}
-Plug 'tpope/vim-fugitive'
-nmap <silent> gc :Git commit<CR>
-nmap <silent> grb :Git rebase -i<CR>
-nmap <silent> gs :G<CR>
-nmap <silent> gu :diffset //2<CR>
-nmap <silent> gh :diffset //3<CR>
-Plug 'airblade/vim-gitgutter'
-
-" UI
-Plug 'ciaranm/inkpot'
-Plug 'ajh17/Spacegray.vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-" Ruby
-Plug 'vim-ruby/vim-ruby'
-
-" Golang
-Plug 'fatih/vim-go'
-let g:go_fmt_command = "goimports"
-let g:go_highlight_types = 1
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-
-" Docker
-Plug 'ekalinin/Dockerfile.vim'
-
-" Javascript
-Plug 'mxw/vim-jsx'
-let g:jsx_ext_required = 0
-Plug 'jxnblk/vim-mdx-js'
-Plug 'ianks/vim-tsx'
-Plug 'leafgarland/typescript-vim'
+"    ____      _ __        _
+"   /  _/___  (_) /__   __(_)___ ___
+"   / // __ \/ / __/ | / / / __ `__ \
+" _/ // / / / / /__| |/ / / / / / / /
+"/___/_/ /_/_/\__(_)___/_/_/ /_/ /_/
 
 
-" Mustache/Handlebars
-Plug 'mustache/vim-mustache-handlebars'
-
-" PHP
-Plug 'tobyS/vmustache'
-Plug 'tobyS/pdv'
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
-
-" Jenkins
-Plug 'martinda/Jenkinsfile-vim-syntax'
-
-function! s:check_back_space() abort "{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-  endfunction"}}}
-
-call plug#end()
-"}}}
+" Always source these
+source $HOME/.config/nvim/vim-plug/plugins.vim
 " Colors {{{
 filetype on
 syntax on
