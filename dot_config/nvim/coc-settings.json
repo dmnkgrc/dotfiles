@@ -1,0 +1,19 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "Markdown",
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "html",
+    "json",
+    "typescript",
+    "javascript",
+    "javascriptreact",
+    "typescriptreact",
+    "graphql"
+  ],
+  "explorer.previewAction.onHover": false,
+  "explorer.icon.enableNerdfont": true
+}
