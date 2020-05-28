@@ -17,3 +17,5 @@ source $HOME/.config/nvim/plug-config/vim-fugitive.vim
 source $HOME/.config/nvim/plug-config/vim-go.vim
 source $HOME/.config/nvim/plug-config/vim-startify.vim
 source $HOME/.config/nvim/plug-config/vim-test.vim
+source $HOME/.config/nvim/themes/syntax.vim
+source $HOME/.config/nvim/themes/spacegray.vim
