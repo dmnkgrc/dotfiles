@@ -24,6 +24,8 @@ Plug 'reinh/vim-makegreen'
 Plug 'janko-m/vim-test'
 " Dispatch
 Plug 'tpope/vim-dispatch'
+" Repeat
+Plug 'tpope/vim-repeat'
 " Autoclose
 Plug 'Townk/vim-autoclose'
 " Surround
