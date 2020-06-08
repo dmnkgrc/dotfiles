@@ -65,4 +65,4 @@ export LC_ALL="en_US.UTF-8"
 export PATH="/usr/local/opt/flutter/bin:$PATH"
 export MYVIMRC="~/.config/nvim/init.vim"
 
-if [ "$TMUX" = "" ]; then TERM=xterm-256color tmux a; fi
+if [ "$TMUX" = "" ]; then TERM=xterm-256color tmux; fi
