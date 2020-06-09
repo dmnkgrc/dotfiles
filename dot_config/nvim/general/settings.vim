@@ -47,8 +47,8 @@ set listchars=tab:¦·,trail:·
 set incsearch
 set guifont=MonoLisa\ Nerd\ Font
 set foldenable                          " enable folding
-set foldlevelstart=10                   " level to start folding
 set foldnestmax=5                       " maximum level of nested folding
+set foldlevel=2                         " fold level
 set incsearch                           " search as characters are entered
 set hlsearch                            " highlight matches
 " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
