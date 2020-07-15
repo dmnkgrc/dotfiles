@@ -28,6 +28,7 @@ antigen use oh-my-zsh
 antigen bundle git
 antigen bundle command-not-found
 antigen bundle autojump
+antigen bundle z
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle tylerreckart/hyperzsh
 antigen bundle greymd/docker-zsh-completion
