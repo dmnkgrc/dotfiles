@@ -68,4 +68,5 @@ export MYVIMRC="~/.config/nvim/init.vim"
 if [ "$TMUX" = "" ]; then TERM=xterm-256color tmux; fi
 
 # key bindings
-bindkey "\e[1;5D" backward-word
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;3C" forward-word
