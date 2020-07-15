@@ -66,3 +66,6 @@ export PATH="/usr/local/opt/flutter/bin:$PATH"
 export MYVIMRC="~/.config/nvim/init.vim"
 
 if [ "$TMUX" = "" ]; then TERM=xterm-256color tmux; fi
+
+# key bindings
+bindkey "\e[1;5D" backward-word
