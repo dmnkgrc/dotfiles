@@ -52,7 +52,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Remap for rename current word
-nmap <F2> <Plug>(coc-rename)
+nmap <leader>rr <Plug>(coc-rename)
 
 augroup mygroup
   autocmd!
