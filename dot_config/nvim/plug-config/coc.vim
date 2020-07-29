@@ -11,7 +11,7 @@ let g:coc_global_extensions = [
   \ 'coc-emmet',
   \ 'coc-html',
   \ 'coc-solargraph',
-  \ 'coc-kite',
+  \ 'coc-go',
   \ 'coc-angular',
   \ 'coc-tailwindcss',
   \ 'coc-explorer'
