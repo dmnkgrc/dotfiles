@@ -46,8 +46,9 @@ set list
 set listchars=tab:¦·,trail:·
 set incsearch
 set guifont=MonoLisa\ Nerd\ Font
+set foldmethod=indent                   " folds based on indent
 set foldenable                          " enable folding
-set foldnestmax=5                       " maximum level of nested folding
+set foldlevelstart=10                   " level to start folding
 set foldlevel=2                         " fold level
 set incsearch                           " search as characters are entered
 set hlsearch                            " highlight matches

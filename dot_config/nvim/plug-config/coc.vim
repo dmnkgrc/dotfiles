@@ -4,6 +4,7 @@ let g:coc_global_extensions = [
   \ 'coc-pairs',
   \ 'coc-tsserver',
   \ 'coc-eslint',
+  \ 'coc-vetur',
   \ 'coc-prettier',
   \ 'coc-json',
   \ 'coc-python',
@@ -11,10 +12,10 @@ let g:coc_global_extensions = [
   \ 'coc-emmet',
   \ 'coc-html',
   \ 'coc-solargraph',
-  \ 'coc-go',
   \ 'coc-angular',
   \ 'coc-tailwindcss',
-  \ 'coc-explorer'
+  \ 'coc-explorer',
+  \ 'coc-rls'
   \ ]
 
 " Prettier format on save

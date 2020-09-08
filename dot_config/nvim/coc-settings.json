@@ -12,8 +12,32 @@
     "javascript",
     "javascriptreact",
     "typescriptreact",
-    "graphql"
+    "graphql",
+    "vue"
   ],
+  "eslint.filetypes": [
+    "javascript",
+    "svelte",
+    "vue",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "js",
+    "jsx",
+    "ts",
+    "tsx"
+  ],
+  "vetur.format.defaultFormatter.html": "prettier",
+  "vetur.format.defaultFormatterOptions": {
+    "prettier": {
+      "semi": true,
+      "singleQuote": true,
+      "trailingComma": "all"
+    }
+  },
   "explorer.previewAction.onHover": false,
-  "explorer.icon.enableNerdfont": true
+  "explorer.icon.enableNerdfont": true,
+  "solargraph.diagnostics": true,
+  "solargraph.autoformat": true,
+  "solargraph.formatting": true
 }
