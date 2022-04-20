@@ -1,0 +1,24 @@
+# pack-refs with: peeled fully-peeled sorted 
+6260c377370a7fa9ab5d9bade00380b77d3367d4 refs/remotes/origin/01-options
+e1ac27496fccd2e0accb79c6ac2097865feff14b refs/remotes/origin/02-keymaps
+4e038120bf179d7220638ad3e17bf4974ed50fff refs/remotes/origin/03-plugins
+68de5d4fab1cd11d74829947a2809c1899280dea refs/remotes/origin/04-colorscheme
+2683495c3df5ee7d3682897e0d47b0facb3cedc9 refs/remotes/origin/05-completion
+0981b2838275468ad1863aba908379af63209e7a refs/remotes/origin/06-LSP
+4b0d085006724b6f5a1d6db5b980800db44e0e88 refs/remotes/origin/07-Telescope
+63cb259f98568820d5af6f346bff88c8eab4029b refs/remotes/origin/08-treesitter
+b9a2bc855bbd7a7d54c9e280ee875393e30cf1a6 refs/remotes/origin/09-autopairs
+54c2bb07828c8e11bfa8e26f5931060ac3402358 refs/remotes/origin/10-comments
+6fbc8c23123a6b44590a3fa6c656c2f5b98ae89e refs/remotes/origin/11-gitsigns
+03ec92cafb62f4331bd04bee734d0bd2c28e668e refs/remotes/origin/12-nvimtree
+122bedde844fcef84169889d7666af0592b58c46 refs/remotes/origin/13-bufferline.lua
+6fddfcb743fe2f4980608853ef27fb9b5737a3ee refs/remotes/origin/14-null-ls
+453274513272d301906db175f8f2e7e22ef7d568 refs/remotes/origin/15-lualine.lua
+f92254108d154b3710bbd8d85ad2585b6a979107 refs/remotes/origin/16-toggleterm
+60c29a60a338d81bd93d7784595c3e91f0772053 refs/remotes/origin/17-project
+03427b87604b573f2fd4c2683de378e4806f86fc refs/remotes/origin/18-impatient
+e07a1d37116bf2aafef18a7f2ef71e45e15ec5cc refs/remotes/origin/19-indentline
+95e5604074b7443968f01738f7c556260a13b297 refs/remotes/origin/20-alpha
+91e22c4076ae58cec23ac5a9b2ea7181dd8f988a refs/remotes/origin/21-whichkey
+6e30af8ab70ecf4d9e7d33c46cfb849368e118e2 refs/remotes/origin/22-autocommands
+8cebbf6b111b664aecf8a29039c483ae4db5afe7 refs/remotes/origin/master
