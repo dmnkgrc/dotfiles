@@ -13,7 +13,7 @@ return {
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-rust"),
+          -- require("neotest-rust"),
           require("neotest-jest"),
           -- require("neotest-vim-test")({
           --   ignore_file_types = { "python", "vim", "lua", "rust" },
