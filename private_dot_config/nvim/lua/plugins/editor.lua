@@ -16,8 +16,5 @@ return {
     "aserowy/tmux.nvim",
     name = "tmux",
     config = true
-  },
-  {
-    "jubnzv/virtual-types.nvim",
-  },
+  }
 }

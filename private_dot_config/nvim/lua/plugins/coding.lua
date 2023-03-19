@@ -41,13 +41,13 @@ return {
       })
     end,
   },
-  {'tzachar/cmp-fuzzy-path', dependencies = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}},
+  { "tzachar/cmp-fuzzy-path", dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim" } },
   {
     "jcdickinson/codeium.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
-      "onsails/lspkind.nvim"
+      "onsails/lspkind.nvim",
     },
     config = function()
       require("codeium").setup({})
@@ -162,4 +162,8 @@ return {
       require("mini.splitjoin").setup()
     end,
   },
+  {
+    "imsnif/kdl.vim",
+    event = "BufReadPre *.kdl",
+  }
 }

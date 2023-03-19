@@ -31,6 +31,12 @@ alias ya='yarn'
 alias n='npm'
 alias h='hub'
 alias p='pnpm'
+alias zjr='zellij run --'
+alias zjrf='zellij run -f --'
+alias zje='zellij edit'
+alias zja='zellij action'
+alias zjs='zellij action edit-scrollback'
+alias zj='zellij'
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
