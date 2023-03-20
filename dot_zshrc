@@ -52,7 +52,7 @@ export LC_TIME="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export MYVIMRC="~/.config/nvim/init.vim"
 export GPG_TTY=$(tty)
-export NODE_OPTIONS="--max-old-space-size=8192"
+export NODE_OPTIONS="--max-old-space-size=9216"
 export TURBO_TEAM=nxt-dev1
 
 export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
