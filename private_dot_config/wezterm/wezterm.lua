@@ -14,7 +14,7 @@ config.font = wezterm.font 'Berkeley Mono'
 config.font_size = 13
 config.hide_tab_bar_if_only_one_tab = true
 
-config.color_scheme = 'rose-pine'
+config.color_scheme = 'Catppuccin Mocha'
 
 -- and finally, return the configuration to wezterm
 return config

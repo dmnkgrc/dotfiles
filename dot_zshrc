@@ -35,6 +35,7 @@ alias zjr='zellij run --'
 alias zjrf='zellij run -f --'
 alias zje='zellij edit'
 alias zja='zellij action'
+alias zjatl='zellij action new-tab --layout'
 alias zjs='zellij action edit-scrollback'
 alias zj='zellij'
 
@@ -73,3 +74,4 @@ export RUST_MIN_STACK=16777216
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH=$PATH:$HOME/.maestro/bin
 source $HOME/.zshrc_private
+source $HOME/.zellij_completitions
