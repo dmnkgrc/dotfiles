@@ -15,7 +15,7 @@ return {
   {
     "aserowy/tmux.nvim",
     name = "tmux",
-    config = true
+    config = true,
   },
   {
     "akinsho/toggleterm.nvim",
@@ -30,5 +30,9 @@ return {
         highlights = { border = "Normal", background = "Normal" },
       },
     },
+  },
+  {
+    "max397574/better-escape.nvim",
+    config = true,
   },
 }
