@@ -39,9 +39,24 @@ return {
           end
         end, { "i", "s" }),
       })
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "codeium", priority = 10 } }))
+      opts.formatting = {
+        format = function(entry, vim_item)
+          local kind = require("lspkind").cmp_format({
+            mode = "symbol",
+            maxwidth = 50,
+            ellipsis_char = "...",
+            symbol_map = { Codeium = "" },
+          })(entry, vim_item)
+          local strings = vim.split(kind.kind, "%s", { trimempty = true })
+          kind.kind = " " .. (strings[1] or "") .. " "
+          kind.menu = "    (" .. (strings[2] or "") .. ")"
+
+          return kind
+        end,
+      }
     end,
   },
-  { "tzachar/cmp-fuzzy-path", dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim" } },
   {
     "jcdickinson/codeium.nvim",
     dependencies = {
@@ -49,63 +64,9 @@ return {
       "hrsh7th/nvim-cmp",
       "onsails/lspkind.nvim",
     },
-    config = function()
-      require("codeium").setup({})
-
-      require("cmp").setup({
-        sources = {
-          { name = "codeium", priority = 10 },
-          { name = "nvim_lsp", priority = 8 },
-          { name = "luasnip", priority = 7 },
-          { name = "buffer", priority = 7 },
-          { name = "fuzzy_path", priority = 7 },
-        },
-        formatting = {
-          format = function(entry, vim_item)
-            local kind = require("lspkind").cmp_format({
-              mode = "symbol",
-              maxwidth = 50,
-              ellipsis_char = "...",
-              symbol_map = { Codeium = "" },
-            })(entry, vim_item)
-            local strings = vim.split(kind.kind, "%s", { trimempty = true })
-            kind.kind = " " .. (strings[1] or "") .. " "
-            kind.menu = "    (" .. (strings[2] or "") .. ")"
-
-            return kind
-          end,
-        },
-      })
-    end,
+    name = "codeium",
+    config = true,
   },
-  -- {
-  --   "tzachar/cmp-tabnine",
-  --   dependencies = { "hrsh7th/nvim-cmp", "onsails/lspkind.nvim" },
-  --   build = "./install.sh",
-  --   config = function()
-  --     local tabnine = require("cmp_tabnine.config")
-  --
-  --     tabnine:setup({
-  --       max_lines = 1000,
-  --       max_num_results = 20,
-  --       sort = true,
-  --       run_on_every_keystroke = true,
-  --       snippet_placeholder = "..",
-  --     })
-  --
-  --     local prefetch = vim.api.nvim_create_augroup("prefetch", { clear = true })
-  --
-  --     vim.api.nvim_create_autocmd("BufRead", {
-  --       group = prefetch,
-  --       pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-  --       callback = function()
-  --         require("cmp_tabnine"):prefetch(vim.fn.expand("%:p"))
-  --       end,
-  --     })
-  --
-  --
-  --   end,
-  -- },
   {
     "ahmedkhalf/project.nvim",
     config = function()
@@ -165,5 +126,5 @@ return {
   {
     "imsnif/kdl.vim",
     event = "BufReadPre *.kdl",
-  }
+  },
 }
