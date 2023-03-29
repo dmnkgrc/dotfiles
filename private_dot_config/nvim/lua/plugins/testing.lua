@@ -8,16 +8,18 @@ return {
       "rouge8/neotest-rust",
       "nvim-neotest/neotest-vim-test",
       "haydenmeade/neotest-jest",
+      "marilari88/neotest-vitest",
       "vim-test/vim-test",
     },
     config = function()
       require("neotest").setup({
         adapters = {
           -- require("neotest-rust"),
-          require("neotest-jest"),
-          -- require("neotest-vim-test")({
-          --   ignore_file_types = { "python", "vim", "lua", "rust" },
-          -- }),
+          -- require("neotest-jest"),
+          -- require("neotest-vitest"),
+          require("neotest-vim-test")({
+            ignore_file_types = { "python", "vim", "lua", "rust" },
+          }),
         },
       })
     end,
