@@ -76,3 +76,11 @@ export PATH=$PATH:$HOME/.maestro/bin
 source $HOME/.zshrc_private
 source $HOME/.zellij_completitions
 source /Users/dominikgarciabertapelle/.config/op/plugins.sh
+
+# pnpm
+export PNPM_HOME="/Users/dominikgarciabertapelle/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
