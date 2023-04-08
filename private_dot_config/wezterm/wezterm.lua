@@ -13,6 +13,7 @@ end
 config.font = wezterm.font("Berkeley Mono")
 config.font_size = 13
 config.hide_tab_bar_if_only_one_tab = true
+config.window_background_opacity = 0.95
 
 config.color_scheme = "Kanagawa (Gogh)"
 

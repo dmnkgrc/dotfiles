@@ -7,7 +7,6 @@ antigen use oh-my-zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
 antigen bundle command-not-found
-antigen bundle z
 antigen bundle zsh-users/zsh-autosuggestions
 
 antigen apply
@@ -38,6 +37,12 @@ alias zja='zellij action'
 alias zjatl='zellij action new-tab --layout'
 alias zjs='zellij action edit-scrollback'
 alias zj='zellij'
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
+alias cd='z'
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -84,3 +89,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+eval "$(zoxide init zsh)"

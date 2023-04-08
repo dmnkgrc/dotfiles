@@ -1,6 +1,12 @@
 return {
   {
+    "simrat39/rust-tools.nvim",
+  },
+  {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "simrat39/rust-tools.nvim",
+    },
     opts = {
       autoformat = true,
       ---@type lspconfig.options
@@ -33,6 +39,10 @@ return {
         vimls = {},
       },
       setup = {
+        rust_analyzer = function(_, opts)
+          require("rust-tools").setup({ server = opts })
+          return true
+        end,
         tsserver = function()
           require("typescript").setup({
             server = {

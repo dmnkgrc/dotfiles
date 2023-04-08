@@ -6,14 +6,11 @@ return {
   -- },
   {
     "akinsho/bufferline.nvim",
-    opts = {
-      highlights = require("rose-pine.plugins.bufferline"),
-    },
   },
   {
     "nvim-lualine/lualine.nvim",
     opts = {
-      theme = "rose-pine",
+      theme = "kanagawa",
     },
   },
 }

@@ -1,0 +1,20 @@
+theme = "kanagawa"
+[editor]
+line-number = "relative"
+cursorline = true
+color-modes = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.indent-guides]
+render = true
+# At most one section each of 'keys.normal', 'keys.insert' and 'keys.select'
+[keys.normal]
+C-o = ":open ~/.config/helix/config.toml" # Maps the Ctrl-o to opening of the helix config file
+g = { a = "code_action" } # Maps `ga` to show possible code actions
+
+[keys.insert]
+j = { k = "normal_mode" } # Maps `jk` to exit insert mode
