@@ -10,7 +10,13 @@ return {
           hide_gitignored = false,
         },
       },
+      window = {
+        position = "float",
+      },
     },
+    -- keys = {
+    --   { "<leader>e", false },
+    -- },
   },
   {
     "max397574/better-escape.nvim",

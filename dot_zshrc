@@ -75,6 +75,7 @@ export PATH="$PNPM_HOME:$PATH"
 export RUST_BACKTRACE=full
 export PATH="$PATH:$PWD/node_modules/.bin"
 export RUST_MIN_STACK=16777216
+export JOSHUTO_CONFIG_HOME="$HOME/.config/joshuto"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH=$PATH:$HOME/.maestro/bin
