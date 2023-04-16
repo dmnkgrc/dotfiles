@@ -14,9 +14,6 @@ return {
         position = "float",
       },
     },
-    -- keys = {
-    --   { "<leader>e", false },
-    -- },
   },
   {
     "max397574/better-escape.nvim",
