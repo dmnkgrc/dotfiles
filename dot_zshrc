@@ -37,6 +37,7 @@ alias zjatl='zellij action new-tab --layout'
 alias zjs='zellij action edit-scrollback'
 alias zj='zellij'
 alias cd='z'
+alias mux='tmuxinator'
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -77,6 +78,7 @@ source $HOME/.zshrc_private
 source $HOME/.zellij_completitions
 source /Users/dominikgarciabertapelle/.config/op/plugins.sh
 source $HOME/.git.zshrc
+source $HOME/.lf-icons.zshrc
 
 # pnpm
 export PNPM_HOME="/Users/dominikgarciabertapelle/Library/pnpm"
