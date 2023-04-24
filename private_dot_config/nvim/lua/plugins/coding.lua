@@ -39,33 +39,88 @@ return {
           end
         end, { "i", "s" }),
       })
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "codeium", priority = 10 } }))
+      -- opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "codeium", priority = 10 } }))
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "cmp_tabnine" } }))
+      local compare = require("cmp.config.compare")
+      opts.sorting = {
+        priority_weight = 2,
+        comparators = {
+          require("cmp_tabnine.compare"),
+          compare.offset,
+          compare.exact,
+          compare.score,
+          compare.recently_used,
+          compare.kind,
+          compare.sort_text,
+          compare.length,
+          compare.order,
+        },
+      }
       opts.formatting = {
         format = function(entry, vim_item)
-          local kind = require("lspkind").cmp_format({
-            mode = "symbol",
-            maxwidth = 50,
-            ellipsis_char = "...",
-            symbol_map = { Codeium = "" },
-          })(entry, vim_item)
-          local strings = vim.split(kind.kind, "%s", { trimempty = true })
-          kind.kind = " " .. (strings[1] or "") .. " "
-          kind.menu = "    (" .. (strings[2] or "") .. ")"
+          local lspkind = require("lspkind")
 
-          return kind
+          local source_mapping = {
+            buffer = "[Buffer]",
+            nvim_lsp = "[LSP]",
+            nvim_lua = "[Lua]",
+            cmp_tabnine = "[TN]",
+            path = "[Path]",
+          }
+          -- if you have lspkind installed, you can use it like
+          -- in the following line:
+          vim_item.kind = lspkind.symbolic(vim_item.kind, { mode = "symbol" })
+          vim_item.menu = source_mapping[entry.source.name]
+          if entry.source.name == "cmp_tabnine" then
+            local detail = (entry.completion_item.labelDetails or {}).detail
+            vim_item.kind = ""
+            if detail and detail:find(".*%%.*") then
+              vim_item.kind = vim_item.kind .. " " .. detail
+            end
+
+            if (entry.completion_item.data or {}).multiline then
+              vim_item.kind = vim_item.kind .. " " .. "[ML]"
+            end
+          end
+          local maxwidth = 80
+          vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
+          return vim_item
         end,
       }
+      -- opts.formatting = {
+      --   format = function(entry, vim_item)
+      --     local kind = require("lspkind").cmp_format({
+      --       mode = "symbol",
+      --       maxwidth = 50,
+      --       ellipsis_char = "...",
+      --       symbol_map = { Codeium = "" },
+      --     })(entry, vim_item)
+      --     local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      --     kind.kind = " " .. (strings[1] or "") .. " "
+      --     kind.menu = "    (" .. (strings[2] or "") .. ")"
+      --
+      --     return kind
+      --   end,
+      -- }
     end,
   },
+  -- {
+  --   "jcdickinson/codeium.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "hrsh7th/nvim-cmp",
+  --     "onsails/lspkind.nvim",
+  --   },
+  --   name = "codeium",
+  --   config = true,
+  -- },
   {
-    "jcdickinson/codeium.nvim",
+    "tzachar/cmp-tabnine",
+    build = "./install.sh",
     dependencies = {
-      "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
       "onsails/lspkind.nvim",
     },
-    name = "codeium",
-    config = true,
   },
   {
     "ahmedkhalf/project.nvim",
