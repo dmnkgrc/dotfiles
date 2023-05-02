@@ -14,12 +14,12 @@ return {
     config = function()
       require("neotest").setup({
         adapters = {
-          -- require("neotest-rust"),
-          -- require("neotest-jest"),
-          -- require("neotest-vitest"),
-          require("neotest-vim-test")({
-            ignore_file_types = { "python", "vim", "lua", "rust" },
-          }),
+          require("neotest-rust"),
+          require("neotest-jest"),
+          require("neotest-vitest"),
+          -- require("neotest-vim-test")({
+          --   ignore_file_types = { "python", "vim", "lua", "rust" },
+          -- }),
         },
       })
     end,
@@ -68,16 +68,16 @@ return {
       },
     },
   },
-  -- {
-  --   "vim-test/vim-test",
-  --   dependencies = {
-  --     "preservim/vimux",
-  --   },
-  --   keys = {},
-  --   config = function()
-  --     vim.g["test#strategy"] = "vimux"
-  --   end,
-  -- },
+  {
+    "vim-test/vim-test",
+    dependencies = {
+      "preservim/vimux",
+    },
+    keys = {},
+    config = function()
+      vim.g["test#strategy"] = "vimux"
+    end,
+  },
   {
     "andythigpen/nvim-coverage",
     dependencies = { "nvim-lua/plenary.nvim" },
