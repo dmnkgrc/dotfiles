@@ -10,7 +10,13 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     opts = {
-      theme = "kanagawa",
+      theme = "catppuccin",
+    },
+  },
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      background_colour = "#000000",
     },
   },
 }

@@ -28,7 +28,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "tokyonight", "catppuccin", "rose-pine" } },
+  install = { colorscheme = { "catppuccin", "rose-pine" } },
   checker = { enabled = true }, -- automatically check for plugin updates
   dev = {
     -- directory where you store your local plugin projects

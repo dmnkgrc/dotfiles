@@ -10,12 +10,26 @@ return {
           hide_gitignored = false,
         },
       },
-      window = {
-        position = "float",
-      },
     },
     keys = {
       { "<leader>e", false },
+    },
+  },
+  {
+    "kelly-lin/ranger.nvim",
+    name = "ranger-nvim",
+    lazy = false,
+    keys = {
+      {
+        "<leader>e",
+        function()
+          require("ranger-nvim").open(true)
+        end,
+        "Open Ranger",
+      },
+    },
+    opts = {
+      replace_netrw = true,
     },
   },
   {
