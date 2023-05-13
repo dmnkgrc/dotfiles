@@ -1,5 +1,5 @@
 import:
-  - ~/.config/alacritty/mocha.yml
+  - ~/.config/alacritty/kanagawa-dragon.yaml
 
 # Font configuration
 font:
@@ -25,9 +25,10 @@ font:
     style: Regular
 
   # Point size
-  size: 15.0
+  size: 14.0
 
 window:
+  option_as_alt: Both
   padding:
     x: 5
     y: 5
