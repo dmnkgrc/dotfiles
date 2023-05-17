@@ -106,7 +106,7 @@ cmd zi ${{
 }}
 
 cmd mkdir ${{
-    printf "Filen Name:"
+    printf "Folder Name:"
     read ans
     mkdir $ans
 }}

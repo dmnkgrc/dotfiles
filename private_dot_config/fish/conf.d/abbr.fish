@@ -1,8 +1,11 @@
 abbr vim nvim
 abbr v nvim
+abbr vs "fzf --print0 | xargs -0 -o nvim"
 abbr vimrc "nvim ~/.config/nvim/init.lua"
-abbr zshrc "nvim ~/.zshrc"
-abbr szshrc "source ~/.zshrc"
+abbr vf "nvim ~/.config/fish/config.fish"
+abbr vt "nvim ~/.config/tmux/tmux.conf"
+abbr va "nvim ~/.config/alacritty/alacritty.yml"
+abbr sf "source ~/.config/fish/config.fish"
 abbr ya yarn
 abbr n npm
 abbr h hub
