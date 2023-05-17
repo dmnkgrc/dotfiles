@@ -25,7 +25,11 @@ font:
     style: Regular
 
   # Point size
-  size: 14.0
+  size: 13.0
+  offset:
+    y: 4
+  glyph_offset:
+    y: 2
 
 window:
   option_as_alt: Both

@@ -32,10 +32,6 @@ return {
   --   "javiorfo/nvim-nyctophilia",
   --   lazy = false,
   -- },
-  -- {
-  --   "oxfist/night-owl.nvim",
-  --   lazy = false,
-  -- },
   {
     "LazyVim/LazyVim",
     opts = {

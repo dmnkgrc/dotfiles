@@ -39,6 +39,7 @@ alias zjs='zellij action edit-scrollback'
 alias zj='zellij'
 alias cd='z'
 alias mux='tmuxinator'
+alias m='tmuxinator-fzf-start.sh'
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
