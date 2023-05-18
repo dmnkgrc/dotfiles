@@ -28,7 +28,7 @@ set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
 set -x RUST_BACKTRACE full
 set -x RUST_MIN_STACK 16777216
 set -x JOSHUTO_CONFIG_HOME "$HOME/.config/joshuto"
-set -Ux fish_tmux_config $HOME/.config/tmux.conf
+set -Ux fish_tmux_config $HOME/.config/tmux/tmux.conf
 set -Ux fish_greeting # disable fish greeting
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
