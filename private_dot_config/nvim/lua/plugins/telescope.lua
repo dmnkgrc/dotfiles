@@ -12,6 +12,7 @@ return {
     keys = {
       { "<leader>hf", ":Telescope harpoon marks<CR>", "Harpoon Marks" },
       { "<leader>ss", false },
+      { "<leader>sR", false },
     },
   },
 }

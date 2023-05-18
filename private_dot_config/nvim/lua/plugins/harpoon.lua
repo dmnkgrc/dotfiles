@@ -86,6 +86,20 @@ return {
         end,
         desc = "Tmux window 2",
       },
+      {
+        "<leader>hx1",
+        function()
+          require("harpoon.tmux").sendCommand(1, 1)
+        end,
+        desc = "Tmux command 1 to window 1",
+      },
+      {
+        "<leader>hx2",
+        function()
+          require("harpoon.tmux").sendCommand(2, 1)
+        end,
+        desc = "Tmux command 2 to window 1",
+      },
     },
   },
 }
