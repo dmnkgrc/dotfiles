@@ -21,7 +21,7 @@ return {
         "diff",
         "gitignore",
         "graphql",
-        "help",
+        "vimdoc",
         "html",
         "http",
         "javascript",

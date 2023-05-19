@@ -1,5 +1,5 @@
-import:
-  - ~/.config/alacritty/kanagawa-dragon.yaml
+# import:
+#   - ~/.config/alacritty/base-16-rose-pine.yml
 
 # Font configuration
 font:

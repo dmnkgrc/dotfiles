@@ -1,32 +1,8 @@
 return {
   {
-    "rebelot/kanagawa.nvim",
-    lazy = false,
-    name = "kanagawa",
+    "freddiehaddad/base16-nvim",
     priority = 1000,
-    config = true,
-    opts = {
-      transparent = true,
-    },
-  },
-  { "rose-pine/neovim", name = "rose-pine", lazy = false, config = true, opts = {
-    disable_background = true,
-  } },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = false,
-    cconfig = true,
-    opts = {
-      transparent_background = true,
-      -- color_overrides = {
-      --   mocha = {
-      --     base = "#000000",
-      --     mantle = "#000000",
-      --     crust = "#000000",
-      --   },
-      -- },
-    },
+    config = false,
   },
   -- {
   --   "javiorfo/nvim-nyctophilia",
@@ -35,7 +11,14 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "kanagawa-dragon",
+      colorscheme = function()
+        local opts = {
+          hot_reload = {
+            enabled = true,
+          },
+        }
+        require("base16-nvim").setup(opts)
+      end,
     },
   },
 }

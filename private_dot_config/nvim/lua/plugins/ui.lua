@@ -1,17 +1,9 @@
 return {
-  -- {
-  --   "freddiehaddad/feline.nvim",
-  --   name = "feline",
-  --   config = true,
-  -- },
-  {
-    "akinsho/bufferline.nvim",
-  },
   {
     "nvim-lualine/lualine.nvim",
-    opts = {
-      theme = "kanagawa-dragon",
-    },
+  },
+  {
+    "RRethy/nvim-base16",
   },
   {
     "rcarriga/nvim-notify",
