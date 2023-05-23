@@ -30,6 +30,11 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   checker = { enabled = true }, -- automatically check for plugin updates
+  dev = {
+    -- directory where you store your local plugin projects
+    path = "~/code/lua",
+    fallback = false,
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins

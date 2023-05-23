@@ -3,22 +3,55 @@ return {
     "freddiehaddad/base16-nvim",
     priority = 1000,
     config = false,
+    enabled = false,
   },
-  -- {
-  --   "javiorfo/nvim-nyctophilia",
-  --   lazy = false,
-  -- },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    config = true,
+  },
+  {
+    "oxfist/night-owl.nvim",
+    lazy = false,
+    -- dev = true,
+    enabled = false,
+    priority = 1000,
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    config = function()
+      vim.o.background = "dark"
+      require("gruvbox").setup({
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = {
+          strings = true,
+          comments = true,
+          operators = false,
+          folds = true,
+        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        contrast = "hard", -- can be "hard", "soft" or empty string
+        palette_overrides = {},
+        overrides = {},
+        dim_inactive = false,
+        transparent_mode = false,
+      })
+    end,
+  },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = function()
-        local opts = {
-          hot_reload = {
-            enabled = true,
-          },
-        }
-        require("base16-nvim").setup(opts)
-      end,
+      colorscheme = "gruvbox",
     },
   },
 }

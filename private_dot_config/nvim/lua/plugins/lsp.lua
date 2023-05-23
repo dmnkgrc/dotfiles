@@ -71,4 +71,9 @@ return {
       position = "right",
     },
   },
+  {
+    "dnlhc/glance.nvim",
+    name = "glance",
+    config = true,
+  },
 }
