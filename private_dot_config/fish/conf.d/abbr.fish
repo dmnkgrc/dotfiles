@@ -19,7 +19,7 @@ abbr zjs "zellij action edit-scrollback"
 abbr zj zellij
 abbr cd z
 abbr mux tmuxinator
-abbr m "tmuxinator-fzf-start.sh"
+abbr lg lazygit
 
 # Git
 abbr -a -- g git

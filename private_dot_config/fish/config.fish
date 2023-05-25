@@ -50,31 +50,3 @@ fish_add_path $PNPM_HOME
 fish_add_path $HOME/.maestro/bin
 fish_add_path $HOME/bin
 fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
-
-# Night Owl
-# set -x FZF_DEFAULT_OPTS "
-#  --color=fg:#d6deeb,bg:#011627,hl:#637777
-#  --color=fg+:#ffffff,bg+:#1d3b53,hl+:#957fb8
-#  --color=info:#ff2c83,prompt:#c792ea,pointer:#7fdbca
-#  --color=marker:#c792ea,spinner:#5f7e97,header:#637777"
-
-# Kanagawa
-# set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS'
-#  --color=fg:#dcd7ba,bg:#1f1f28,hl:#54546d
-#  --color=fg+:#c8c093,bg+:#223249,hl+:#957fb8
-#  --color=info:#658594,prompt:#e46876,pointer:#FFA066
-#  --color=marker:#98bb6c,spinner:#ffa066,header:#7e9cd8'
-
-# Rose pine
-# set -x FZF_DEFAULT_OPTS "
-# 	--color=fg:#908caa,bg:#191724,hl:#ebbcba
-# 	--color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
-# 	--color=border:#403d52,header:#31748f,gutter:#191724
-# 	--color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
-# 	--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
-
-# Catppuccin Mocha
-# export FZF_DEFAULT_OPTS=" \
-# --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-# --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
