@@ -20,38 +20,32 @@ return {
     priority = 1000,
   },
   {
+    "loctvl842/monokai-pro.nvim",
+    priority = 1000,
+    name = "monokai-pro",
+    opts = {
+      day_night = {
+        enable = true, -- turn off by default
+        day_filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
+        night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+      },
+    },
+    config = true,
+  },
+  {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
     config = function()
       vim.o.background = "dark"
       require("gruvbox").setup({
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = {
-          strings = true,
-          comments = true,
-          operators = false,
-          folds = true,
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
         contrast = "hard", -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        overrides = {},
-        dim_inactive = false,
-        transparent_mode = false,
       })
     end,
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "monokai-pro",
     },
   },
 }

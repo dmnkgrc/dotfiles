@@ -22,19 +22,50 @@ font:
     style: Regular
 
   # Point size
-  size: 13.0
+  size: 15.0
   offset:
-    y: 4
+    y: 0
+    x: 0
   glyph_offset:
-    y: 2
+    y: 0
+    x: 0
 
 window:
   option_as_alt: Both
   padding:
-    x: 5
-    y: 5
+    x: 2
+    y: 2
   decorations: buttonless
   startup_mode: Maximized
+  dynamic_padding: false
 
 env:
   TERM: xterm-256color
+
+colors:
+  # Default colors
+  primary:
+    background: "0x2D2A2E"
+    foreground: "0xfff1f3"
+
+  # Normal colors
+  normal:
+    black: "0x2c2525"
+    red: "0xfd6883"
+    green: "0xadda78"
+    yellow: "0xf9cc6c"
+    blue: "0xf38d70"
+    magenta: "0xa8a9eb"
+    cyan: "0x85dacc"
+    white: "0xfff1f3"
+
+  # Bright colors
+  bright:
+    black: "0x72696a"
+    red: "0xfd6883"
+    green: "0xadda78"
+    yellow: "0xf9cc6c"
+    blue: "0xf38d70"
+    magenta: "0xa8a9eb"
+    cyan: "0x85dacc"
+    white: "0xfff1f3"

@@ -30,9 +30,15 @@ set -x RUST_MIN_STACK 16777216
 set -x JOSHUTO_CONFIG_HOME "$HOME/.config/joshuto"
 set -Ux fish_tmux_config $HOME/.config/tmux/tmux.conf
 set -Ux fish_greeting # disable fish greeting
-set --universal nvm_default_version v18
 
-theme_gruvbox dark hard
+# fnm
+set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/53980_1684872863785/bin $PATH
+set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/53980_1684872863785
+set -gx FNM_ARCH arm64
+set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
+set -gx FNM_LOGLEVEL info
+set -gx FNM_VERSION_FILE_STRATEGY local
+set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
 fish_add_path /opt/homebrew/sbin
@@ -46,11 +52,11 @@ fish_add_path $HOME/bin
 fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
 
 # Night Owl
-set -x FZF_DEFAULT_OPTS "
- --color=fg:#d6deeb,bg:#011627,hl:#637777
- --color=fg+:#ffffff,bg+:#1d3b53,hl+:#957fb8
- --color=info:#ff2c83,prompt:#c792ea,pointer:#7fdbca
- --color=marker:#c792ea,spinner:#5f7e97,header:#637777"
+# set -x FZF_DEFAULT_OPTS "
+#  --color=fg:#d6deeb,bg:#011627,hl:#637777
+#  --color=fg+:#ffffff,bg+:#1d3b53,hl+:#957fb8
+#  --color=info:#ff2c83,prompt:#c792ea,pointer:#7fdbca
+#  --color=marker:#c792ea,spinner:#5f7e97,header:#637777"
 
 # Kanagawa
 # set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS'
