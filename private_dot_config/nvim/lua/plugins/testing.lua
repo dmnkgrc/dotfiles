@@ -78,10 +78,4 @@ return {
       vim.g["test#strategy"] = "vimux"
     end,
   },
-  {
-    "andythigpen/nvim-coverage",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    name = "coverage",
-    config = true,
-  },
 }

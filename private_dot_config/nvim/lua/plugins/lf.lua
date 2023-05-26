@@ -14,5 +14,6 @@ return {
     keys = {
       { "<leader>e", "<cmd>Lf<cr>", desc = "LF" },
     },
+    enabled = false,
   },
 }
