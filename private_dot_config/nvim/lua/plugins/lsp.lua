@@ -1,12 +1,9 @@
 return {
   {
-    "simrat39/rust-tools.nvim",
+    "simrat39/rust-tools.nvim"
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "simrat39/rust-tools.nvim",
-    },
     opts = {
       autoformat = true,
       ---@type lspconfig.options
@@ -22,27 +19,13 @@ return {
         html = {},
         marksman = {},
         pyright = {},
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = { allFeatures = true },
-              checkOnSave = {
-                command = "clippy",
-                extraArgs = { "--no-deps" },
-              },
-            },
-          },
-        },
+        rust_analyzer = {},
         yamlls = {},
         lua_ls = {},
         teal_ls = {},
         vimls = {},
       },
       setup = {
-        rust_analyzer = function(_, opts)
-          require("rust-tools").setup({ server = opts })
-          return true
-        end,
         tsserver = function()
           require("typescript").setup({
             server = {

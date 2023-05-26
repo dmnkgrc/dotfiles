@@ -30,6 +30,7 @@ set -x RUST_MIN_STACK 16777216
 set -x JOSHUTO_CONFIG_HOME "$HOME/.config/joshuto"
 set -Ux fish_tmux_config $HOME/.config/tmux/tmux.conf
 set -Ux fish_greeting # disable fish greeting
+set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
 
 # fnm
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/53980_1684872863785/bin $PATH

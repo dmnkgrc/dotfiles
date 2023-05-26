@@ -26,7 +26,7 @@ return {
     opts = {
       day_night = {
         enable = true, -- turn off by default
-        day_filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
+        day_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
         night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
       },
     },
@@ -35,6 +35,7 @@ return {
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
+    enabled = false,
     config = function()
       vim.o.background = "dark"
       require("gruvbox").setup({
