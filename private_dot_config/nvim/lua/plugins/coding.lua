@@ -1,48 +1,3 @@
-local starts_with = function(str, start)
-  return string.sub(str, 1, #start) == start
-end
-
-local create_runtime_condition = function(config_name_list)
-  local bufnr_cache = {}
-  local config_path_cache = {}
-
-  return function(params)
-    if bufnr_cache[params.bufnr] ~= nil then
-      return bufnr_cache[params.bufnr]
-    else
-      for _, cached_config_path in ipairs(config_path_cache) do
-        if starts_with(params.bufname, cached_config_path) then
-          bufnr_cache[params.bufnr] = true
-          return true
-        end
-      end
-    end
-
-    local config_path = require("lspconfig").util.root_pattern(config_name_list)(params.bufname)
-
-    local has_config = config_path ~= nil
-    if has_config then
-      table.insert(config_path_cache, config_path)
-    end
-    bufnr_cache[params.bufnr] = has_config
-
-    return has_config
-  end
-end
-
-local prettierd_runtime_condition = create_runtime_condition({
-  ".prettierrc",
-  ".prettierrc.json",
-  ".prettierrc.yml",
-  ".prettierrc.yaml",
-  ".prettierrc.json5",
-  ".prettierrc.js",
-  ".prettierrc.cjs",
-  ".prettierrc.toml",
-  "prettier.config.js",
-  "prettier.config.cjs",
-})
-
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -173,28 +128,8 @@ return {
     end,
   },
   {
-    "imsnif/kdl.vim",
-    event = "BufReadPre *.kdl",
-  },
-   {
-    "williamboman/mason.nvim",
-    opts = function(_, opts)
-      table.insert(opts.ensure_installed, "prettierd")
-      table.insert(opts.ensure_installed, "prettier")
-      table.insert(opts.ensure_installed, "codelldb")
-      table.insert(opts.ensure_installed, "rust-analyzer")
-    end,
-  },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    opts = function(_, opts)
-      local null_ls = require("null-ls")
-      opts.debug = true
-      table.insert(opts.sources, null_ls.builtins.code_actions.refactoring)
-      table.insert(opts.sources, null_ls.builtins.formatting.prettier)
-      -- table.insert(opts.sources, null_ls.builtins.formatting.prettierd.with({
-      --   runtime_condition = prettierd_runtime_condition,
-      -- }))
-    end,
+    "mbbill/undotree",
+    lazy = true,
+    keys = { { "<leader>ut", ":UndotreeToggle<cr>", desc = "Undotree toggle" } },
   },
 }

@@ -1,6 +1,6 @@
 return {
   {
-    "simrat39/rust-tools.nvim"
+    "simrat39/rust-tools.nvim",
   },
   {
     "neovim/nvim-lspconfig",
@@ -58,5 +58,26 @@ return {
     "dnlhc/glance.nvim",
     name = "glance",
     config = true,
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = function(_, opts)
+      table.insert(opts.ensure_installed, "prettierd")
+      table.insert(opts.ensure_installed, "prettier")
+      table.insert(opts.ensure_installed, "codelldb")
+      table.insert(opts.ensure_installed, "rust-analyzer")
+    end,
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    opts = function(_, opts)
+      local null_ls = require("null-ls")
+      opts.debug = true
+      table.insert(opts.sources, null_ls.builtins.code_actions.refactoring)
+      table.insert(opts.sources, null_ls.builtins.formatting.prettier)
+      -- table.insert(opts.sources, null_ls.builtins.formatting.prettierd.with({
+      --   runtime_condition = prettierd_runtime_condition,
+      -- }))
+    end,
   },
 }
