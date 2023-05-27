@@ -3,3 +3,4 @@
 -- Add any additional options here
 vim.api.nvim_set_hl(0, "CmpItemKindTabNine", { fg = "#6CC644" })
 vim.api.nvim_set_hl(0, "CmpItemKindCodeium", { fg = "#a6e3a1" })
+vim.opt.laststatus = 3

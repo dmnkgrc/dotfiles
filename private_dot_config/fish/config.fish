@@ -8,7 +8,8 @@ zoxide init fish | source
 rvm default
 
 source $HOME/.config/fish/conf.d/abbr.fish
-source /Users/dominikgarciabertapelle/.config/op/plugins.sh
+source $HOME/.config/fish/conf.d/nightfox.fish
+source $HOME/.config/op/plugins.sh
 
 set -x ANDROID_HOME $HOME/Library/Android/sdk
 set -x FZF_DEFAULT_COMMAND "rg --files --hidden --follow --glob '!.git'"
