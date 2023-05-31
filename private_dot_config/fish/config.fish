@@ -33,15 +33,6 @@ set -Ux fish_tmux_config $HOME/.config/tmux/tmux.conf
 set -Ux fish_greeting # disable fish greeting
 set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
 
-# fnm
-set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/53980_1684872863785/bin $PATH
-set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/53980_1684872863785
-set -gx FNM_ARCH arm64
-set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
-set -gx FNM_LOGLEVEL info
-set -gx FNM_VERSION_FILE_STRATEGY local
-set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
-
 fish_add_path /opt/homebrew/bin # https://brew.sh/
 fish_add_path /opt/homebrew/sbin
 fish_add_path /usr/local/opt/openjdk@11/bin
@@ -52,3 +43,21 @@ fish_add_path $PNPM_HOME
 fish_add_path $HOME/.maestro/bin
 fish_add_path $HOME/bin
 fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
+fish_add_path $HOME/go/bin
+set -gx PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin" $PATH;
+set -gx FNM_MULTISHELL_PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445";
+set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm";
+set -gx FNM_LOGLEVEL "info";
+set -gx FNM_ARCH "arm64";
+set -gx FNM_VERSION_FILE_STRATEGY "local";
+set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist";
+set -gx PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin" $PATH;
+set -gx FNM_LOGLEVEL "info";
+set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist";
+set -gx FNM_ARCH "arm64";
+set -gx FNM_VERSION_FILE_STRATEGY "local";
+set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm";
+set -gx FNM_MULTISHELL_PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320";
+
+# opam configuration
+source /Users/dominikgarciabertapelle/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true

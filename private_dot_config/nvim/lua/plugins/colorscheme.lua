@@ -1,11 +1,5 @@
 return {
   {
-    "freddiehaddad/base16-nvim",
-    priority = 1000,
-    config = false,
-    enabled = false,
-  },
-  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
@@ -16,7 +10,6 @@ return {
     "oxfist/night-owl.nvim",
     lazy = false,
     -- dev = true,
-    enabled = false,
     priority = 1000,
   },
   {
@@ -47,7 +40,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "nightfox",
+      colorscheme = "night-owl",
     },
   },
 }
