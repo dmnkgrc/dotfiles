@@ -11,36 +11,23 @@ return {
     lazy = false,
     -- dev = true,
     priority = 1000,
-  },
-  {
-    "loctvl842/monokai-pro.nvim",
-    priority = 1000,
-    name = "monokai-pro",
-    opts = {
-      day_night = {
-        enable = true, -- turn off by default
-        day_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
-        night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
-      },
-    },
-    config = true,
+    enabled = false,
   },
   { "EdenEast/nightfox.nvim", priority = 1000 },
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
-    enabled = false,
     config = function()
       vim.o.background = "dark"
       require("gruvbox").setup({
-        contrast = "hard", -- can be "hard", "soft" or empty string
+        contrast = "hard",
       })
     end,
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "night-owl",
+      colorscheme = "gruvbox",
     },
   },
 }

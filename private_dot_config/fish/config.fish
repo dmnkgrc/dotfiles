@@ -44,20 +44,21 @@ fish_add_path $HOME/.maestro/bin
 fish_add_path $HOME/bin
 fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
 fish_add_path $HOME/go/bin
-set -gx PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin" $PATH;
-set -gx FNM_MULTISHELL_PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445";
-set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm";
-set -gx FNM_LOGLEVEL "info";
-set -gx FNM_ARCH "arm64";
-set -gx FNM_VERSION_FILE_STRATEGY "local";
-set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist";
-set -gx PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin" $PATH;
-set -gx FNM_LOGLEVEL "info";
-set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist";
-set -gx FNM_ARCH "arm64";
-set -gx FNM_VERSION_FILE_STRATEGY "local";
-set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm";
-set -gx FNM_MULTISHELL_PATH "/Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320";
+theme_gruvbox dark hard
+set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin $PATH
+set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445
+set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
+set -gx FNM_LOGLEVEL info
+set -gx FNM_ARCH arm64
+set -gx FNM_VERSION_FILE_STRATEGY local
+set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
+set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
+set -gx FNM_LOGLEVEL info
+set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
+set -gx FNM_ARCH arm64
+set -gx FNM_VERSION_FILE_STRATEGY local
+set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
+set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320
 
 # opam configuration
-source /Users/dominikgarciabertapelle/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+source /Users/dominikgarciabertapelle/.opam/opam-init/init.fish >/dev/null 2>/dev/null; or true
