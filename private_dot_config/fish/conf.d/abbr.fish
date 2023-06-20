@@ -20,6 +20,7 @@ abbr zj zellij
 abbr cd z
 abbr mux tmuxinator
 abbr lg lazygit
+abbr ls lsd
 
 # Git
 abbr -a -- g git

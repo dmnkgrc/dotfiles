@@ -5,7 +5,6 @@ end
 starship init fish | source
 set -gx EDITOR nvim
 zoxide init fish | source
-rvm default
 
 source $HOME/.config/fish/conf.d/abbr.fish
 source $HOME/.config/fish/conf.d/nightfox.fish
@@ -29,6 +28,7 @@ set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
 set -x RUST_BACKTRACE full
 set -x RUST_MIN_STACK 16777216
 set -x JOSHUTO_CONFIG_HOME "$HOME/.config/joshuto"
+set -Ux fish_tmux_autostart true
 set -Ux fish_tmux_config $HOME/.config/tmux/tmux.conf
 set -Ux fish_greeting # disable fish greeting
 set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
@@ -44,7 +44,6 @@ fish_add_path $HOME/.maestro/bin
 fish_add_path $HOME/bin
 fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
 fish_add_path $HOME/go/bin
-theme_gruvbox dark hard
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin $PATH
 set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445
 set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
@@ -62,3 +61,4 @@ set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_mu
 
 # opam configuration
 source /Users/dominikgarciabertapelle/.opam/opam-init/init.fish >/dev/null 2>/dev/null; or true
+status --is-interactive; and rbenv init - fish | source

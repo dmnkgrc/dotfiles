@@ -219,25 +219,12 @@ pane_frames false
 // Once these themes are defined, one of them should to be selected in the "theme" section of this file
 //
 themes {
-    catppuccin {
-      bg "#585b70"
-      fg "#cdd6f4"
-      red "#f38ba8"
-      green "#a6e3a1"
-      blue "#89b4fa"
-      yellow "#f9e2af"
-      magenta "#f5c2e7"
-      orange "#fab387"
-      cyan "#89dceb"
-      black "#181825"
-      white "#cdd6f4"
-    }
- }
+}
 
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-theme "kanagawa"
+theme "catppuccin-mocha"
 
 // The name of the default layout to load on startup
 // Default: "default"

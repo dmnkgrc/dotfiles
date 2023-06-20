@@ -15,19 +15,17 @@ return {
   },
   { "EdenEast/nightfox.nvim", priority = 1000 },
   {
-    "ellisonleao/gruvbox.nvim",
+    "sainnhe/gruvbox-material",
     priority = 1000,
     config = function()
       vim.o.background = "dark"
-      require("gruvbox").setup({
-        contrast = "hard",
-      })
+      vim.cmd("let g:gruvbox_material_background = 'hard'")
     end,
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "catppuccin",
     },
   },
 }
