@@ -62,3 +62,4 @@ set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_mu
 # opam configuration
 source /Users/dominikgarciabertapelle/.opam/opam-init/init.fish >/dev/null 2>/dev/null; or true
 status --is-interactive; and rbenv init - fish | source
+set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
