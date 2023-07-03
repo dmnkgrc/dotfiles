@@ -11,7 +11,12 @@ return {
     lazy = false,
     -- dev = true,
     priority = 1000,
-    enabled = false,
+  },
+  {
+    "bluz71/vim-nightfly-colors",
+    lazy = false,
+    -- dev = true,
+    priority = 1000,
   },
   { "EdenEast/nightfox.nvim", priority = 1000 },
   {
@@ -25,7 +30,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "night-owl",
     },
   },
 }

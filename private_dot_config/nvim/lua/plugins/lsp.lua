@@ -1,8 +1,5 @@
 return {
   {
-    "simrat39/rust-tools.nvim",
-  },
-  {
     "neovim/nvim-lspconfig",
     opts = {
       autoformat = true,
@@ -44,6 +41,10 @@ return {
         end,
       },
     },
+    init = function()
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+      keys[#keys + 1] = { "<F12>", vim.lsp.buf.definition }
+    end,
   },
   {
     "simrat39/symbols-outline.nvim",
@@ -74,10 +75,13 @@ return {
       local null_ls = require("null-ls")
       opts.debug = true
       table.insert(opts.sources, null_ls.builtins.code_actions.refactoring)
-      table.insert(opts.sources, null_ls.builtins.formatting.prettier)
-      -- table.insert(opts.sources, null_ls.builtins.formatting.prettierd.with({
-      --   runtime_condition = prettierd_runtime_condition,
-      -- }))
+      -- table.insert(opts.sources, null_ls.builtins.formatting.prettier)
+      table.insert(
+        opts.sources,
+        null_ls.builtins.formatting.prettierd.with({
+          filetypes = { "svelte" },
+        })
+      )
     end,
   },
 }

@@ -8,3 +8,8 @@ vim.opt.laststatus = 3
 vim.cmd([[let g:opamshare = substitute(system('opam var share'),'\n$','','''')]])
 vim.cmd([[execute "set rtp+=" . g:opamshare . "/merlin/vim"]])
 
+vim.filetype.add({
+  extension = {
+    postcss = "css",
+  },
+})
