@@ -47,6 +47,7 @@ return {
             maxwidth = 80,
             ellipsis_char = "...",
             symbol_map = { Codeium = "" },
+            -- before = require("tailwindcss-colorizer-cmp").formatter,
           })(entry, vim_item)
           local strings = vim.split(kind.kind, "%s", { trimempty = true })
           kind.kind = " " .. (strings[1] or "") .. " "
