@@ -10,12 +10,12 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
-config.font = wezterm.font("Berkeley Mono")
-config.font_size = 13
+config.font = wezterm.font("Berkeley Mono Variable")
+config.font_size = 15
 config.hide_tab_bar_if_only_one_tab = true
 -- config.window_background_opacity = 0.95
 
-config.color_scheme = "rose-pine"
+config.color_scheme = "Night Owl (Gogh)"
 
 -- The rest of the logic makes sure that Wezterm opens maximized --
 

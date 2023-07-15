@@ -73,6 +73,104 @@ return {
         desc = "Harpoon file 4",
       },
       {
+        "<leader>5",
+        function()
+          require("harpoon.ui").nav_file(5)
+        end,
+        desc = "Harpoon file 5",
+      },
+      {
+        "<leader>6",
+        function()
+          require("harpoon.ui").nav_file(6)
+        end,
+        desc = "Harpoon file 6",
+      },
+      {
+        "<leader>7",
+        function()
+          require("harpoon.ui").nav_file(7)
+        end,
+        desc = "Harpoon file 7",
+      },
+      {
+        "<leader>8",
+        function()
+          require("harpoon.ui").nav_file(8)
+        end,
+        desc = "Harpoon file 8",
+      },
+      {
+        "<leader>9",
+        function()
+          require("harpoon.ui").nav_file(9)
+        end,
+        desc = "Harpoon file 9",
+      },
+      {
+        "<A-1>",
+        function()
+          require("harpoon.ui").nav_file(1)
+        end,
+        desc = "Harpoon file 1",
+      },
+      {
+        "<A-2>",
+        function()
+          require("harpoon.ui").nav_file(2)
+        end,
+        desc = "Harpoon file 2",
+      },
+      {
+        "<A-3>",
+        function()
+          require("harpoon.ui").nav_file(3)
+        end,
+        desc = "Harpoon file 3",
+      },
+      {
+        "<A-4>",
+        function()
+          require("harpoon.ui").nav_file(4)
+        end,
+        desc = "Harpoon file 4",
+      },
+      {
+        "<A-5>",
+        function()
+          require("harpoon.ui").nav_file(5)
+        end,
+        desc = "Harpoon file 5",
+      },
+      {
+        "<A-6>",
+        function()
+          require("harpoon.ui").nav_file(6)
+        end,
+        desc = "Harpoon file 6",
+      },
+      {
+        "<A-7>",
+        function()
+          require("harpoon.ui").nav_file(7)
+        end,
+        desc = "Harpoon file 7",
+      },
+      {
+        "<A-8>",
+        function()
+          require("harpoon.ui").nav_file(8)
+        end,
+        desc = "Harpoon file 8",
+      },
+      {
+        "<A-9>",
+        function()
+          require("harpoon.ui").nav_file(9)
+        end,
+        desc = "Harpoon file 9",
+      },
+      {
         "<leader>ht1",
         function()
           require("harpoon.tmux").gotoTerminal(1)

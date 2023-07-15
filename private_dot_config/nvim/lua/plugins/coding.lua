@@ -133,4 +133,12 @@ return {
     lazy = true,
     keys = { { "<leader>ut", ":UndotreeToggle<cr>", desc = "Undotree toggle" } },
   },
+  {
+    "kosayoda/nvim-lightbulb",
+    config = function()
+      require("nvim-lightbulb").setup({
+        autocmd = { enabled = true },
+      })
+    end,
+  },
 }
