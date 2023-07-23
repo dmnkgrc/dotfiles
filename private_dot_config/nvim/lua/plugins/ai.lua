@@ -1,78 +1,73 @@
 return {
   {
-    "jackMort/ChatGPT.nvim",
-    event = "VeryLazy",
-    name = "chatgpt",
-    enabled = false,
-    config = function()
-      require("chatgpt").setup({
-        api_key_cmd = 'op read "op://Private/OpenAI API Key/api key" --no-newline',
-      })
-    end,
-    keys = {
-      {
-        "<leader>cp",
-        function()
-          require("chatgpt").edit_with_instructions()
-        end,
-        mode = "v",
-        desc = "ChatGPT edit with instructions",
-      },
-      {
-        "<leader>cp",
-        function()
-          require("chatgpt").edit_with_instructions()
-        end,
-        desc = "ChatGPT edit with instructions",
-      },
-    },
+    "jcdickinson/codeium.nvim",
     dependencies = {
-      "MunifTanjim/nui.nvim",
+      {
+        "jcdickinson/http.nvim",
+        build = "cargo build --workspace --release",
+      },
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
+      "hrsh7th/nvim-cmp",
     },
+    config = function()
+      require("codeium").setup({})
+    end,
   },
   {
-    "Exafunction/codeium.vim",
-    keys = {
-      {
-        "<C-g>",
-        function()
-          return vim.fn["codeium#Accept"]()
-        end,
-        mode = "i",
-        {
-          desc = "Codeium accept",
-          expr = true,
-        },
-      },
-      {
-        "<C-;>",
-        function()
-          return vim.fn["codeium#CycleCompletions"](1)
-        end,
-        mode = "i",
-        { desc = "Codeium cycle completions", expr = true },
-      },
-      {
-        "<C-,>",
-        function()
-          return vim.fn["codeium#CycleCompletions"](-1)
-        end,
-        mode = "i",
-        { desc = "Codeium cycle completions", expr = true },
-      },
-      {
-        "<C-x>",
-        function()
-          return vim.fn["codeium#Clear"]()
-        end,
-        mode = "i",
-        { desc = "Codeium clear", expr = true },
-      },
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-emoji",
+      { "js-everts/cmp-tailwind-colors", config = true },
     },
-    config = function()
-      vim.g.codeium_disable_bindings = 1
+    ---@param opts cmp.ConfigSchema
+    opts = function(_, opts)
+      local kind_icons = {
+        Text = "",
+        Method = "",
+        Function = "",
+        Constructor = "",
+        Field = "",
+        Variable = "",
+        Class = "ﴯ",
+        Interface = "",
+        Module = "",
+        Property = "ﰠ",
+        Unit = "",
+        Value = "",
+        Enum = "",
+        Keyword = "",
+        Snippet = "",
+        Color = "",
+        File = "",
+        Reference = "",
+        Folder = "",
+        EnumMember = "",
+        Constant = "",
+        Struct = "",
+        Event = "",
+        Operator = "",
+        TypeParameter = "",
+        Codeium = "",
+      }
+      local cmp = require("cmp")
+
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "codeium", priority = 10 } }))
+      opts.formatting = {
+        format = function(entry, item)
+          if item.kind == "Color" then
+            item = require("cmp-tailwind-colors").format(entry, item)
+
+            if item.kind ~= "Color" then
+              item.menu = "Color"
+              return item
+            end
+          end
+
+          item.menu = item.kind
+          item.kind = kind_icons[item.kind] .. " "
+          return item
+        end,
+      }
     end,
   },
 }

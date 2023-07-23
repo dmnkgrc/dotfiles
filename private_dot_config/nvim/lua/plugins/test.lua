@@ -4,15 +4,11 @@ return {
   },
   { "marilari88/neotest-vitest" },
   {
-    "rouge8/neotest-rust",
-  },
-  {
     "nvim-neotest/neotest",
     opts = {
       adapters = {
         "neotest-vitest",
         "neotest-jest",
-        "neotest-rust",
       },
     },
     keys = {

@@ -10,6 +10,19 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+config.keys = {
+  {
+    key = ']',
+    mods = 'CMD',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = '[',
+    mods = 'CMD',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+}
+
 config.font = wezterm.font("Berkeley Mono Variable")
 config.font_size = 15
 config.hide_tab_bar_if_only_one_tab = true

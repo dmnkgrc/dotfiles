@@ -66,17 +66,10 @@ return {
             { "location", padding = { left = 0, right = 1 } },
           },
           lualine_z = {
-            "tabnine"
           },
         },
         extensions = { "neo-tree", "lazy" },
       }
     end,
-  },
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      background_colour = "#000000",
-    },
   },
 }

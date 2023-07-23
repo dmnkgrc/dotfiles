@@ -16,7 +16,6 @@ return {
         html = {},
         marksman = {},
         pyright = {},
-        rust_analyzer = {},
         yamlls = {},
         lua_ls = {},
         teal_ls = {},
@@ -66,7 +65,6 @@ return {
       table.insert(opts.ensure_installed, "prettierd")
       table.insert(opts.ensure_installed, "prettier")
       table.insert(opts.ensure_installed, "codelldb")
-      table.insert(opts.ensure_installed, "rust-analyzer")
     end,
   },
   {
@@ -74,9 +72,12 @@ return {
     opts = function(_, opts)
       local null_ls = require("null-ls")
       table.insert(opts.sources, null_ls.builtins.code_actions.refactoring)
-      table.insert(opts.sources, null_ls.builtins.formatting.prettier.with({
-        filetypes = { "svelte", "typescript", "typescriptreact", "markdown", "yaml", "json", "javascript" },
-      }))
+      table.insert(
+        opts.sources,
+        null_ls.builtins.formatting.prettier.with({
+          filetypes = { "svelte", "typescript", "typescriptreact", "markdown", "yaml", "json", "javascript" },
+        })
+      )
       -- table.insert(
       --   opts.sources,
       --   null_ls.builtins.formatting.prettierd.with({
