@@ -1,11 +1,9 @@
 return {
-  {
-    "ThePrimeagen/refactoring.nvim",
-    name = "refactoring",
-    config = true,
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-treesitter/nvim-treesitter" },
-    },
+  "ThePrimeagen/refactoring.nvim",
+  event = { 'BufReadPre', 'BufNewFile' },
+  dependencies = {
+    { "nvim-lua/plenary.nvim" },
+    { "nvim-treesitter/nvim-treesitter" }
   },
+  config = true,
 }

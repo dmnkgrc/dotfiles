@@ -10,13 +10,13 @@ return {
     },
     ft = "qf",
   },
-  {
-    "kevinhwang91/nvim-hlslens",
-    keys = {
-      { "n", [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]] },
-      { "N", [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]] },
-      { "*", [[*<Cmd>lua require('hlslens').start()<CR>]] },
-      { "#", [[#<Cmd>lua require('hlslens').start()<CR>]] },
+  keys = {
+    {
+      "kevinhwang91/nvim-hlslens",
+      { "n",  [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]] },
+      { "N",  [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]] },
+      { "*",  [[*<Cmd>lua require('hlslens').start()<CR>]] },
+      { "#",  [[#<Cmd>lua require('hlslens').start()<CR>]] },
       { "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]] },
       { "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]] },
     },
@@ -50,4 +50,22 @@ return {
       },
     },
   },
+  {
+    "windwp/nvim-spectre",
+    keys = {
+      {
+        "<leader>rr",
+        "<cmd>lua require('spectre').open()<CR>",
+        desc =
+        "Search and Replace (Spectre)"
+      },
+      { "<leader>rw", "<cmd>lua require('spectre').open_visual({select_word=true})<CR>", desc = "Replace Word (Spectre)" },
+      {
+        "<leader>rf",
+        "<cmd>lua require('spectre').open_file_search()<CR>",
+        desc =
+        "Replace in File (Spectre)"
+      },
+    }
+  }
 }

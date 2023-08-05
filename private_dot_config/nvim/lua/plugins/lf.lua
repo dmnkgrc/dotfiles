@@ -1,19 +1,13 @@
 return {
   {
     "lmburns/lf.nvim",
-    cmd = "Lf",
-    dependencies = { "nvim-lua/plenary.nvim", "akinsho/toggleterm.nvim" },
+    lazy = false,
+    config = true,
     opts = {
-      winblend = 0,
-      highlights = { NormalFloat = { guibg = "NONE" } },
-      border = "single", -- border kind: single double shadow curved
-      height = 0.70,
-      width = 0.85,
       escape_quit = true,
+      border = "rounded",
     },
-    keys = {
-      { "<leader>e", "<cmd>Lf<cr>", desc = "LF" },
-    },
-    enabled = false,
+    keys = { { "<leader>e", "<Cmd>Lf<CR>", desc = "Open lf" } },
+    dependencies = { "akinsho/toggleterm.nvim" },
   },
 }
