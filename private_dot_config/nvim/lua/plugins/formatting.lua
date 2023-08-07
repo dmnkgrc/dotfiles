@@ -13,9 +13,20 @@ return {
           nls.builtins.formatting.stylua,
           nls.builtins.formatting.shfmt,
           nls.builtins.formatting.prettierd,
-          -- nls.builtins.diagnostics.flake8,
         },
       }
     end,
   },
+  {
+    "nvimdev/guard.nvim",
+    enabled = false,
+    opts = {
+      fmt_on_save = true,
+    },
+    config = function(_, opts)
+      local ft = require("guard.filetype")
+      ft("lua"):fmt("stylua")
+      ft("json"):fmt("prettier")
+    end
+  }
 }

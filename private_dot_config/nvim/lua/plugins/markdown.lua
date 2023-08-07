@@ -7,4 +7,8 @@ return {
       vim.fn["mkdp#util#install"]()
     end,
   },
+  {
+    'richardbizik/nvim-toc',
+    config = true,
+  }
 }

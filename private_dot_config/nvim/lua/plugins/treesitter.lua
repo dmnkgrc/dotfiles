@@ -5,6 +5,7 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
+      "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = function(_, opts)
@@ -17,6 +18,9 @@ return {
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
+        },
+        autotag = {
+          enable = true,
         },
         indent = { enable = true },
         context_commentstring = { enable = true, enable_autocmd = false },

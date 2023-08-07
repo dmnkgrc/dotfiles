@@ -19,16 +19,13 @@ return {
         file_ignore_patterns = { "%.git/." },
         defaults = {
           previewer = false,
-          -- hidden = true,
+          hidden = true,
           prompt_prefix = "   ",
           file_ignore_patterns = { "node_modules", "package-lock.json" },
           initial_mode = "insert",
           select_strategy = "reset",
           sorting_strategy = "ascending",
-          -- layout_strategy = "horizontal",
           layout_config = {
-            --   width = 0.5,
-            --   height = 0.4,
             prompt_position = "top",
             preview_cutoff = 120,
           },
@@ -117,19 +114,7 @@ return {
             case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
           },
           ["ui-select"] = {
-            require("telescope.themes").get_dropdown({
-              previewer        = false,
-              initial_mode     = "normal",
-              sorting_strategy = 'ascending',
-              layout_strategy  = 'horizontal',
-              layout_config    = {
-                horizontal = {
-                  width = 0.5,
-                  height = 0.4,
-                  preview_width = 0.6,
-                },
-              },
-            })
+            require("telescope.themes").get_dropdown {}
           },
           frecency = {
             default_workspace = 'CWD',
@@ -150,6 +135,7 @@ return {
       telescope.load_extension("zoxide")
       telescope.load_extension("frecency")
       telescope.load_extension("harpoon")
+      telescope.load_extension('projects')
     end
   },
 }

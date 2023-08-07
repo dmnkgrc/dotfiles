@@ -20,6 +20,7 @@ return {
     dependencies = {
       { 'L3MON4D3/LuaSnip' },
       { 'onsails/lspkind.nvim' },
+      { "saadparwaiz1/cmp_luasnip" },
       { "js-everts/cmp-tailwind-colors", config = true },
 
     },
@@ -220,8 +221,8 @@ return {
                 confirm_opts.behavior = cmp_types.ConfirmBehavior.Insert
               end
               local entry = cmp.get_selected_entry()
-              local is_copilot = entry and entry.source.name == "copilot"
-              if is_copilot then
+              local is_codeium = entry and entry.source.name == "codeium"
+              if is_codeium then
                 confirm_opts.behavior = cmp_types.ConfirmBehavior.Replace
                 confirm_opts.select = true
               end
@@ -263,7 +264,6 @@ return {
         'eslint',
         'svelte',
         'rust_analyzer',
-        'prettierd',
         'lua_ls',
         'jsonls',
         'bashls',

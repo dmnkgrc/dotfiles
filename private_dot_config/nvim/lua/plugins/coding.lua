@@ -36,4 +36,5 @@ return {
       show_unknown_classes = true -- Shows the unknown classes popup
     }
   },
+  { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
 }
