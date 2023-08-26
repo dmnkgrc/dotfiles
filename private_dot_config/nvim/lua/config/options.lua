@@ -49,3 +49,13 @@ vim.g.maplocalleader = ' '
 for k, v in pairs(options) do
   vim.opt[k] = v
 end
+vim.filetype.add({
+  filename = {
+    Podfile = 'ruby',
+    Fastfile = 'ruby',
+    Appfile = 'ruby',
+  },
+  extension = {
+    postcss = 'css',
+  }
+})

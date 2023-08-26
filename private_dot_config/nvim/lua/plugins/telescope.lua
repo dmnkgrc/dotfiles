@@ -12,6 +12,8 @@ return {
       'nvim-telescope/telescope-ui-select.nvim',
       'kkharji/sqlite.lua',
       'nvim-telescope/telescope-frecency.nvim',
+      "debugloop/telescope-undo.nvim",
+      "ThePrimeagen/git-worktree.nvim",
     },
     config = function()
       local telescope = require('telescope')
@@ -126,7 +128,8 @@ return {
               "*/tmp/*",
               "*/lua-language-server/*",
             },
-          }
+          },
+          undo = {}
         }
       }
       telescope.load_extension('fzf')
@@ -136,6 +139,153 @@ return {
       telescope.load_extension("frecency")
       telescope.load_extension("harpoon")
       telescope.load_extension('projects')
-    end
+      telescope.load_extension('yank_history')
+      telescope.load_extension('undo')
+      telescope.load_extension('git_worktree')
+    end,
+    keys = {
+      { "<space><space>", "<cmd>Telescope find_files hidden=true<cr>", desc = "Find File" },
+      { "<space>u",       "<cmd>Telescope undo<cr>",                   desc = "Toggle UndoTree" },
+      -- Marks
+      {
+        "<leader>mm",
+        "<cmd>Telescope marks<cr>",
+        desc = "Marks"
+      },
+      -- git
+      {
+        "<leader>go",
+        "<cmd>Telescope git_status<cr>",
+        desc = "Open changed file"
+      },
+      {
+        "<leader>gb",
+        "<cmd>Telescope git_branches<cr>",
+        desc = "Checkout branch"
+      },
+      {
+        "<leader>gc",
+        "<cmd>Telescope git_commits<cr>",
+        desc = "Checkout commit"
+      },
+      {
+        "<leader>gC",
+        "<cmd>Telescope git_bcommits<cr>",
+        desc = "Checkout commit(for current file)"
+      },
+      -- search
+      { "<leader>sf", "<cmd>Telescope find_files hidden=true<cr>", desc = "Find File" },
+      { "<leader>sh", "<cmd>Telescope help_tags<cr>",              desc = "Find Help" },
+      {
+        "<leader>sH",
+        "<cmd>Telescope highlights<cr>",
+        desc =
+        "Find highlight groups"
+      },
+      { "<leader>sM", "<cmd>Telescope man_pages<cr>",             desc = "Man Pages" },
+      {
+        "<leader>so",
+        "<cmd>Telescope oldfiles<cr>",
+        desc =
+        "Open Recent File"
+      },
+      { "<leader>sR", "<cmd>Telescope registers<cr>",             desc = "Registers" },
+      { "<leader>st", "<cmd>Telescope live_grep hidden=true<cr>", desc = "Live Grep" },
+      {
+        "<leader>sT",
+        "<cmd>Telescope grep_string hidden=true<cr>",
+        desc =
+        "Grep String"
+      },
+      { "<leader>sk", "<cmd>Telescope keymaps<cr>",  desc = "Keymaps" },
+      { "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
+      {
+        "<leader>sl",
+        "<cmd>Telescope resume<cr>",
+        desc =
+        "Resume last search"
+      },
+      {
+        "<leader>sc",
+        "<cmd>Telescope git_commits<cr>",
+        desc =
+        "Git commits"
+      },
+      {
+        "<leader>sB",
+        "<cmd>Telescope git_branches<cr>",
+        desc =
+        "Git branches"
+      },
+      { "<leader>ss", "<cmd>Telescope git_status<cr>",  desc = "Git status" },
+      { "<leader>sS", "<cmd>Telescope git_stash<cr>",   desc = "Git stash" },
+      { "<leader>sz", "<cmd>Telescope zoxide list<cr>", desc = "Zoxide" },
+      { "<leader>se", "<cmd>Telescope frecency<cr>",    desc = "Frecency" },
+      { "<leader>sb", "<cmd>Telescope buffers<cr>",     desc = "Buffers" },
+      { "<leader>sp", "<cmd>Telescope projects<cr>",    desc = "Projects" },
+      {
+        "<leader>sdc",
+        "<cmd>Telescope dap commands<cr>",
+        desc =
+        "Dap Commands"
+      },
+      {
+        "<leader>sdb",
+        "<cmd>Telescope dap list_breakpoints<cr>",
+        desc =
+        "Dap Breakpoints"
+      },
+      {
+        "<leader>sdg",
+        "<cmd>Telescope dap configurations<cr>",
+        desc =
+        "Dap Configurations"
+      },
+      {
+        "<leader>sdv",
+        "<cmd>Telescope dap variables<cr>",
+        desc =
+        "Dap Variables"
+      },
+      { "<leader>sdf", "<cmd>Telescope dap frames<cr>",     desc = "Dap Frames" },
+      -- lsp
+      { "<leader>lR",  "<cmd>Telescope lsp_references<cr>", desc = "References" },
+      {
+        "<leader>lw",
+        "<cmd>Telescope diagnostics<cr>",
+        desc =
+        "Diagnostics"
+      },
+      {
+        "<leader>lt",
+        [[ <Esc><Cmd>lua require('telescope').extensions.refactoring.refactors()<CR>]],
+        desc =
+        "Refactor"
+      },
+      -- buffer
+      {
+        "<leader>bf",
+        "<cmd>Telescope buffers previewer=false<cr>",
+        desc =
+        "Find buffer"
+      },
+      -- worktrees
+      {
+        "<leader>sw",
+        "<cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>",
+        desc = "List Git Worktrees"
+      },
+      {
+        "<leader>sW",
+        "<cmd>lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>",
+        desc = "Create Git Worktree"
+      },
+      -- harpoon
+      {
+        "<leader>hs",
+        "<cmd>lua require('telescope').extensions.harpoon.marks()<cr>",
+        desc = "Harpoon marks"
+      }
+    }
   },
 }

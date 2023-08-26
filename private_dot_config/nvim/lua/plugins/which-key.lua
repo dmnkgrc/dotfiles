@@ -67,27 +67,22 @@ return {
     which_key.register({
       mode = { "n", "v" },
       [";"] = { ":Alpha<CR>", "Dashboard" },
-      ["<space>"] = { "<cmd>Telescope find_files hidden=true<cr>", "Find File" },
       w = { ":w!<CR>", "Save" },
       q = { ":confirm q<CR>", "Quit" },
       c = { ":bd<CR>", "Close Buffer" },
       h = { ":nohlsearch<CR>", "No Highlight" },
-      p = { "<cmd>Telescope treesitter<CR>", "List Symbols" },
       f = { "<cmd>lua require('config.utils').telescope_git_or_file()<CR>", "Find Files" },
       v = "Go to definition in a split",
       a = "Swap next param",
       A = "Swap previous param",
-      U = { ":UndotreeToggle<CR>", "Toggle UndoTree" },
       m = {
         name = "Marks",
-        m = { "<cmd>Telescope marks<cr>", "Marks" },
       },
       r = {
         name = "Replace",
       },
       b = {
         name = "Buffers",
-        f = { "<cmd>Telescope buffers previewer=false<cr>", "Find" },
       },
       g = {
         name = "+Git",
@@ -102,17 +97,6 @@ return {
           "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
           "Undo Stage Hunk",
         },
-        o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
-        b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-        c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
-        C = {
-          "<cmd>Telescope git_bcommits<cr>",
-          "Checkout commit(for current file)",
-        },
-        d = {
-          "<cmd>Gitsigns diffthis HEAD<cr>",
-          "Git Diff",
-        },
       },
       l = {
         name = "+LSP",
@@ -122,7 +106,6 @@ return {
         D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Declaration" },
         i = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Implementation" },
         o = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Type Definition" },
-        R = { "<cmd>Telescope lsp_references<cr>", "References" },
         m = { "<cmd>Mason<cr>", "Mason" },
         s = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Display Signature Information" },
         r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename all references" },
@@ -130,40 +113,17 @@ return {
         K = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Hover" },
         l = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document Diagnostics (Trouble)" },
         L = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace Diagnostics (Trouble)" },
-        w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
-        t = { [[ <Esc><Cmd>lua require('telescope').extensions.refactoring.refactors()<CR>]], "Refactor" },
 
         h = { "<cmd>lua vim.lsp.inlay_hint(0, true)<cr>", "Enable Inlay Hints" },
         H = { "<cmd>lua vim.lsp.inlay_hint(0, false)<cr>", "Disable Inlay Hints" },
       },
       s = {
         name = "+Search",
-        f = { "<cmd>Telescope find_files hidden=true<cr>", "Find File" },
-        h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
-        H = { "<cmd>Telescope highlights<cr>", "Find highlight groups" },
-        M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
-        o = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
-        R = { "<cmd>Telescope registers<cr>", "Registers" },
-        t = { "<cmd>Telescope live_grep hidden=true<cr>", "Live Grep" },
-        T = { "<cmd>Telescope grep_string hidden=true<cr>", "Grep String" },
-        k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-        C = { "<cmd>Telescope commands<cr>", "Commands" },
-        l = { "<cmd>Telescope resume<cr>", "Resume last search" },
-        c = { "<cmd>Telescope git_commits<cr>", "Git commits" },
-        B = { "<cmd>Telescope git_branches<cr>", "Git branches" },
-        s = { "<cmd>Telescope git_status<cr>", "Git status" },
-        S = { "<cmd>Telescope git_stash<cr>", "Git stash" },
-        z = { "<cmd>Telescope zoxide list<cr>", "Zoxide" },
-        e = { "<cmd>Telescope frecency<cr>", "Frecency" },
-        b = { "<cmd>Telescope buffers<cr>", "Buffers" },
-        p = { "<cmd>Telescope projects<cr>", "Projects" },
         d = {
           name = "+DAP",
-          c = { "<cmd>Telescope dap commands<cr>", "Dap Commands" },
-          b = { "<cmd>Telescope dap list_breakpoints<cr>", "Dap Breakpoints" },
-          g = { "<cmd>Telescope dap configurations<cr>", "Dap Configurations" },
-          v = { "<cmd>Telescope dap variables<cr>", "Dap Variables" },
-          f = { "<cmd>Telescope dap frames<cr>", "Dap Frames" },
+        },
+        u = {
+          ""
         }
       },
       T = {

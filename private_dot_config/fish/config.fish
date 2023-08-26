@@ -28,10 +28,12 @@ set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
 set -x RUST_BACKTRACE full
 set -x RUST_MIN_STACK 16777216
 set -x JOSHUTO_CONFIG_HOME "$HOME/.config/joshuto"
-set -Ux fish_tmux_autostart true
+set -Ux fish_tmux_autostart false
 set -Ux fish_tmux_config $HOME/.config/tmux/tmux.conf
 set -Ux fish_greeting # disable fish greeting
 set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
+set -x SRC_ACCESS_TOKEN sgp_0fca7b77df0062eba238b680cd623f83c7f0b7f4
+set -x SRC_ENDPOINT "https://sourcegraph.com"
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
 fish_add_path /opt/homebrew/sbin
@@ -42,6 +44,7 @@ fish_add_path $HOME/.cargo/bin
 fish_add_path $PNPM_HOME
 fish_add_path $HOME/.maestro/bin
 fish_add_path $HOME/bin
+fish_add_path $HOME/.tmux/plugins/t-smart-tmux-session-manager/bin
 fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
 fish_add_path $HOME/go/bin
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin $PATH
@@ -53,13 +56,6 @@ set -gx FNM_VERSION_FILE_STRATEGY local
 set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
 set -gx FNM_LOGLEVEL info
-set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
-set -gx FNM_ARCH arm64
-set -gx FNM_VERSION_FILE_STRATEGY local
-set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
-set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320
 
-# opam configuration
-source /Users/dominikgarciabertapelle/.opam/opam-init/init.fish >/dev/null 2>/dev/null; or true
-status --is-interactive; and rbenv init - fish | source
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
+status --is-interactive; and rbenv init - fish | source

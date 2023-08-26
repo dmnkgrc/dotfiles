@@ -1,23 +1,60 @@
 return {
   {
     "folke/noice.nvim",
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      "rcarriga/nvim-notify",
+    },
     event = "VeryLazy",
     opts = {
-      -- add any options here
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
     },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-    }
+    -- stylua: ignore
+    keys = {
+      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
+    },
   },
   {
     "shellRaining/hlchunk.nvim",
+    config = function()
+      require("hlchunk").setup({
+        chunk = {
+          style = {
+            { fg = "#d3869b" },
+          },
+        },
+        line_num = {
+          style = "#d3869b",
+        },
+
+      })
+    end,
     event = { "UIEnter" },
-    config = true,
   },
   {
     "RRethy/vim-illuminate",
@@ -70,7 +107,14 @@ return {
       "kyazdani42/nvim-web-devicons", -- optional dependency
     },
     opts = {
+      show_modified = true,
       -- configurations go here
     },
+  },
+  {
+    "utilyre/sentiment.nvim",
+    name = "sentiment",
+    event = { "InsertCharPre", "InsertEnter" },
+    config = true,
   }
 }

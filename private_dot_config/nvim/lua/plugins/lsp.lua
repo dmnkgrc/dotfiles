@@ -4,9 +4,6 @@ return {
     branch = 'v2.x',
     lazy = true,
     config = function()
-      -- This is where you modify the settings for lsp-zero
-      -- Note: autocompletion settings will not take effect
-
       require('lsp-zero.settings').preset({
         name = 'recommended',
       })
@@ -24,6 +21,7 @@ return {
       { "js-everts/cmp-tailwind-colors", config = true },
 
     },
+    commit = '6c84bc75c64f778e9f1dcb798ed41c7fcb93b639',
     config = function()
       -- Here is where you configure the autocompletion settings.
       -- The arguments for .extend() have the same shape as `manage_nvim_cmp`:
@@ -309,7 +307,7 @@ return {
         error = icons.diagnostics.Error,
         warn = icons.diagnostics.Warning,
         hint = icons.diagnostics.Hint,
-        info = icons.diagnostics.Info,
+        info = icons.diagnostics.Information,
       })
 
       vim.diagnostic.config({
@@ -361,12 +359,6 @@ return {
         }
       })
 
-      -- lspconfig.tsserver.setup({
-      --   root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
-      --   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
-      --   cmd = { "typescript-language-server", "--stdio" },
-      -- })
-
       lspconfig.eslint.setup({
         filestypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
         settings = {
@@ -379,10 +371,7 @@ return {
             callback = function(event)
               local client = vim.lsp.get_active_clients({ bufnr = event.buf, name = "eslint" })[1]
               if client then
-                local diag = vim.diagnostic.get(event.buf, { namespace = vim.lsp.diagnostic.get_namespace(client.id) })
-                if #diag > 0 then
-                  vim.cmd("EslintFixAll")
-                end
+                vim.cmd("EslintFixAll")
               end
             end,
           })
@@ -458,18 +447,18 @@ return {
         "html",
       }
 
-      lspconfig.ltex.setup({
-        filetypes = filetypes,
-        settings = {
-          ltex = {
-            enabled = filetypes,
-            additionalRules = {
-              languageModel = "~/ngrams/",
-              checkFrequency = "save",
-            }
-          }
-        }
-      });
+      -- lspconfig.ltex.setup({
+      --   filetypes = filetypes,
+      --   settings = {
+      --     ltex = {
+      --       enabled = filetypes,
+      --       additionalRules = {
+      --         languageModel = "~/ngrams/",
+      --         checkFrequency = "save",
+      --       }
+      --     }
+      --   }
+      -- });
 
       lsp.setup()
     end

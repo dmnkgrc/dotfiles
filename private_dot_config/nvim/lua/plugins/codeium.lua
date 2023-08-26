@@ -1,6 +1,6 @@
 return {
   "jcdickinson/codeium.nvim",
-  event = 'InsertEnter',
+  lazy = false,
   dependencies = {
     {
       "jcdickinson/http.nvim",
@@ -9,5 +9,8 @@ return {
     "nvim-lua/plenary.nvim",
     "hrsh7th/nvim-cmp",
   },
-  config = true,
+  config = function()
+    require("codeium").setup({
+    })
+  end
 }

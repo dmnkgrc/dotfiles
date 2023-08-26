@@ -11,7 +11,7 @@ map("v", "K", ":m '<-2<CR>gv=gv", opts)
 
 -- Fast saving
 map("n", "<leader>w", ":write!<CR>", opts)
-map("n", "<leader>q", ":q!<CR>", opts)
+map("n", "<leader>qq", ":q!<CR>", opts)
 
 -- Remap for dealing with visual line wraps
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
@@ -37,9 +37,6 @@ map("n", "k", "gk", opts)
 -- Map enter to ciw in normal mode
 map("n", "<CR>", "ciw", opts)
 map("n", "<BS>", 'ci', opts)
-
--- map ; to resume last search
-map("n", ";", "<cmd>lua require('telescope.builtin').resume(require('telescope.themes').get_dropdown({}))<cr>", opts)
 
 vim.keymap.set('n', '<C-s>', function()
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
