@@ -13,7 +13,9 @@ return {
       require("neotest").setup({
         adapters = {
           require("neotest-rust"),
-          require("neotest-jest"),
+          require("neotest-jest")({
+            jestCommand = "yarn test --forceExit"
+          }),
           require("neotest-vitest"),
         },
         status = { virtual_text = true },

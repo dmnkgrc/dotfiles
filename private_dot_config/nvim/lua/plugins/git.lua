@@ -85,12 +85,12 @@ return {
     config = true,
   },
   {
-    "NeogitOrg/neogit",
-    dependencies = "nvim-lua/plenary.nvim",
-    config = true,
+    "chrisgrieser/nvim-tinygit",
+    dependencies = "stevearc/dressing.nvim",
     keys = {
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
-    }
+      { "<leader>gc", function() require("tinygit").smartCommit() end, desc = "Start commit" },
+      { "<leader>gm", function() require("tinygit").amendNoEdit() end, desc = "Amend no edit" },
+    },
   },
   {
     "sindrets/diffview.nvim",

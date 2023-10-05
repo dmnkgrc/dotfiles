@@ -3,9 +3,4 @@ return {
   enabled = true,
   lazy = false,
   event = { "BufReadPost", "BufNewFile", "VeryLazy" },
-  opts = {
-    options = {
-      theme = "nightfly",
-    }
-  },
 }

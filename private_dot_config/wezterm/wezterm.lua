@@ -1,7 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
-local act = wezterm.action
 
+local act = wezterm.action
 local fish_path = "/opt/homebrew/bin/fish"
 
 -- This table will hold the configuration.
@@ -23,8 +23,9 @@ config.font_size = 14
 config.hide_tab_bar_if_only_one_tab = true
 -- config.window_background_opacity = 0.95
 -- config.color_scheme = "Gruvbox Material (Gogh)"
-config.color_scheme = 'Night Owl (Gogh)'
-
+-- config.color_scheme = 'Night Owl (Gogh)'
+-- config.color_scheme = 'Kanagawa (Gogh)'
+config.color_scheme = "tokyonight"
 
 -- Dim inactive panes
 config.inactive_pane_hsb = {
@@ -40,6 +41,11 @@ config.keys = {
 	},
 	{
 		key = "[",
+		mods = "CMD",
+		action = act.DisableDefaultAssignment,
+	},
+	{
+		key = "t",
 		mods = "CMD",
 		action = act.DisableDefaultAssignment,
 	},

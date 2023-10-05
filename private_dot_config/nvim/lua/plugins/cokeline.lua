@@ -8,7 +8,6 @@ return {
   keys = {
     { "<leader>bp", "<Plug>(cokeline-focus-prev)", desc = "Previous", },
     { "<leader>bn", "<Plug>(cokeline-focus-next)", desc = "Next", },
-    { "<leader>bW", "<cmd>noautocmd w<cr>",        desc = "Save without formatting (noautocmd)", },
     { "<leader>bj", "<Plug>(cokeline-pick-focus)", desc = "Jump" },
     {
       "<leader>bx",
