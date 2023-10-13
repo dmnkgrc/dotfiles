@@ -3,13 +3,11 @@ return {
   {
     'gbprod/yanky.nvim',
     dependencies = { { 'kkharji/sqlite.lua' } },
-    enabled = false,
     opts = function()
       local mapping = require 'yanky.telescope.mapping'
       local mappings = mapping.get_defaults()
       mappings.i['<c-p>'] = nil
       return {
-        highlight = { timer = 200 },
         ring = { storage = 'sqlite' },
         picker = {
           telescope = {

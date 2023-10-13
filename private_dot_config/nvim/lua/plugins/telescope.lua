@@ -7,7 +7,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'jvgrootveld/telescope-zoxide',
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
       'nvim-telescope/telescope-ui-select.nvim',
       'kkharji/sqlite.lua',
@@ -74,7 +74,7 @@ return {
       telescope.load_extension 'frecency'
       telescope.load_extension 'harpoon'
       telescope.load_extension 'projects'
-      -- telescope.load_extension('yank_history')
+      telescope.load_extension 'yank_history'
       telescope.load_extension 'undo'
       telescope.load_extension 'git_worktree'
       telescope.load_extension 'import'
