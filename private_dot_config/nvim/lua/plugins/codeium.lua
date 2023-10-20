@@ -1,12 +1,11 @@
 return {
-  "Exafunction/codeium.nvim",
+  'Exafunction/codeium.nvim',
   lazy = false,
   dependencies = {
-    "nvim-lua/plenary.nvim",
-    "hrsh7th/nvim-cmp",
+    'nvim-lua/plenary.nvim',
+    'hrsh7th/nvim-cmp',
   },
   config = function()
-    require("codeium").setup({
-    })
-  end
+    require('codeium').setup {}
+  end,
 }

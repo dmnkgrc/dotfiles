@@ -1,6 +1,6 @@
 return {
-  "nvim-lualine/lualine.nvim",
-  enabled = true,
-  lazy = false,
-  event = { "BufReadPost", "BufNewFile", "VeryLazy" },
+  {
+    'nvim-lualine/lualine.nvim',
+    config = true,
+  },
 }

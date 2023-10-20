@@ -33,7 +33,7 @@ return {
     keys = {
 
       {
-        '<leader>a',
+        '<leader>ba',
         '<cmd>AerialToggle!<CR>',
         desc = 'Toggle aerial panel',
       },

@@ -21,6 +21,7 @@ abbr cd z
 abbr mux tmuxinator
 abbr lg lazygit
 abbr ls lsd
+abbr ws "~/.config/wezterm/scripts/workspace_switcher.sh"
 
 # Git
 abbr -a -- g git
