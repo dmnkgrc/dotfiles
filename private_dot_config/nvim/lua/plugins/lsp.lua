@@ -291,8 +291,6 @@ return {
         },
       }
 
-      local lsp_zero = require 'lsp-zero'
-
       require('mason-lspconfig').setup {
         handlers = {
           lsp_zero.default_setup,
@@ -413,25 +411,6 @@ return {
         },
       }
 
-      local filetypes = {
-        'bib',
-        'gitcommit',
-        'markdown',
-        'org',
-        'plaintex',
-        'rst',
-        'rnoweb',
-        'tex',
-        'pandoc',
-        'rust',
-        'javascript',
-        'typescript',
-        'javascriptreact',
-        'typescriptreact',
-        'lua',
-        'python',
-        'html',
-      }
       local mason_tool_installer = require 'mason-tool-installer'
       mason_tool_installer.setup {
         ensure_installed = {

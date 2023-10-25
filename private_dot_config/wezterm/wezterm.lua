@@ -1,7 +1,8 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 local mux = wezterm.mux
-wezterm.log_info("The config was reloaded for this window!")
+
+local workspace_switcher = wezterm.plugin.require("https://github.com/MLFlexer/smart_workspace_switcher.wezterm/")
 
 -- This table will hold the configuration.
 local config = {
@@ -27,7 +28,7 @@ local config = {
 }
 
 -- Leader is the same as my old tmux prefix
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconts = 1000 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = require("keybinds")
 
@@ -47,6 +48,12 @@ mergeTables(config, colors)
 wezterm.on("gui-startup", function(cmd)
 	local _, _, window = mux.spawn_window(cmd or {})
 	window:gui_window():maximize()
+end)
+
+workspace_switcher.apply_to_config(config, "s", "LEADER", function(label)
+	return wezterm.format({
+		{ Text = "󱂬: " .. label },
+	})
 end)
 
 -- and finally, return the configuration to wezterm
