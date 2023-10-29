@@ -22,13 +22,13 @@ local config = {
 	enable_scroll_bar = true,
 
 	status_update_interval = 1000,
-	font = wezterm.font("Berkeley Mono Variable"),
-	-- font = wezterm.font("MonoLisa")
-	font_size = 15,
+	-- font = wezterm.font("Berkeley Mono Variable"),
+	font = wezterm.font("MonoLisa"),
+	font_size = 14,
 }
 
 -- Leader is the same as my old tmux prefix
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = require("keybinds")
 

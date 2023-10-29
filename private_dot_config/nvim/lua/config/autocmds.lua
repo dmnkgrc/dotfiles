@@ -63,3 +63,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   command = 'silent! EslintFixAll',
   group = vim.api.nvim_create_augroup('MyAutocmdsJavaScripFormatting', {}),
 })
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = { '*tmux.conf' },
+  command = "execute 'silent !tmux source <afile> --silent'",
+})
