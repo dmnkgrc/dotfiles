@@ -1,7 +1,7 @@
 return {
   {
-    'echasnovski/mini.base16',
-    version = '*',
+    "echasnovski/mini.base16",
+    version = "*",
     opts = {
       palette = {
         base00 = "#1f1f28",
@@ -19,7 +19,7 @@ return {
         base0C = "#7fb4ca",
         base0D = "#7e9cd8",
         base0E = "#957fb8",
-        base0F = "#d27e99"
+        base0F = "#d27e99",
       },
     },
   },
