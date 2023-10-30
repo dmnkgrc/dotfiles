@@ -62,26 +62,26 @@ status --is-interactive; and rbenv init - fish | source
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 # Start flavours
-# Base16 Kanagawa
-# Scheme author: Originally by rebelot (Ported by montdor [https://github.com/montdor/])
+# Base16 Catppuccin Mocha
+# Scheme author: https://github.com/catppuccin/catppuccin
 # Template author: Tinted Theming (https://github.com/tinted-theming)
 
-set -l color00 '#1f1f28'
-set -l color01 '#2a2a37'
-set -l color02 '#223249'
-set -l color03 '#727169'
-set -l color04 '#c8c093'
-set -l color05 '#dcd7ba'
-set -l color06 '#938aa9'
-set -l color07 '#363646'
-set -l color08 '#c34043'
-set -l color09 '#ffa066'
-set -l color0A '#dca561'
-set -l color0B '#98bb6c'
-set -l color0C '#7fb4ca'
-set -l color0D '#7e9cd8'
-set -l color0E '#957fb8'
-set -l color0F '#d27e99'
+set -l color00 '#1e1e2e'
+set -l color01 '#181825'
+set -l color02 '#313244'
+set -l color03 '#45475a'
+set -l color04 '#585b70'
+set -l color05 '#cdd6f4'
+set -l color06 '#f5e0dc'
+set -l color07 '#b4befe'
+set -l color08 '#f38ba8'
+set -l color09 '#fab387'
+set -l color0A '#f9e2af'
+set -l color0B '#a6e3a1'
+set -l color0C '#94e2d5'
+set -l color0D '#89b4fa'
+set -l color0E '#cba6f7'
+set -l color0F '#f2cdcd'
 
 set -l FZF_NON_COLOR_OPTS
 

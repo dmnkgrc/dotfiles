@@ -292,7 +292,6 @@ return {
           "tailwindcss",
           "eslint",
           "tsserver",
-          "js-debug-adapter",
         },
         automatic_installation = {
           exclude = { "rust_analyzer" },
