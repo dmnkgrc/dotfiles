@@ -1,30 +1,30 @@
 return {
   {
-    'folke/noice.nvim',
+    "folke/noice.nvim",
     dependencies = {
-      'MunifTanjim/nui.nvim',
-      'rcarriga/nvim-notify',
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
     },
-    event = 'VeryLazy',
+    event = "VeryLazy",
     opts = {
       lsp = {
         override = {
-          ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-          ['vim.lsp.util.stylize_markdown'] = true,
-          ['cmp.entry.get_documentation'] = true,
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
         },
       },
       routes = {
         {
           filter = {
-            event = 'msg_show',
+            event = "msg_show",
             any = {
-              { find = '%d+L, %d+B' },
-              { find = '; after #%d+' },
-              { find = '; before #%d+' },
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
             },
           },
-          view = 'mini',
+          view = "mini",
         },
       },
       presets = {
@@ -40,70 +40,70 @@ return {
     },
   },
   {
-    'shellRaining/hlchunk.nvim',
+    "shellRaining/hlchunk.nvim",
     config = function()
-      require('hlchunk').setup {
+      require("hlchunk").setup({
         chunk = {
           style = {
-            { fg = '#d3869b' },
+            { fg = "#d3869b" },
           },
         },
         line_num = {
-          style = '#d3869b',
+          style = "#d3869b",
         },
-      }
+      })
     end,
-    event = { 'UIEnter' },
+    event = { "UIEnter" },
   },
   {
-    'RRethy/vim-illuminate',
-    event = { 'BufReadPost', 'BufNewFile' },
+    "RRethy/vim-illuminate",
+    event = { "BufReadPost", "BufNewFile" },
     opts = { delay = 200 },
     config = function(_, opts)
-      require('illuminate').configure(opts)
+      require("illuminate").configure(opts)
 
       local function map(key, dir, buffer)
-        vim.keymap.set('n', key, function()
-          require('illuminate')['goto_' .. dir .. '_reference'](false)
-        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. ' Reference', buffer = buffer })
+        vim.keymap.set("n", key, function()
+          require("illuminate")["goto_" .. dir .. "_reference"](false)
+        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
       end
 
-      map(']]', 'next')
-      map('[[', 'prev')
+      map("]]", "next")
+      map("[[", "prev")
 
-      vim.api.nvim_create_autocmd('FileType', {
+      vim.api.nvim_create_autocmd("FileType", {
         callback = function()
           local buffer = vim.api.nvim_get_current_buf()
-          map(']]', 'next', buffer)
-          map('[[', 'prev', buffer)
+          map("]]", "next", buffer)
+          map("[[", "prev", buffer)
         end,
       })
     end,
     keys = {
-      { ']]', desc = 'Next Reference' },
-      { '[[', desc = 'Prev Reference' },
+      { "]]", desc = "Next Reference" },
+      { "[[", desc = "Prev Reference" },
     },
   },
-  'tpope/vim-sleuth',
+  "tpope/vim-sleuth",
   {
-    'NvChad/nvim-colorizer.lua',
-    name = 'colorizer',
+    "NvChad/nvim-colorizer.lua",
+    name = "colorizer",
     opts = {
       user_default_options = {
-        tailwind = 'both',
+        tailwind = "both",
       },
     },
   },
   {
-    'stevearc/dressing.nvim',
+    "stevearc/dressing.nvim",
     opts = {},
   },
   {
-    'utilyre/barbecue.nvim',
-    name = 'barbecue',
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
     dependencies = {
-      'SmiteshP/nvim-navic',
-      'nvim-tree/nvim-web-devicons', -- optional dependency
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
     },
     opts = {
       show_modified = true,
@@ -111,9 +111,28 @@ return {
     },
   },
   {
-    'utilyre/sentiment.nvim',
-    name = 'sentiment',
-    event = { 'InsertCharPre', 'InsertEnter' },
+    "utilyre/sentiment.nvim",
+    name = "sentiment",
+    event = { "InsertCharPre", "InsertEnter" },
     config = true,
+  },
+  {
+    "anuvyklack/windows.nvim",
+    dependencies = {
+      "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim",
+    },
+    config = function()
+      vim.o.winwidth = 10
+      vim.o.winminwidth = 10
+      vim.o.equalalways = false
+      require("windows").setup()
+    end,
+    keys = {
+      { "<C-w>z", "<cmd>WindowsMaximize<cr>",             desc = "Maximize Window" },
+      { "<C-w>_", "<cmd>WindowsMaximizeVertically<cr>",   desc = "Maximize Window Widh" },
+      { "<C-w>|", "<cmd>WindowsMaximizeHorizontally<cr>", desc = "Maximize Window Height" },
+      { "<C-w>=", "<cmd>WindowsEqualize<cr>",             desc = "Equalize Windows" },
+    },
   },
 }

@@ -1,45 +1,82 @@
 return {
   {
-    'rareitems/put_at_end.nvim',
-    enabled = false,
-    keys = { -- Basic lazy loading
-      -- Plugin doesn't set any keymaps you have to set your own
+    "monaqa/dial.nvim",
+    keys = {
       {
-        '<C-;>',
+        "<C-a>",
         function()
-          require('put_at_end').put_semicolon()
+          require("dial.map").manipulate("increment", "normal")
         end,
-        desc = 'Put a semicolon at the end of the line',
+        "Increment",
       },
       {
-        '<C-.>',
+        "<C-x>",
         function()
-          require('put_at_end').put_period()
+          require("dial.map").manipulate("decrement", "normal")
         end,
-        desc = 'Put a period at the end of the line',
+        "Decrement",
       },
       {
-        '<C-,>',
+        "g<C-a>",
         function()
-          require('put_at_end').put_comma()
+          require("dial.map").manipulate("increment", "gnormal")
         end,
-        desc = 'Put a comma at the end of the line',
+        "Increment g",
+      },
+      {
+        "g<C-x>",
+        function()
+          require("dial.map").manipulate("decrement", "gnormal")
+        end,
+        "Decrement g",
+      },
+      {
+        "<C-a>",
+        function()
+          require("dial.map").manipulate("increment", "visual")
+        end,
+        mode = "v",
+        desc = "Increment visual selection",
+      },
+      {
+        "<C-x>",
+        function()
+          require("dial.map").manipulate("decrement", "visual")
+        end,
+        mode = "v",
+        desc = "Decrement visual selection",
+      },
+      {
+        "g<C-a>",
+        function()
+          require("dial.map").manipulate("increment", "gvisual")
+        end,
+        mode = "v",
+        desc = "Increment visual selection g",
+      },
+      {
+        "g<C-x>",
+        function()
+          require("dial.map").manipulate("decrement", "gvisual")
+        end,
+        mode = "v",
+        desc = "Decrement visual selection g",
       },
     },
   },
   {
-    'MaximilianLloyd/tw-values.nvim',
+    "MaximilianLloyd/tw-values.nvim",
     keys = {
-      { '<leader>sv', '<cmd>TWValues<cr>', desc = 'Show tailwind CSS values' },
+      { "<leader>sv", "<cmd>TWValues<cr>", desc = "Show tailwind CSS values" },
     },
     opts = {
-      border = 'rounded',          -- Valid window border style,
+      border = "rounded",          -- Valid window border style,
       show_unknown_classes = true, -- Shows the unknown classes popup
     },
   },
   {
-    'echasnovski/mini.ai',
-    keys = { { '[f', desc = 'Prev function' }, { ']f', desc = 'Next function' } },
+    "echasnovski/mini.ai",
+    keys = { { "[f", desc = "Prev function" }, { "]f", desc = "Next function" } },
     opts = function()
       -- add treesitter jumping
       ---@param capture string
@@ -49,12 +86,12 @@ return {
         local rhs = function()
           local parser = vim.treesitter.get_parser()
           if not parser then
-            return vim.notify('No treesitter parser for the current buffer', vim.log.levels.ERROR)
+            return vim.notify("No treesitter parser for the current buffer", vim.log.levels.ERROR)
           end
 
-          local query = vim.treesitter.get_query(vim.bo.filetype, 'textobjects')
+          local query = vim.treesitter.get_query(vim.bo.filetype, "textobjects")
           if not query then
-            return vim.notify('No textobjects query for the current buffer', vim.log.levels.ERROR)
+            return vim.notify("No textobjects query for the current buffer", vim.log.levels.ERROR)
           end
 
           local cursor = vim.api.nvim_win_get_cursor(0)
@@ -77,14 +114,14 @@ return {
         end
 
         local c = capture:sub(1, 1):lower()
-        local lhs = (down and ']' or '[') .. (start and c or c:upper())
-        local desc = (down and 'Next ' or 'Prev ') .. (start and 'start' or 'end') .. ' of ' .. capture:gsub('%..*', '')
-        vim.keymap.set('n', lhs, rhs, { desc = desc })
+        local lhs = (down and "]" or "[") .. (start and c or c:upper())
+        local desc = (down and "Next " or "Prev ") .. (start and "start" or "end") .. " of " .. capture:gsub("%..*", "")
+        vim.keymap.set("n", lhs, rhs, { desc = desc })
       end
 
-      for _, capture in ipairs { 'function.outer', 'class.outer' } do
-        for _, start in ipairs { true, false } do
-          for _, down in ipairs { true, false } do
+      for _, capture in ipairs({ "function.outer", "class.outer" }) do
+        for _, start in ipairs({ true, false }) do
+          for _, down in ipairs({ true, false }) do
             jump(capture, start, down)
           end
         end
@@ -92,25 +129,25 @@ return {
     end,
   },
   {
-    'smjonas/inc-rename.nvim',
-    cmd = 'IncRename',
+    "smjonas/inc-rename.nvim",
+    cmd = "IncRename",
     config = true,
   },
   {
-    'toppair/peek.nvim',
-    build = 'deno task --quiet build:fast',
+    "toppair/peek.nvim",
+    build = "deno task --quiet build:fast",
     keys = {
       {
-        '<leader>op',
+        "<leader>op",
         function()
-          local peek = require 'peek'
+          local peek = require("peek")
           if peek.is_open() then
             peek.close()
           else
             peek.open()
           end
         end,
-        desc = 'Peek (Markdown Preview)',
+        desc = "Peek (Markdown Preview)",
       },
     },
     opts = {
@@ -118,9 +155,9 @@ return {
     },
   },
   {
-    'altermo/ultimate-autopair.nvim',
-    event = { 'InsertEnter', 'CmdlineEnter' },
-    branch = 'v0.6',
+    "altermo/ultimate-autopair.nvim",
+    event = { "InsertEnter", "CmdlineEnter" },
+    branch = "v0.6",
     opts = {
       tabout = {
         enable = true,

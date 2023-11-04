@@ -286,7 +286,6 @@ return {
           "svelte",
           "rust_analyzer",
           "lua_ls",
-          "jsonls",
           "bashls",
           "vimls",
           "tailwindcss",
@@ -351,15 +350,6 @@ return {
         filetypes = { "solidity", "sol" },
         root_dir = require("lspconfig.util").find_git_ancestor,
         single_file_support = true,
-      })
-
-      lspconfig.jsonls.setup({
-        settings = {
-          json = {
-            schema = require("schemastore").json.schemas(),
-            validate = { enable = true },
-          },
-        },
       })
 
       lspconfig.eslint.setup({
@@ -477,8 +467,12 @@ return {
   {
     "Wansmer/symbol-usage.nvim",
     event = "BufReadPre", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
-    config = function()
-      require("symbol-usage").setup()
-    end,
+    config = true,
+  },
+  {
+    "smjonas/inc-rename.nvim",
+    config = true,
+    name = "inc_rename",
+    keys = { { "<leader>rn", ":IncRename ", desc = "Rename" } },
   },
 }

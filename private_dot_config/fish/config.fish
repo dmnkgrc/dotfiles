@@ -62,26 +62,26 @@ status --is-interactive; and rbenv init - fish | source
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 # Start flavours
-# Base16 Catppuccin Mocha
-# Scheme author: https://github.com/catppuccin/catppuccin
+# Base16 Nightfox
+# Scheme author: https://github.com/EdenEast/nightfox.nvim
 # Template author: Tinted Theming (https://github.com/tinted-theming)
 
-set -l color00 '#1e1e2e'
-set -l color01 '#181825'
-set -l color02 '#313244'
-set -l color03 '#45475a'
-set -l color04 '#585b70'
-set -l color05 '#cdd6f4'
-set -l color06 '#f5e0dc'
-set -l color07 '#b4befe'
-set -l color08 '#f38ba8'
-set -l color09 '#fab387'
-set -l color0A '#f9e2af'
-set -l color0B '#a6e3a1'
-set -l color0C '#94e2d5'
-set -l color0D '#89b4fa'
-set -l color0E '#cba6f7'
-set -l color0F '#f2cdcd'
+set -l color00 '#192330'
+set -l color01 '#252f3c'
+set -l color02 '#313b48'
+set -l color03 '#3d4754'
+set -l color04 '#495360'
+set -l color05 '#c0c8d5'
+set -l color06 '#c7cfdc'
+set -l color07 '#ced6e3'
+set -l color08 '#e26886'
+set -l color09 '#fe9373'
+set -l color0A '#dbc074'
+set -l color0B '#8ebaa4'
+set -l color0C '#7ad4d6'
+set -l color0D '#86abdc'
+set -l color0E '#9d79d6'
+set -l color0F '#c0c8d5'
 
 set -l FZF_NON_COLOR_OPTS
 
