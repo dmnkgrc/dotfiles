@@ -1,10 +1,4 @@
 return {
-  {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v3.x",
-    lazy = true,
-  },
-
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
@@ -17,17 +11,10 @@ return {
     },
     commit = "6c84bc75c64f778e9f1dcb798ed41c7fcb93b639",
     config = function()
-      -- Here is where you configure the autocompletion settings.
-      -- The arguments for .extend() have the same shape as `manage_nvim_cmp`:
-      -- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/api-reference.md#manage_nvim_cmp
-
-      require("lsp-zero.cmp").extend()
-
       -- And you can configure cmp even more, if you want to.
       local cmp = require("cmp")
       local lspkind = require("lspkind")
       local icons = require("config.icons")
-      local cmp_action = require("lsp-zero.cmp").action()
       local cmp_mapping = cmp.mapping
       local cmp_types = require("cmp.types.cmp")
       local luasnip = require("luasnip")
@@ -157,12 +144,17 @@ return {
           { name = "tmux" },
         },
         mapping = {
-          ["<C-b>"] = cmp_action.luasnip_jump_backward(),
 
           ["<Down>"] = cmp_mapping(cmp_mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }), {
             "i",
           }),
           ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }), {
+            "i",
+          }),
+          ["<C-n>"] = cmp_mapping(cmp_mapping.select_next_item({ behavior = cmp_types.SelectBehavior.Select }), {
+            "i",
+          }),
+          ["<C-p>"] = cmp_mapping(cmp_mapping.select_prev_item({ behavior = cmp_types.SelectBehavior.Select }), {
             "i",
           }),
           ["<C-d>"] = cmp_mapping.scroll_docs(-4),
@@ -249,15 +241,17 @@ return {
       { "b0o/schemastore.nvim" },
     },
     keys = {
-      { "K",  "<cmd>lua vim.lsp.buf.hover()<CR>",           desc = "Hover" },
-      { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>",      desc = "Go to definition" },
-      { "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>",     desc = "Go to declaration" },
-      { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>",  desc = "Go to implementation" },
-      { "gl", "<cmd>lua vim.diagnostic.open_float()<CR>",   desc = "Go to float diagnostic" },
-      { "go", "<cmd>lua vim.lsp.buf.type_definition()<CR>", desc = "Go to type definition" },
-      { "gr", "<cmd>Telescope lsp_references<cr>",          desc = "Go to references" },
-      { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>",    desc = "Previous diagnostic" },
-      { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>",    desc = "Next diagnostic" },
+      { "K", vim.lsp.buf.hover, desc = "Hover" },
+      { "<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction" },
+      { "gd", require("telescope.builtin").lsp_definitions, desc = "[G]oto [D]efinition" },
+      { "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
+      { "gi", require("telescope.builtin").lsp_implementations, desc = "[G]oto [I]mplementation" },
+      { "gl", vim.diagnostic.open_float, desc = "Go to float diagnostic" },
+      { "gr", require("telescope.builtin").lsp_references, desc = "[G]oto [R]eferences" },
+      { "<leader>D", require("telescope.builtin").lsp_type_definitions, desc = "Type [D]efinition" },
+      { "<leader>ds", require("telescope.builtin").lsp_document_symbols, desc = "[D]ocument [S]ymbols" },
+      { "[d", vim.diagnostic.goto_prev, desc = "Previous diagnostic" },
+      { "]d", vim.diagnostic.goto_next(), desc = "Next diagnostic" },
       {
         "<leader>lc",
         function()
@@ -274,9 +268,6 @@ return {
     },
     config = function()
       local icons = require("config.icons")
-      -- This is where all the LSP shenanigans will live
-      local lsp_zero = require("lsp-zero")
-      lsp_zero.extend_lspconfig()
 
       -- see :help lsp-zero-guide:integrate-with-mason-nvim
       -- to learn how to use mason.nvim with lsp-zero
@@ -295,38 +286,21 @@ return {
         automatic_installation = {
           exclude = { "rust_analyzer" },
         },
-        handlers = {
-          lsp_zero.default_setup,
-          lua_ls = function()
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require("lspconfig").lua_ls.setup(lua_opts)
-          end,
-        },
       })
 
-      require("mason-lspconfig").setup({
-        handlers = {
-          lsp_zero.default_setup,
-          lua_ls = function()
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require("lspconfig").lua_ls.setup(lua_opts)
-          end,
-        },
-      })
+      require("mason-lspconfig").setup({})
 
-      lsp_zero.format_on_save({
-        servers = {
-          ["lua_ls"] = { "lua" },
-          ["rust_analyzer"] = { "rust" },
-        },
-      })
-
-      lsp_zero.set_sign_icons({
-        error = icons.diagnostics.Error,
-        warn = icons.diagnostics.Warning,
-        hint = icons.diagnostics.Hint,
-        info = icons.diagnostics.Information,
-      })
+      local sign = function(opts)
+        vim.fn.sign_define(opts.name, {
+          texthl = opts.name,
+          text = opts.text,
+          numhl = "",
+        })
+      end
+      sign({ name = "DiagnosticSignError", text = icons.diagnostics.Error })
+      sign({ name = "DiagnosticSignWarn", text = icons.diagnostics.Warning })
+      sign({ name = "DiagnosticSignHint", text = icons.diagnostics.Hint })
+      sign({ name = "DiagnosticSignInfo", text = icons.diagnostics.Information })
 
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({
@@ -405,8 +379,8 @@ return {
             experimental = {
               classRegex = {
                 { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-                { "cx\\(([^)]*)\\)",  "[\"'`]([^\"'`]*).*?[\"'`]" },
-                { "tv\\(([^)]*)\\)",  "[\"'`]([^\"'`]*).*?[\"'`]" },
+                { "cx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+                { "tv\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
                 "tw`([^`]*)",
                 { "tw.style\\(([^)]*)\\)", "'([^']*)'" },
               },
@@ -448,15 +422,12 @@ return {
       local mason_tool_installer = require("mason-tool-installer")
       mason_tool_installer.setup({
         ensure_installed = {
-          "prettier",  -- prettier formatter
+          "prettier", -- prettier formatter
           "prettierd", -- prettierd formatter
-          "stylua",    -- lua formatter
+          "stylua", -- lua formatter
         },
       })
-
-      lsp_zero.setup()
     end,
-    keys,
   },
   {
     "j-hui/fidget.nvim",
