@@ -11,25 +11,31 @@ return {
     --   },
     -- },
   },
-  -- {
-  --   'pmizio/typescript-tools.nvim',
-  --   event = { 'BufReadPre', 'BufNewFile' },
-  --   dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-  --   opts = {
-  --     settings = {
-  --       tsserver_file_preferences = {
-  --         quotePreference = 'single',
-  --         includeCompletionsForImportStatements = true,
-  --         includeCompletionsForModuleExports = true,
-  --         importModuleSpecifierEnding = 'auto',
-  --         importModuleSpecifierPreference = 'non-relative',
-  --       },
-  --       tsserver_format_options = {
-  --         allowRenameOfImportPath = true,
-  --       },
-  --       expose_as_code_action = { 'add_missing_imports', 'remove_unused' },
-  --       complete_function_calls = true,
-  --     },
-  --   },
-  -- },
+  {
+    "vuki656/package-info.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    config = true,
+    keys = {
+      {
+        "<leader>ns",
+        "<cmd>lua require('package-info').show({ force = true })<cr>",
+        desc = "Display latest package version",
+      },
+      {
+        "<leader>nd",
+        "<cmd>lua require('package-info').delete()<cr>",
+        desc = "Delete package",
+      },
+      {
+        "<leader>np",
+        "<cmd>lua require('package-info').change_version()<cr>",
+        desc = "Install new version",
+      },
+      {
+        "<leader>ni",
+        "<cmd>lua require('package-info').install()<cr>",
+        desc = "Install new package",
+      },
+    },
+  },
 }

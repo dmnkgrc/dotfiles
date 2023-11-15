@@ -1,7 +1,3 @@
--- local ok, lsp = pcall(require, 'lsp-zero')
--- if not ok then
---   return
--- end
 return {
   {
     "simrat39/rust-tools.nvim",
