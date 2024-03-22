@@ -7,7 +7,6 @@ set -gx EDITOR nvim
 zoxide init fish | source
 
 source $HOME/.config/fish/conf.d/abbr.fish
-source $HOME/.config/fish/conf.d/nightfox.fish
 source $HOME/.config/op/plugins.sh
 
 set -x ANDROID_HOME $HOME/Library/Android/sdk
@@ -32,6 +31,10 @@ set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
 set -x SRC_ACCESS_TOKEN sgp_0fca7b77df0062eba238b680cd623f83c7f0b7f4
 set -x SRC_ENDPOINT "https://sourcegraph.com"
 set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
+set -x NO_FLIPPER 1
+set -x GITHUB_PACKAGES_TOKEN (op read "op://Private/GitHub Personal Access Token/token")
+set -x OPENAI_API_KEY (op read "op://Private/OpenAI/credential")
+
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
 fish_add_path /opt/homebrew/sbin
@@ -55,33 +58,33 @@ set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
 set -gx FNM_LOGLEVEL info
 
-set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
+set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 status --is-interactive; and rbenv init - fish | source
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 # Start flavours
-# Base16 Nightfox
-# Scheme author: https://github.com/EdenEast/nightfox.nvim
+# Base16 Kanagawa
+# Scheme author: Originally by rebelot (Ported by montdor [https://github.com/montdor/])
 # Template author: Tinted Theming (https://github.com/tinted-theming)
 
-set -l color00 '#192330'
-set -l color01 '#252f3c'
-set -l color02 '#313b48'
-set -l color03 '#3d4754'
-set -l color04 '#495360'
-set -l color05 '#c0c8d5'
-set -l color06 '#c7cfdc'
-set -l color07 '#ced6e3'
-set -l color08 '#e26886'
-set -l color09 '#fe9373'
-set -l color0A '#dbc074'
-set -l color0B '#8ebaa4'
-set -l color0C '#7ad4d6'
-set -l color0D '#86abdc'
-set -l color0E '#9d79d6'
-set -l color0F '#c0c8d5'
+set -l color00 '#1f1f28'
+set -l color01 '#2a2a37'
+set -l color02 '#223249'
+set -l color03 '#727169'
+set -l color04 '#c8c093'
+set -l color05 '#dcd7ba'
+set -l color06 '#938aa9'
+set -l color07 '#363646'
+set -l color08 '#c34043'
+set -l color09 '#ffa066'
+set -l color0A '#dca561'
+set -l color0B '#98bb6c'
+set -l color0C '#7fb4ca'
+set -l color0D '#7e9cd8'
+set -l color0E '#957fb8'
+set -l color0F '#d27e99'
 
 set -l FZF_NON_COLOR_OPTS
 

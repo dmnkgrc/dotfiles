@@ -1,6 +1,6 @@
 abbr vim nvim
 abbr v nvim
-abbr vs "fzf --print0 | xargs -0 -o nvim"
+abbr vs "nvim -c 'Telescope find_files'"
 abbr vimrc "nvim ~/.config/nvim/init.lua"
 abbr vf "nvim ~/.config/fish/config.fish"
 abbr vt "nvim ~/.config/tmux/tmux.conf"
