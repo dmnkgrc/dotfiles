@@ -1,0 +1,48 @@
+theme = "kanagawa"
+[editor]
+line-number = "relative"
+cursorline = true
+color-modes = true
+auto-pairs = true
+true-color = true
+auto-format = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.indent-guides]
+render = true
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name"]
+center = []
+right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+separator = "│"
+
+[editor.file-picker]
+hidden = true
+
+# At most one section each of 'keys.normal', 'keys.insert' and 'keys.select'
+[keys.normal]
+C-o = ":open ~/.config/helix/config.toml" # Maps the Ctrl-o to opening of the helix config file
+g = { a = "code_action" } # Maps `ga` to show possible code actions
+C-q = ":quit"
+tab = ":buffer-next"
+S-tab = ":buffer-previous"
+
+[keys.insert]
+j = { j = "normal_mode" } # Maps `jk` to exit insert mode
+
+# Tmux 
+[keys.normal.'space'.'space']
+# Interactive search in current working directory
+f = ":sh zellij run -fc -- yazi"
+e = ":pipe-to hemux yazi"
+# lazygit
+g = ":pipe-to helix-tmux git --lazygit"
