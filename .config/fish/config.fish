@@ -22,7 +22,6 @@ set -x LC_ALL "en_US.UTF-8"
 set -x MYVIMRC "~/dotfiles/.config/nvim/init.vim"
 set -gx GPG_TTY (tty)
 set -x NODE_OPTIONS "--max-old-space-size=9216"
-set -x TURBO_TEAM nxt-dev1
 set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
 set -x RUST_BACKTRACE full
 set -x RUST_MIN_STACK 16777216

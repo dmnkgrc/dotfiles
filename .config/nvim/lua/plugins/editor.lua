@@ -41,17 +41,13 @@ return {
     enabled = false,
   },
   {
-    "ecthelionvi/NeoComposer.nvim",
-    dependencies = { "kkharji/sqlite.lua" },
-    name = "NeoComposer",
-    event = { "BufReadPre", "BufNewFile" },
-    config = true,
-  },
-  {
     "max397574/better-escape.nvim",
     config = true,
     opts = {
       mapping = { "jk", "jj" },
     },
+  },
+  {
+    "jesseleite/nvim-macroni",
   },
 }
