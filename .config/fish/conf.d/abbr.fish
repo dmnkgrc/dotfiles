@@ -1,6 +1,6 @@
 abbr vim nvim
 abbr v nvim
-abbr vs "nvim -c 'Telescope find_files hidden=true'"
+abbr vs "fzf --preview 'bat --style=numbers --color=always --line-range :500 {}' | xargs nvim"
 abbr vimrc "nvim ~/dotfiles/.config/nvim/init.lua"
 abbr vf "nvim ~/dotfiles/.config/fish/config.fish"
 abbr vt "nvim ~/dotfiles/.config/tmux/tmux.conf"
