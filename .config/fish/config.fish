@@ -32,7 +32,7 @@ set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
 set -x NO_FLIPPER 1
 set -x GITHUB_PACKAGES_TOKEN (op read "op://Private/GitHub Personal Access Token/token")
 set -x OPENAI_API_KEY (op read "op://Private/OpenAI/credential")
-
+set -x BAT_THEME kanagawa
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
 fish_add_path /opt/homebrew/sbin
@@ -43,7 +43,6 @@ fish_add_path $HOME/.cargo/bin
 fish_add_path $PNPM_HOME
 fish_add_path $HOME/.maestro/bin
 fish_add_path $HOME/bin
-fish_add_path $HOME/.config/tmux/plugins/t-smart-tmux-session-manager/bin
 fish_add_path $HOME/go/bin
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin $PATH
 set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445
@@ -90,6 +89,8 @@ for arg in (echo $FZF_DEFAULT_OPTS | tr " " "\n")
         set -a FZF_NON_COLOR_OPTS $arg
     end
 end
+
+set -x FZF_DEFAULT_COMMAND 'fd --type file --hidden --no-ignore --exclude .git'
 
 set -Ux FZF_DEFAULT_OPTS "$FZF_NON_COLOR_OPTS"\
 " --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D"\
