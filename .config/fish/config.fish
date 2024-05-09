@@ -51,6 +51,7 @@ set -gx FNM_LOGLEVEL info
 set -gx FNM_ARCH arm64
 set -gx FNM_VERSION_FILE_STRATEGY local
 set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
+set -gx GOPATH /Users/dominikgarciabertapelle/code/go
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
 set -gx FNM_LOGLEVEL info
 
@@ -61,26 +62,26 @@ status --is-interactive; and rbenv init - fish | source
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 # Start flavours
-# Base16 Kanagawa
-# Scheme author: Originally by rebelot (Ported by montdor [https://github.com/montdor/])
+# Base16 Gruvbox Material Dark, Medium
+# Scheme author: Mayush Kumar (https://github.com/MayushKumar), sainnhe (https://github.com/sainnhe/gruvbox-material-vscode)
 # Template author: Tinted Theming (https://github.com/tinted-theming)
 
-set -l color00 '#1f1f28'
-set -l color01 '#2a2a37'
-set -l color02 '#223249'
-set -l color03 '#727169'
-set -l color04 '#c8c093'
-set -l color05 '#dcd7ba'
-set -l color06 '#938aa9'
-set -l color07 '#363646'
-set -l color08 '#c34043'
-set -l color09 '#ffa066'
-set -l color0A '#dca561'
-set -l color0B '#98bb6c'
-set -l color0C '#7fb4ca'
-set -l color0D '#7e9cd8'
-set -l color0E '#957fb8'
-set -l color0F '#d27e99'
+set -l color00 '#202020'
+set -l color01 '#2a2827'
+set -l color02 '#504945'
+set -l color03 '#5a524c'
+set -l color04 '#bdae93'
+set -l color05 '#ddc7a1'
+set -l color06 '#ebdbb2'
+set -l color07 '#fbf1c7'
+set -l color08 '#ea6962'
+set -l color09 '#e78a4e'
+set -l color0A '#d8a657'
+set -l color0B '#a9b665'
+set -l color0C '#89b482'
+set -l color0D '#7daea3'
+set -l color0E '#d3869b'
+set -l color0F '#bd6f3e'
 
 set -l FZF_NON_COLOR_OPTS
 
@@ -89,8 +90,6 @@ for arg in (echo $FZF_DEFAULT_OPTS | tr " " "\n")
         set -a FZF_NON_COLOR_OPTS $arg
     end
 end
-
-set -x FZF_DEFAULT_COMMAND 'fd --type file --hidden --no-ignore --exclude .git'
 
 set -Ux FZF_DEFAULT_OPTS "$FZF_NON_COLOR_OPTS"\
 " --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D"\
