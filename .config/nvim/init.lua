@@ -15,3 +15,10 @@ require("lspconfig").tailwindcss.setup({
     },
   },
 })
+
+require("noirbuddy").setup({
+  -- preset = "miami-nights",
+  colors = {
+    primary = "#E4609B",
+  },
+})
