@@ -1,5 +1,6 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
+require("config.colors")
 require("lspconfig").tailwindcss.setup({
   settings = {
     tailwindCSS = {
@@ -13,12 +14,5 @@ require("lspconfig").tailwindcss.setup({
         },
       },
     },
-  },
-})
-
-require("noirbuddy").setup({
-  -- preset = "miami-nights",
-  colors = {
-    primary = "#E4609B",
   },
 })
