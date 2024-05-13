@@ -1,10 +1,4 @@
 return {
-  -- {
-  --   "Exafunction/codeium.nvim",
-  --   opts = {
-  --     enable_chat = true,
-  --   },
-  -- },
   {
     enabled = false,
     "jackMort/ChatGPT.nvim",
