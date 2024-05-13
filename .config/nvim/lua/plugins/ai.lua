@@ -32,58 +32,72 @@ return {
     },
   },
   {
-    "monkoose/neocodeium",
-    event = "VeryLazy",
-    opts = {},
-    keys = {
-      {
-        "<A-f>",
-        function()
-          require("neocodeium").accept()
-        end,
-        mode = { "i" },
-        desc = "Accept codeium suggestion",
+    "Hashiraee/supermaven-nvim",
+    branch = "multiline-issue",
+    opts = {
+      keymaps = {
+        accept_suggestion = "<A-f>",
+        clear_suggestion = "<A-c>",
       },
-      {
-        "<A-w>",
-        function()
-          require("neocodeium").accept_word()
-        end,
-        mode = { "i" },
-        desc = "Accept next word from suggestion",
-      },
-      {
-        "<A-l>",
-        function()
-          require("neocodeium").accept_line()
-        end,
-        mode = { "i" },
-        desc = "Accept line from suggestion",
-      },
-      {
-        "<A-e>",
-        function()
-          require("neocodeium").cycle_or_complete()
-        end,
-        mode = { "i" },
-        desc = "Cycle or complete forwad",
-      },
-      {
-        "<A-r>",
-        function()
-          require("necodeium").cycle_or_complete(-1)
-        end,
-        mode = { "i" },
-        desc = "Cycle or complete backwards",
-      },
-      {
-        "<A-c>",
-        function()
-          require("neocodeium").clear()
-        end,
-        mode = { "i" },
-        desc = "Clear suggestions",
+      color = {
+        suggestion_color = "#6396BD",
+        cterm = 244,
       },
     },
   },
+  -- {
+  --   "monkoose/neocodeium",
+  --   event = "VeryLazy",
+  --   opts = {},
+  --   keys = {
+  --     {
+  --       "<A-f>",
+  --       function()
+  --         require("neocodeium").accept()
+  --       end,
+  --       mode = { "i" },
+  --       desc = "Accept codeium suggestion",
+  --     },
+  --     {
+  --       "<A-w>",
+  --       function()
+  --         require("neocodeium").accept_word()
+  --       end,
+  --       mode = { "i" },
+  --       desc = "Accept next word from suggestion",
+  --     },
+  --     {
+  --       "<A-l>",
+  --       function()
+  --         require("neocodeium").accept_line()
+  --       end,
+  --       mode = { "i" },
+  --       desc = "Accept line from suggestion",
+  --     },
+  --     {
+  --       "<A-e>",
+  --       function()
+  --         require("neocodeium").cycle_or_complete()
+  --       end,
+  --       mode = { "i" },
+  --       desc = "Cycle or complete forwad",
+  --     },
+  --     {
+  --       "<A-r>",
+  --       function()
+  --         require("necodeium").cycle_or_complete(-1)
+  --       end,
+  --       mode = { "i" },
+  --       desc = "Cycle or complete backwards",
+  --     },
+  --     {
+  --       "<A-c>",
+  --       function()
+  --         require("neocodeium").clear()
+  --       end,
+  --       mode = { "i" },
+  --       desc = "Clear suggestions",
+  --     },
+  --   },
+  -- },
 }
