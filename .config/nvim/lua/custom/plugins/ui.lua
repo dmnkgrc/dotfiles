@@ -200,4 +200,9 @@ return {
   { 'nvim-tree/nvim-web-devicons', lazy = true },
   -- ui components
   { 'MunifTanjim/nui.nvim', lazy = true },
+  { 'NvChad/nvim-colorizer.lua', opts = {
+    user_default_options = {
+      tailwind = 'both',
+    },
+  } },
 }
