@@ -69,115 +69,6 @@ return {
     },
   },
 
-  -- Fuzzy finder.
-  -- The default key bindings to find files will use Telescope's
-  -- `find_files` or `git_files` depending on whether the
-  -- directory is a git repo.
-  {
-    'nvim-telescope/telescope.nvim',
-    cmd = 'Telescope',
-    version = false, -- telescope did only one release, so use HEAD for now
-    dependencies = {
-      {
-        'jvgrootveld/telescope-zoxide',
-      },
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-      },
-      {
-        'debugloop/telescope-undo.nvim',
-      },
-      {
-        'ThePrimeagen/git-worktree.nvim',
-      },
-      {
-        'piersolenski/telescope-import.nvim',
-      },
-    },
-    keys = {
-      { '<space><space>', '<cmd>Telescope find_files hidden=true<cr>', desc = 'Find File' },
-      { '<space>fu', '<cmd>Telescope undo<cr>', desc = 'Toggle UndoTree' },
-      { '<leader>sz', '<cmd>Telescope zoxide list<cr>', desc = 'Zoxide' },
-      -- worktrees
-      {
-        '<leader>sw',
-        "<cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>",
-        desc = 'List Git Worktrees',
-      },
-      {
-        '<leader>sW',
-        "<cmd>lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>",
-        desc = 'Create Git Worktree',
-      },
-      {
-        '<leader>si',
-        '<cmd>Telescope import<cr>',
-        desc = 'Import',
-      },
-      {
-        '<leader>,',
-        '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>',
-        desc = 'Switch Buffer',
-      },
-      { '<leader>/', '<cmd>Telescope live_grep<cr>', desc = 'Grep (Root Dir)' },
-      { '<leader>:', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
-      -- find
-      { '<leader>fb', '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>', desc = 'Buffers' },
-      { '<space>f', '<cmd>Telescope find_files hidden=true<cr>', desc = 'Find Files (Root Dir)' },
-      { '<space>f', '<cmd>Telescope find_files hidden=true cwd=false<cr>', desc = 'Find Files (cwd)' },
-      { '<leader>fg', '<cmd>Telescope git_files<cr>', desc = 'Find Files (git-files)' },
-      { '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent' },
-      -- git
-      { '<leader>gc', '<cmd>Telescope git_commits<CR>', desc = 'Commits' },
-      { '<leader>gs', '<cmd>Telescope git_status<CR>', desc = 'Status' },
-      -- search
-      { '<leader>s"', '<cmd>Telescope registers<cr>', desc = 'Registers' },
-      { '<leader>sa', '<cmd>Telescope autocommands<cr>', desc = 'Auto Commands' },
-      { '<leader>sb', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Buffer' },
-      { '<leader>sc', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
-      { '<leader>sC', '<cmd>Telescope commands<cr>', desc = 'Commands' },
-      { '<leader>sd', '<cmd>Telescope diagnostics bufnr=0<cr>', desc = 'Document Diagnostics' },
-      { '<leader>sD', '<cmd>Telescope diagnostics<cr>', desc = 'Workspace Diagnostics' },
-      { '<leader>sg', '<cmd>Telescope live_grep hidden=true<cr>', desc = 'Grep (Root Dir)' },
-      { '<leader>sG', '<cmd>Telescope live_grep cwd=false hidden=true<cr>', desc = 'Grep (cwd)' },
-      { '<leader>sh', '<cmd>Telescope help_tags<cr>', desc = 'Help Pages' },
-      { '<leader>sH', '<cmd>Telescope highlights<cr>', desc = 'Search Highlight Groups' },
-      { '<leader>sk', '<cmd>Telescope keymaps<cr>', desc = 'Key Maps' },
-      { '<leader>sM', '<cmd>Telescope man_pages<cr>', desc = 'Man Pages' },
-      { '<leader>sm', '<cmd>Telescope marks<cr>', desc = 'Jump to Mark' },
-      { '<leader>so', '<cmd>Telescope vim_options<cr>', desc = 'Options' },
-      { '<leader>sR', '<cmd>Telescope resume<cr>', desc = 'Resume' },
-      { '<leader>uC', '<cmd>lua require("telecope.builtin").colorscheme({ enable_preview = true })<cr>', desc = 'Colorscheme with Preview' },
-      {
-        '<leader>ss',
-        function()
-          require('telescope.builtin').lsp_document_symbols {
-            symbols = require('lazyvim.config').get_kind_filter(),
-          }
-        end,
-        desc = 'Goto Symbol',
-      },
-      {
-        '<leader>sS',
-        function()
-          require('telescope.builtin').lsp_dynamic_workspace_symbols {
-            symbols = require('lazyvim.config').get_kind_filter(),
-          }
-        end,
-        desc = 'Goto Symbol (Workspace)',
-      },
-    },
-    opts = {
-      extensions = {
-        undo = {},
-        import = {
-          insert_at_top = true,
-        },
-      },
-    },
-  },
-
   -- Flash enhances the built-in search functionality by showing labels
   -- at the end of each match, letting you quickly jump to a specific
   -- location.
@@ -185,46 +76,42 @@ return {
     'folke/flash.nvim',
     event = 'VeryLazy',
     vscode = true,
-    ---@type Flash.Config
     opts = {},
-    -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      {
+        's',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Flash',
+      },
+      {
+        'S',
+        mode = { 'n', 'o', 'x' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = 'Flash Treesitter',
+      },
+      {
+        'r',
+        mode = 'o',
+        function()
+          require('flash').remote()
+        end,
+        desc = 'Remote Flash',
+      },
+      {
+        'R',
+        mode = { 'o', 'x' },
+        function()
+          require('flash').treesitter_search()
+        end,
+        desc = 'Treesitter Search',
+      },
     },
   },
-
-  -- Flash Telescope config
-  -- {
-  --   'nvim-telescope/telescope.nvim',
-  --   optional = true,
-  --   opts = function(_, opts)
-  --     local function flash(prompt_bufnr)
-  --       require('flash').jump {
-  --         pattern = '^',
-  --         label = { after = { 0, 0 } },
-  --         search = {
-  --           mode = 'search',
-  --           exclude = {
-  --             function(win)
-  --               return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= 'TelescopeResults'
-  --             end,
-  --           },
-  --         },
-  --         action = function(match)
-  --           local picker = require('telescope.actions.state').get_current_picker(prompt_bufnr)
-  --           picker:set_selection(match.pos[1] - 1)
-  --         end,
-  --       }
-  --     end
-  --     opts.defaults = vim.tbl_deep_extend('force', opts.defaults or {}, {
-  --       mappings = { n = { s = flash }, i = { ['<c-s>'] = flash } },
-  --     })
-  --   end,
-  -- },
 
   -- which-key helps you remember key bindings by showing a popup
   -- with the active keybindings of the command you started typing.
@@ -411,7 +298,7 @@ return {
   -- in your project and loads them into a browsable list.
   {
     'folke/todo-comments.nvim',
-    cmd = { 'TodoTrouble', 'TodoTelescope' },
+    cmd = { 'TodoTrouble' },
     config = true,
     -- stylua: ignore
     keys = {
@@ -419,8 +306,6 @@ return {
       { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous Todo Comment" },
       { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
       { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-      { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-      { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
   },
   {
