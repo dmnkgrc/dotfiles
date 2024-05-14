@@ -44,9 +44,16 @@ return {
       {
         '<leader>e',
         function()
-          require('mini.files').open()
+          require('mini.files').open(vim.api.nvim_buf_get_name(0))
         end,
         desc = 'Toggle MiniFiles',
+      },
+      {
+        '<leader>E',
+        function()
+          require('mini.files').open()
+        end,
+        desc = 'Toggle MiniFiles (Root Dir)',
       },
     },
   },
@@ -117,8 +124,8 @@ return {
       { '<leader>:', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
       -- find
       { '<leader>fb', '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>', desc = 'Buffers' },
-      { '<space>f>', '<cmd>Telescope find_files hidden=true<cr>', desc = 'Find Files (Root Dir)' },
-      { '<space>f>', '<cmd>Telescope find_files hidden=true cwd=false<cr>', desc = 'Find Files (cwd)' },
+      { '<space>f', '<cmd>Telescope find_files hidden=true<cr>', desc = 'Find Files (Root Dir)' },
+      { '<space>f', '<cmd>Telescope find_files hidden=true cwd=false<cr>', desc = 'Find Files (cwd)' },
       { '<leader>fg', '<cmd>Telescope git_files<cr>', desc = 'Find Files (git-files)' },
       { '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent' },
       -- git
@@ -132,8 +139,8 @@ return {
       { '<leader>sC', '<cmd>Telescope commands<cr>', desc = 'Commands' },
       { '<leader>sd', '<cmd>Telescope diagnostics bufnr=0<cr>', desc = 'Document Diagnostics' },
       { '<leader>sD', '<cmd>Telescope diagnostics<cr>', desc = 'Workspace Diagnostics' },
-      { '<leader>sg', '<cmd>Telescope live_grep<cr>', desc = 'Grep (Root Dir)' },
-      { '<leader>sG', '<cmd>Telescope live_grep cwd=false<cr>', desc = 'Grep (cwd)' },
+      { '<leader>sg', '<cmd>Telescope live_grep hidden=true<cr>', desc = 'Grep (Root Dir)' },
+      { '<leader>sG', '<cmd>Telescope live_grep cwd=false hidden=true<cr>', desc = 'Grep (cwd)' },
       { '<leader>sh', '<cmd>Telescope help_tags<cr>', desc = 'Help Pages' },
       { '<leader>sH', '<cmd>Telescope highlights<cr>', desc = 'Search Highlight Groups' },
       { '<leader>sk', '<cmd>Telescope keymaps<cr>', desc = 'Key Maps' },
@@ -141,8 +148,6 @@ return {
       { '<leader>sm', '<cmd>Telescope marks<cr>', desc = 'Jump to Mark' },
       { '<leader>so', '<cmd>Telescope vim_options<cr>', desc = 'Options' },
       { '<leader>sR', '<cmd>Telescope resume<cr>', desc = 'Resume' },
-      { '<leader>sw', '<cmd>lua require("telescope.builtin").live_grep({ word_match = "-w" })', mode = 'v', desc = 'Word (Root Dir)' },
-      { '<leader>sW', '<cmd>lua require("telescope.builtin").live_grep({ word_match = "-w", cwd = false })', mode = 'v', desc = 'Word (cwd)' },
       { '<leader>uC', '<cmd>lua require("telecope.builtin").colorscheme({ enable_preview = true })<cr>', desc = 'Colorscheme with Preview' },
       {
         '<leader>ss',
@@ -243,7 +248,7 @@ return {
         ['<leader>gh'] = { name = '+hunks' },
         ['<leader>q'] = { name = '+quit/session' },
         ['<leader>s'] = { name = '+search' },
-	["<leader>t"] = { name = "+test" },
+        ['<leader>t'] = { name = '+test' },
         ['<leader>u'] = { name = '+ui' },
         ['<leader>w'] = { name = '+windows' },
         ['<leader>x'] = { name = '+diagnostics/quickfix' },
