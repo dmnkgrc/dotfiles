@@ -165,7 +165,12 @@ return {
       {
         '<space>sH',
         function()
-          require('fzf-lua').highlights()
+          local actions = require 'fzf-lua.actions'
+          require('fzf-lua').highlights {
+            actions = {
+              ['alt-q'] = actions.buf_sel_to_qf,
+            },
+          }
         end,
         desc = 'Highlight Groups',
       },
