@@ -76,18 +76,7 @@ return {
   -- Show context of the current function
   {
     'nvim-treesitter/nvim-treesitter-context',
-    enabled = true,
     opts = { mode = 'cursor', max_lines = 3 },
-    keys = {
-      {
-        '<leader>ut',
-        function()
-          local tsc = require 'treesitter-context'
-          tsc.toggle()
-        end,
-        desc = 'Toggle Treesitter Context',
-      },
-    },
   },
 
   -- Automatically add closing tags for HTML and JSX
