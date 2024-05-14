@@ -244,6 +244,7 @@ return {
         end,
         desc = 'Imports',
       },
+      -- woktrees
       {
         '<leader>sw',
         function()
@@ -326,6 +327,21 @@ return {
           }
         end,
         desc = 'List Git Worktrees',
+      },
+      -- todo comments
+      {
+        '<leader>st',
+        function()
+          require('fzf-lua').grep { search = 'TODO', no_esc = true }
+        end,
+        desc = 'Search Todo',
+      },
+      {
+        '<leader>sT',
+        function()
+          require('fzf-lua').grep { search = 'TODO|HACK|PERF|NOTE|FIX', no_esc = true }
+        end,
+        desc = 'Search Todo/Fix/Fixme/Hach/Note/Perf',
       },
     },
   },
