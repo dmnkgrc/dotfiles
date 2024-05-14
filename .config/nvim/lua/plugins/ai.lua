@@ -1,40 +1,24 @@
 return {
   {
-    enabled = false,
-    "jackMort/ChatGPT.nvim",
-    event = "VeryLazy",
+    'robitx/gp.nvim',
     opts = {},
     keys = {
-      { "<leader>ao", "<cmd>ChatGPT<CR>", desc = "Run ChatGPT" },
-      { "leader>ae", "<cmd>ChatGPTEditWithInstruction<CR>", mode = { "n", "v" }, desc = "Edit with instruction" },
-    },
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "folke/trouble.nvim",
-      "nvim-telescope/telescope.nvim",
+      { '<leader>ao', '<cmd>GpChatNew vsplit<CR>', mode = { 'n', 'v' }, desc = 'Run ChatGPT' },
+      { '<leader>ad', '<cmd>GpChatDelete<CR>', desc = 'Delete last chat' },
+      { '<leader>ap', '<cmd>GpChatPaste<CR>', mode = { 'n', 'v' }, desc = 'Paste into last chat' },
+      { '<leader>ar', '<cmd>GpRewrite<CR>', mode = { 'n', 'v' }, desc = 'Rewrite using ChatGPT' },
     },
   },
   {
-    "robitx/gp.nvim",
-    opts = {},
-    keys = {
-      { "<leader>ao", "<cmd>GpChatNew vsplit<CR>", mode = { "n", "v" }, desc = "Run ChatGPT" },
-      { "<leader>ad", "<cmd>GpChatDelete<CR>", desc = "Delete last chat" },
-      { "<leader>ap", "<cmd>GpChatPaste<CR>", mode = { "n", "v" }, desc = "Paste into last chat" },
-      { "<leader>ar", "<cmd>GpRewrite<CR>", mode = { "n", "v" }, desc = "Rewrite using ChatGPT" },
-    },
-  },
-  {
-    "Hashiraee/supermaven-nvim",
-    branch = "multiline-issue",
+    'Hashiraee/supermaven-nvim',
+    branch = 'multiline-issue',
     opts = {
       keymaps = {
-        accept_suggestion = "<A-f>",
-        clear_suggestion = "<A-c>",
+        accept_suggestion = '<A-f>',
+        clear_suggestion = '<A-c>',
       },
       color = {
-        suggestion_color = "#6396BD",
+        suggestion_color = '#6396BD',
         cterm = 244,
       },
     },

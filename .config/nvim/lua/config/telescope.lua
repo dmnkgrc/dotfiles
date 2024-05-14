@@ -1,5 +1,0 @@
-  require('telescope').load_extension 'zoxide'
-  require('telescope').load_extension 'fzf'
-  require('telescope').load_extension 'undo'
-  require('telescope').load_extension 'git_worktree'
-  require('telescope').load_extension 'import'
