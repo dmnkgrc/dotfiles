@@ -47,6 +47,7 @@ return {
   -- statusline
   {
     'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
       'meuter/lualine-so-fancy.nvim',
@@ -200,7 +201,7 @@ return {
   { 'nvim-tree/nvim-web-devicons', lazy = true },
   -- ui components
   { 'MunifTanjim/nui.nvim', lazy = true },
-  { 'NvChad/nvim-colorizer.lua', opts = {
+  { 'NvChad/nvim-colorizer.lua', event = 'VeryLazy', opts = {
     user_default_options = {
       tailwind = 'both',
     },

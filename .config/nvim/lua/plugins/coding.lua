@@ -260,8 +260,14 @@ return {
   },
   {
     'smjonas/inc-rename.nvim',
-    cmd = 'IncRename',
     config = true,
+    keys = {
+      {
+        '<leader>rn',
+        '<cmd>IncRename<cr>',
+        desc = 'Rename',
+      },
+    },
   },
   {
     'altermo/ultimate-autopair.nvim',
@@ -276,6 +282,7 @@ return {
   },
   {
     'otavioschwanck/arrow.nvim',
+    event = 'VeryLazy',
     opts = {
       show_icons = true,
       leader_key = ';',
