@@ -23,7 +23,19 @@ return {
     -- optional for icon support
     dependencies = { 'nvim-tree/nvim-web-devicons', 'ThePrimeagen/git-worktree.nvim' },
     opts = {
+      winopts = {
+        border = false,
+      },
       commands = { sort_lastused = true },
+      keymap = {
+
+        builtin = {
+          ['<C-?>'] = 'toggle-help',
+        },
+        fzf = {
+          ['ctrl-q'] = 'select-all+accept',
+        },
+      },
     },
     keys = {
       {

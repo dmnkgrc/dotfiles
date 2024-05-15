@@ -11,6 +11,7 @@ return {
   },
   {
     'Hashiraee/supermaven-nvim',
+    event = 'VeryLazy',
     branch = 'multiline-issue',
     opts = {
       keymaps = {
