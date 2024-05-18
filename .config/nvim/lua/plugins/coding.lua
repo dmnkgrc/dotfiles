@@ -157,17 +157,6 @@ return {
       enable_autocmd = false,
     },
   },
-  {
-    'echasnovski/mini.comment',
-    event = 'VeryLazy',
-    opts = {
-      options = {
-        custom_commentstring = function()
-          return require('ts_context_commentstring.internal').calculate_commentstring() or vim.bo.commentstring
-        end,
-      },
-    },
-  },
 
   -- Better text-objects
   {
@@ -185,10 +174,8 @@ return {
       local ai = require 'mini.ai'
       return {
         custom_textobjects = {
-          B = MiniExtra.gen_ai_spec.buffer(),
           b = MiniExtra.gen_ai_spec.buffer(),
           F = ai.gen_spec.treesitter { a = '@function.outer', i = '@function.inner' },
-          f = ai.gen_spec.treesitter { a = '@function.outer', i = '@function.inner' },
         },
       }
     end,

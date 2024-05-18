@@ -10,17 +10,16 @@ return {
     },
   },
   {
-    'Hashiraee/supermaven-nvim',
+    'supermaven-inc/supermaven-nvim',
     event = 'VeryLazy',
-    branch = 'multiline-issue',
     opts = {
       keymaps = {
         accept_suggestion = '<A-f>',
         clear_suggestion = '<A-c>',
+        accept_word = '<A-w>',
       },
       color = {
-        suggestion_color = '#6396BD',
-        cterm = 244,
+        suggestion_color = '#a4a6c9',
       },
     },
   },

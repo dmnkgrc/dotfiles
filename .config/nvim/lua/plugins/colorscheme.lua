@@ -21,10 +21,17 @@ return {
       local Group = colorbuddy.Group
       require('oldworld').setup()
       vim.cmd.colorscheme 'oldworld'
-      Color.new('lavender', p.lavender)
+      -- Add all the colors from the palette to colorbuddy
+      for k, v in pairs(p) do
+        Color.new(k, v)
+      end
 
       Group.new('MiniJump2dSpot', colors.gray1, colors.lavender, styles.bold)
       Group.new('FzfLuaBorder', colors.bg)
+      Group.new('MiniStarterHeader', colors.blue, colors.bg)
+      Group.new('MiniStarterFooter', colors.blue, colors.bg)
+      Group.new('MiniStarterSection', colors.magenta, colors.bg, styles.bold)
+      Group.new('MiniStarterQuery', colors.red, colors.bg, styles.bold)
     end,
   },
   {
