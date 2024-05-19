@@ -84,4 +84,11 @@ return {
     'windwp/nvim-ts-autotag',
     opts = {},
   },
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+  },
 }
