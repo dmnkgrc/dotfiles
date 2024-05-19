@@ -11,6 +11,24 @@ return {
           history = true,
           delete_check_events = 'TextChanged',
         },
+        keys = {
+          {
+            '<C-j>',
+            function()
+              require('luasnip').jump(1)
+            end,
+            mode = { 'i', 's' },
+            desc = 'LuaSnip jump',
+          },
+          {
+            '<C-k>',
+            function()
+              require('luasnip').jump(-1)
+            end,
+            mode = { 'i', 's' },
+            desc = 'LuaSnip jump back',
+          },
+        },
         dependencies = {
           {
             'rafamadriz/friendly-snippets',
