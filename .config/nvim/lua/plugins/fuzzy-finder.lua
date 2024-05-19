@@ -208,7 +208,7 @@ return {
         desc = 'Marks',
       },
       {
-        '<space>sr',
+        '<space>sR',
         function()
           require('fzf-lua').resume()
         end,

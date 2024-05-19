@@ -25,13 +25,49 @@ return {
       for k, v in pairs(p) do
         Color.new(k, v)
       end
-
+      -- bg = "#161617",
+      --    fg = "#c9c7cd",
+      --    subtext1 = "#b4b1ba",
+      --    subtext2 = "#9f9ca6",
+      --    subtext3 = "#8b8693",
+      --    subtext4 = "#6c6874",
+      --    bg_dark = "#131314",
+      --    black = "#27272a",
+      --    red = "#ea83a5",
+      --    green = "#90b99f",
+      --    yellow = "#e6b99d",
+      --    purple = "#aca1cf",
+      --    magenta = "#e29eca",
+      --    orange = "#f5a191",
+      --    blue = "#92a2d5",
+      --    lavender = "#a4a6c9",
+      --    cyan = "#85b5ba",
+      --    bright_black = "#353539",
+      --    bright_red = "#f591b2",
+      --    bright_green = "#9dc6ac",
+      --    bright_yellow = "#f0c5a9",
+      --    bright_purple = "#b9aeda",
+      --    bright_magenta = "#ecaad6",
+      --    bright_orange = "#ffae9f",
+      --    bright_blue = "#a6b6e9",
+      --    bright_cyan = "#99c9ce",
+      --    gray0 = "#18181a",
+      --    gray1 = "#1b1b1c",
+      --    gray2 = "#2a2a2c",
+      --    gray3 = "#313134",
+      --    gray4 = "#3b3b3e",
+      --    -- Special
+      --    none = "NONE",
       Group.new('MiniJump2dSpot', colors.gray1, colors.lavender, styles.bold)
       Group.new('FzfLuaBorder', colors.bg)
       Group.new('MiniStarterHeader', colors.blue, colors.bg)
       Group.new('MiniStarterFooter', colors.blue, colors.bg)
       Group.new('MiniStarterSection', colors.magenta, colors.bg, styles.bold)
       Group.new('MiniStarterQuery', colors.red, colors.bg, styles.bold)
+      Group.new('FlashLabel', colors.red)
+      Group.new('FlashBackdrop', colors.gray4)
+      Group.new('FlashCursor', colors.subtext2)
+      Group.new('FlashCurrent', colors.orange)
     end,
   },
   {
