@@ -33,8 +33,8 @@ return {
       starter.setup {
         header = coffee,
         items = {
-          starter.sections.recent_files(10, true),
           { name = 'Load last session', action = 'lua require("persistence").load()', section = 'Session' },
+          starter.sections.recent_files(10, true),
         },
         content_hooks = {
           starter.gen_hook.adding_bullet ' ',
