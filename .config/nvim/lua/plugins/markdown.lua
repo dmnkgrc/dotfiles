@@ -1,10 +1,5 @@
 return {
   {
-    'dmmulroy/tsc.nvim',
-    cmd = 'TSC',
-    config = true,
-  },
-  {
     'toppair/peek.nvim',
     build = 'deno task --quiet build:fast',
     keys = {
@@ -20,16 +15,6 @@ return {
         end,
         desc = 'Peek (Markdown Preview)',
       },
-    },
-  },
-  {
-    'MaximilianLloyd/tw-values.nvim',
-    keys = {
-      { '<leader>sv', '<cmd>TWValues<cr>', desc = 'Show tailwind CSS values' },
-    },
-    opts = {
-      border = 'rounded', -- Valid window border style,
-      show_unknown_classes = true, -- Shows the unknown classes popup
     },
   },
 }
