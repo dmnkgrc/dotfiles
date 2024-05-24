@@ -9,9 +9,39 @@ return {
     end,
   },
   {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    priority = 1000,
+    lazy = false,
+    config = function()
+      require('rose-pine').setup {
+        variant = 'moon', -- auto, main, moon, or dawn
+        dark_variant = 'moon', -- main, moon, or dawn
+        extend_background_behind_borders = true,
+
+        enable = {
+          terminal = true,
+          legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+          migrations = true, -- Handle deprecated options automatically
+        },
+
+        highlight_groups = {
+          CmpItemKindSupermaven = { fg = 'iris' },
+          MiniStarterSection = { fg = 'iris', bold = true },
+          MiniStarterHeader = { fg = 'gold' },
+          MiniStarterFooter = { fg = 'rose' },
+          -- Comment = { fg = "foam" },
+          -- VertSplit = { fg = "muted", bg = "muted" },
+        },
+      }
+      vim.cmd 'colorscheme rose-pine'
+    end,
+  },
+  {
     'dgox16/oldworld.nvim',
     lazy = false,
     priority = 1000,
+    enabled = false,
     config = function()
       local p = require 'oldworld.palette'
       local colorbuddy = require 'colorbuddy'
@@ -68,6 +98,7 @@ return {
       Group.new('FlashBackdrop', colors.gray4)
       Group.new('FlashCursor', colors.subtext2)
       Group.new('FlashCurrent', colors.orange)
+      Group.new('CmpItemKindSupermaven', colors.purple)
     end,
   },
   {
