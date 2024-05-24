@@ -4,8 +4,8 @@ return {
     config = true,
     keys = {
       {
-        '<leader>rn',
-        '<cmd>IncRename<cr>',
+        '<leader>cr',
+        ':IncRename ',
         desc = 'Rename',
       },
     },
