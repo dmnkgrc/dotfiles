@@ -17,7 +17,7 @@ local config = {
 
 	status_update_interval = 1000,
 	font = wezterm.font("MonoLisa"),
-	font_size = 15,
+	font_size = 13,
 }
 
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }

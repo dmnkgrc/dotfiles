@@ -61,38 +61,3 @@ status --is-interactive; and rbenv init - fish | source
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-# Start flavours
-# Base16 Gruvbox Material Dark, Medium
-# Scheme author: Mayush Kumar (https://github.com/MayushKumar), sainnhe (https://github.com/sainnhe/gruvbox-material-vscode)
-# Template author: Tinted Theming (https://github.com/tinted-theming)
-
-set -l color00 '#27272a'
-set -l color01 '#ea83a5'
-set -l color02 '#90b99f'
-set -l color03 '#e6b99d'
-set -l color04 '#92a2d5'
-set -l color05 '#aca1cf'
-set -l color06 '#85b5ba'
-set -l color07 '#c9c7cd'
-set -l color08 '#353539'
-set -l color09 '#f591b2'
-set -l color0A '#9dc6ac'
-set -l color0B '#f0c5a9'
-set -l color0C '#a6b6e9'
-set -l color0D '#b9aeda'
-set -l color0E '#99c9ce'
-set -l color0F '#c9c7cd'
-
-set -l FZF_NON_COLOR_OPTS
-
-for arg in (echo $FZF_DEFAULT_OPTS | tr " " "\n")
-    if not string match -q -- "--color*" $arg
-        set -a FZF_NON_COLOR_OPTS $arg
-    end
-end
-
-set -Ux FZF_DEFAULT_OPTS "$FZF_NON_COLOR_OPTS"\
-" --color=bg+:$color08,bg:$color00,spinner:$color0C,hl:$color0D"\
-" --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C"\
-" --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
-# End flavours
