@@ -16,27 +16,16 @@ local config = {
 	enable_scroll_bar = true,
 
 	status_update_interval = 1000,
-	font = wezterm.font("MonoLisa"),
-	font_size = 13,
+	font = wezterm.font("Berkeley Mono"),
+	-- font = wezterm.font("MonoLisa"),
+	font_size = 15,
 }
 
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = require("keybinds")
 
--- for _, value in ipairs(require("plugins.smart-splits").keys) do
--- 	table.insert(config.keys, value)
--- end
-
--- local function mergeTables(t1, t2)
--- 	for key, value in pairs(t2) do
--- 		t1[key] = value
--- 	end
--- end
-
 config.color_scheme = "rose-pine-moon"
--- local colors = require("colors")
--- mergeTables(config, colors)
 
 wezterm.on("gui-startup", function(cmd)
 	local _, _, window = mux.spawn_window(cmd or {})

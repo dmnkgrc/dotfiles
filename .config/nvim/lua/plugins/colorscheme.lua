@@ -117,9 +117,10 @@ return {
     --
     --   require('noirbuddy').setup {
     --     colors = {
-    --       background = '#1E1E1E',
-    --       primary = '#967bb6',
-    --       secondary = '#CACCCA',
+    --       background = '#0f0f0f',
+    --
+    --       primary = '#a7a7a7',
+    --       secondary = '#ffffff',
     --       colors = {
     --         noir_0 = '#ffffff', -- `noir_0` is light for dark themes, and dark for light themes
     --         noir_1 = '#f5f5f5',
@@ -131,34 +132,40 @@ return {
     --         noir_7 = '#535353',
     --         noir_8 = '#323232',
     --         noir_9 = '#212121', -- `noir_9` is dark for dark themes, and light for light themes
-    --         diagnostic_error = '#D16969',
+    --         diagnostic_error = '#FF304F',
     --         diagnostic_warning = '#D7BA7D',
     --         diagnostic_info = '#bdacd1',
     --         diagnostic_hint = '#969696',
     --         diff_add = '#69AD7A',
     --         diff_change = '#D7BA7D',
-    --         diff_delete = '#D16969',
+    --         diff_delete = '#FF304F',
     --       },
     --     },
     --   }
-    --   Color.new('accent', '#9bb67b')
-    --   Color.new('green', '#9bb67b')
-    --   Color.new('string', '#bdacd1')
-    --   Group.new('FlashLabel', colors.string)
+    --   Color.new('lavender', '#775ADA')
+    --   Color.new('blue', '#28C7FA')
+    --   Group.new('CmpItemKindSupermaven', colors.lavender)
+    --   Group.new('MiniStarterSection', colors.diagnostic_error)
+    --   Group.new('MiniStarterFooter', colors.blue)
+    --   Group.new('MiniStarterHeader', colors.lavender)
+    --   Group.new('FlashLabel', colors.blue)
     --   Group.new('FlashBackdrop', colors.noir_7)
-    --   Group.new('FlashCursor', colors.secondary)
-    --   Group.new('NoiceCursor', colors.primary)
+    --   Group.new('FlashCursor', colors.lavender)
+    --   Group.new('FlashCurrent', colors.diagnostic_error)
+    --   Group.new('FlashMatch', colors.lavender)
+    --   Group.new('NoiceCursor', colors.lavender)
     --   Group.new('Identifier', colors.secondary)
     --   Group.new('@identifier', colors.secondary)
-    --   Group.new('@lsp.type.function', colors.accent)
-    --   Group.new('@lsp.type.method', colors.accent)
-    --   Group.new('Function', colors.accent)
-    --   Group.new('@function', colors.accent)
-    --   Group.new('@function.builtin', colors.accent)
-    --   Group.new('@function.call', colors.accent)
-    --   Group.new('@constructor', colors.accent)
-    --   Group.new('@comment', colors.accent)
-    --   Group.new('@string', colors.string)
+    --   Group.new('@lsp.type.function', colors.secondary)
+    --   Group.new('@lsp.type.method', colors.secondary)
+    --   Group.new('Function', colors.secondary)
+    --   Group.new('@function', colors.secondary)
+    --   Group.new('@function.builtin', colors.secondary)
+    --   Group.new('@function.call', colors.secondary)
+    --   Group.new('@constructor', colors.secondary)
+    --   Group.new('@comment', colors.primary)
+    --   Group.new('@string', colors.primary)
+    --   Group.new('Cursor', colors.background, colors.lavender)
     -- end,
   },
 }
