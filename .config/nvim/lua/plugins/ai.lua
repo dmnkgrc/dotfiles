@@ -18,9 +18,9 @@ return {
         clear_suggestion = '<A-c>',
         accept_word = '<A-w>',
       },
-      disable_inline_completion = true,
+      -- disable_inline_completion = true,
       color = {
-        suggestion_color = '#a4a6c9',
+        suggestion_color = '#c4a7e7',
       },
     },
   },

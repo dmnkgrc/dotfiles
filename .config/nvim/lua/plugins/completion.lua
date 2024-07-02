@@ -60,7 +60,7 @@ return {
           ['<CR>'] = cmp.mapping.confirm { select = true },
         },
         sources = cmp.config.sources {
-          { name = 'supermaven' },
+          -- { name = 'supermaven' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -73,7 +73,7 @@ return {
         },
         formatting = {
           format = require('lspkind').cmp_format {
-            symbol_map = { Supermaven = "" },
+            -- symbol_map = { Supermaven = "" },
             before = require('tailwind-tools.cmp').lspkind_format,
           },
         },

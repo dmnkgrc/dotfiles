@@ -5,9 +5,4 @@ return {
     dependencies = { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' },
     opts = {},
   },
-  {
-    'tris203/precognition.nvim',
-    event = 'BufEnter',
-    opts = {},
-  },
 }
