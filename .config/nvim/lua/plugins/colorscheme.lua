@@ -30,6 +30,8 @@ return {
           MiniStarterSection = { fg = 'iris', bold = true },
           MiniStarterHeader = { fg = 'gold' },
           MiniStarterFooter = { fg = 'rose' },
+          HopNextKey1 = { fg = 'iris', bg = 'surface' },
+          HopNextKey2 = { fg = 'foam', bg = 'base' },
           -- Comment = { fg = "foam" },
           -- VertSplit = { fg = "muted", bg = "muted" },
         },
