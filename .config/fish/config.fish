@@ -26,12 +26,9 @@ set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
 set -x RUST_BACKTRACE full
 set -x RUST_MIN_STACK 16777216
 set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
-set -x SRC_ACCESS_TOKEN sgp_0fca7b77df0062eba238b680cd623f83c7f0b7f4
-set -x SRC_ENDPOINT "https://sourcegraph.com"
 set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
 set -x NO_FLIPPER 1
 set -x GITHUB_PACKAGES_TOKEN (op read "op://Private/GitHub Personal Access Token/token")
-set -x OPENAI_API_KEY (op read "op://Private/OpenAI/credential")
 set -x BAT_THEME kanagawa
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
