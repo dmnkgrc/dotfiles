@@ -29,6 +29,7 @@ set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
 set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
 set -x NO_FLIPPER 1
 set -x GITHUB_PACKAGES_TOKEN (op read "op://Private/GitHub Personal Access Token/token")
+set -x ANTHROPIC_API_KEY (op read "op://Employee/Anthropic/token")
 set -x BAT_THEME kanagawa
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
@@ -58,3 +59,11 @@ status --is-interactive; and rbenv init - fish | source
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+set -Ux PYENV_ROOT $HOME/.pyenv
+set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
+
+# Load pyenv automatically by appending
+# the following to ~/.config/fish/config.fish:
+
+pyenv init - | source

@@ -1,2 +1,7 @@
 # I don't want to commit my sessions
 Session.vim
+.config/wezterm/colors/Dracula-Pro-Buffy.toml
+.config/zed/conversations
+.config/zed/embeddings
+.config/zed/prompts/prompts-library-db.0.mdb
+.config/zed/.tmp*
