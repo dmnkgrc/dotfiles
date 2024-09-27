@@ -9,6 +9,10 @@ return {
   --   end,
   -- },
   {
+    'dracula/vim',
+    name = 'dracula',
+  },
+  {
     'rose-pine/neovim',
     name = 'rose-pine',
     priority = 1000,
@@ -36,7 +40,7 @@ return {
           -- VertSplit = { fg = "muted", bg = "muted" },
         },
       }
-      vim.cmd 'colorscheme rose-pine'
+      -- vim.cmd 'colorscheme rose-pine'
     end,
   },
   -- {

@@ -16,8 +16,8 @@ local config = {
 	enable_scroll_bar = true,
 
 	status_update_interval = 1000,
-	font = wezterm.font("Berkeley Mono"),
-	-- font = wezterm.font("MonoLisa"),
+	-- font = wezterm.font("Berkeley Mono"),
+	font = wezterm.font("MonoLisa"),
 	font_size = 15,
 }
 
@@ -25,7 +25,7 @@ config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = require("keybinds")
 
-config.color_scheme = "rose-pine-moon"
+config.color_scheme = "Dracula-Pro-Buffy"
 
 wezterm.on("gui-startup", function(cmd)
 	local _, _, window = mux.spawn_window(cmd or {})
