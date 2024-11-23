@@ -1,17 +1,25 @@
 return {
-  -- {
-  --   'rebelot/kanagawa.nvim',
-  --   priority = 1000,
-  --   lazy = false,
-  --   config = function()
-  --     require('kanagawa').setup()
-  --     -- vim.cmd.colorscheme("kanagawa")
-  --   end,
-  -- },
   {
-    'dracula/vim',
-    name = 'dracula',
+    'rebelot/kanagawa.nvim',
+    priority = 1000,
+    lazy = false,
+    config = function()
+      require('kanagawa').setup {
+        transparent = true,
+        overrides = function(colors)
+          return {
+            CopilotSuggestion = { fg = colors.palette.crystalBlue },
+          }
+        end,
+      }
+      vim.cmd.colorscheme 'kanagawa'
+    end,
   },
+  -- {
+  -- {
+  --   'dracula/vim',
+  --   name = 'dracula',
+  -- },
   {
     'rose-pine/neovim',
     name = 'rose-pine',

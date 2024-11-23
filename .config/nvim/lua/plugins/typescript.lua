@@ -2,7 +2,9 @@ return {
   {
     'dmmulroy/tsc.nvim',
     cmd = 'TSC',
-    config = true,
+    opts = {
+      run_as_monorepo = true,
+    },
   },
   {
     'pmizio/typescript-tools.nvim',

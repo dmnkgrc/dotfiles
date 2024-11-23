@@ -25,7 +25,8 @@ config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = require("keybinds")
 
-config.color_scheme = "Dracula-Pro-Buffy"
+-- config.color_scheme = "Dracula-Pro-Buffy"
+config.color_scheme = "Kanagawa (Gogh)"
 
 wezterm.on("gui-startup", function(cmd)
 	local _, _, window = mux.spawn_window(cmd or {})

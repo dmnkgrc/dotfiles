@@ -12,6 +12,26 @@ return {
   --   end,
   -- },
   {
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
+    event = 'InsertEnter',
+    opts = {
+      suggestion = {
+        auto_trigger = true,
+        hide_during_completion = false,
+        debounce = 75,
+        keymap = {
+          accept = '<A-f>',
+          accept_word = '<A-w>',
+          accept_line = '<A-l>',
+          next = '<A-]>',
+          prev = '<A-[>',
+          dismiss = '<A-c>',
+        },
+      },
+    },
+  },
+  {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     opts = {
@@ -51,19 +71,19 @@ return {
       },
     },
   },
-  {
-    'supermaven-inc/supermaven-nvim',
-    event = 'VeryLazy',
-    opts = {
-      keymaps = {
-        accept_suggestion = '<A-f>',
-        clear_suggestion = '<A-c>',
-        accept_word = '<A-w>',
-      },
-      -- disable_inline_completion = true,
-      color = {
-        suggestion_color = '#c4a7e7',
-      },
-    },
-  },
+  -- {
+  --   'supermaven-inc/supermaven-nvim',
+  --   event = 'VeryLazy',
+  --   opts = {
+  --     keymaps = {
+  --       accept_suggestion = '<A-f>',
+  --       clear_suggestion = '<A-c>',
+  --       accept_word = '<A-w>',
+  --     },
+  --     -- disable_inline_completion = true,
+  --     color = {
+  --       suggestion_color = '#c4a7e7',
+  --     },
+  --   },
+  -- },
 }
