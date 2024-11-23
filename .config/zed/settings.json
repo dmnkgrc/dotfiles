@@ -8,9 +8,9 @@
   },
   "base_keymap": "VSCode",
   "features": {
-    "inline_completion_provider": "supermaven"
+    "inline_completion_provider": "copilot"
   },
-  "theme": "Dracula Pro (Buffy)",
+  "theme": "Kanagawa",
   "buffer_font_family": "Berkeley Mono",
   "ui_font_family": "Berkeley Mono",
   "buffer_line_height": {
@@ -60,6 +60,17 @@
     "tailwindcss-language-server": {
       "settings": {
         "classAttributes": ["class", "className"]
+      }
+    },
+    "vtsls": {
+      "initialization_options": {
+        "typescript": {
+          "tsserver": {
+            "experimental": {
+              "enableProjectDiagnostics": true
+            }
+          }
+        }
       }
     },
     "languages": {

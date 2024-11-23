@@ -7,10 +7,10 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
-vim.cmd [[
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-]]
+-- vim.cmd [[
+-- set runtimepath^=~/.vim runtimepath+=~/.vim/after
+-- let &packpath = &runtimepath
+-- ]]
 
 require('lazy').setup({
   spec = {
@@ -24,15 +24,15 @@ require('lazy').setup({
     patterns = {}, -- For example {"folke"}
     fallback = false, -- Fallback to git when local plugin doesn't exist
   },
-  performance = {
-    reset_packpath = false,
-  },
+  -- performance = {
+  --   reset_packpath = false,
+  -- },
 }, {})
 
-vim.cmd 'packloadall'
-
-vim.cmd [[
-  syntax enable
-  let g:dracula_colorterm = 0
-  colorscheme dracula_pro
-]]
+-- vim.cmd 'packloadall'
+--
+-- vim.cmd [[
+--   syntax enable
+--   let g:dracula_colorterm = 0
+--   colorscheme dracula_pro
+-- ]]
