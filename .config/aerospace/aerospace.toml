@@ -122,11 +122,6 @@ outer.right =      10
 alt-ctrl-shift-f = 'fullscreen'
 alt-ctrl-f = 'layout floating'
 
-# alt-shift-left = 'join-with left'
-# alt-shift-down = 'join-with down'
-# alt-shift-up = 'join-with up'
-# alt-shift-right = 'join-with right'
-
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
@@ -161,7 +156,7 @@ alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
 alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
 alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
 alt-shift-t = 'move-node-to-workspace T --focus-follows-window'
-alt-shift-b = 'move-node-to-workspace b --focus-follows-window'
+alt-shift-b = 'move-node-to-workspace B --focus-follows-window'
 
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
@@ -170,6 +165,7 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 alt-shift-semicolon = 'mode service'
 alt-ctrl-cmd-shift-o = 'mode apps'
 alt-ctrl-cmd-shift-m = 'mode media'
+alt-shift-f = ['fullscreen', 'mode main']
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -178,21 +174,22 @@ esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
 f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']
+
 
 [mode.apps.binding]
-t = ['exec-and-forget open -a /Applications/Rio.app', 'mode main']
-q = ['exec-and-forget open -a /Applications/1Password.app', 'mode main']
-p = ['exec-and-forget open -a /Applications/Proton\ Pass.app', 'mode main']
-b = ['exec-and-forget open -a /Applications/Brave\ Browser.app', 'mode main']
-s = ['exec-and-forget open -a /Applications/Slack.app', 'mode main']
-d = ['exec-and-forget open -a /Applications/Figma.app', 'mode main']
-o = ['exec-and-forget open -a /Applications/Obsidian.app', 'mode main']
-f = ['exec-and-forget open -a /Applications/Finder.app', 'mode main']
-m = ['exec-and-forget open -a /Applications/Music.app', 'mode main']
-w = ['exec-and-forget open -a /Applications/Beeper.app', 'mode main']
-e = ['exec-and-forget open -a /Applications/Zed\ Preview.app', 'mode main']
-h = ['exec-and-forget open -a /Applications/HTTPie.app', 'mode main']
-alt-s = ['exec-and-forget open -a /Applications/Simulator.app', 'mode main']
+q = ['exec-and-forget open -a 1Password.app', 'mode main']
+p = ['exec-and-forget open -a Proton\ Pass.app', 'mode main']
+d = ['exec-and-forget open -a Figma.app', 'mode main']
+o = ['exec-and-forget open -a Obsidian.app', 'mode main']
+f = ['exec-and-forget open -a Finder.app', 'mode main']
+m = ['exec-and-forget open -a Music.app', 'mode main']
+e = ['exec-and-forget open -a Zed\ Preview.app', 'mode main']
+h = ['exec-and-forget open -a HTTPie.app', 'mode main']
+alt-s = ['exec-and-forget open -a Simulator.app', 'mode main']
 
 [mode.media.binding]
 p = ['exec-and-forget open raycast://extensions/fedevitaledev/music/toggle-play-pause', 'mode main']

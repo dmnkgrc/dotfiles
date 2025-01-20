@@ -18,7 +18,7 @@ return {
           ['typescript'] = { 'prettierd', 'prettier', stop_after_first = true },
           ['typescriptreact'] = { 'prettierd', 'prettier', stop_after_first = true },
           ['vue'] = { 'prettierd', 'prettier', stop_after_first = true },
-          ['css'] = { 'prettierd', 'prettier', stop_after_first = true },
+          ['css'] = { 'prettier', stop_after_first = true },
           ['scss'] = { 'prettierd', 'prettier', stop_after_first = true },
           ['less'] = { 'prettierd', 'prettier', stop_after_first = true },
           ['html'] = { 'prettierd', 'prettier', stop_after_first = true },
