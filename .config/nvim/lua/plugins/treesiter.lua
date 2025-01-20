@@ -29,7 +29,7 @@ return {
         'yaml',
       },
       incremental_selection = {
-        enable = true,
+        enable = false,
         keymaps = {
           init_selection = '<C-space>',
           node_incremental = '<C-space>',
@@ -38,12 +38,18 @@ return {
         },
       },
       textobjects = {
+        select = {
+          enable = false,
+        },
         move = {
-          enable = true,
+          enable = false,
           goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer' },
           goto_next_end = { [']F'] = '@function.outer', [']C'] = '@class.outer' },
           goto_previous_start = { ['[f'] = '@function.outer', ['[c'] = '@class.outer' },
           goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer' },
+        },
+        swap = {
+          enable = false,
         },
       },
       -- Autoinstall languages that are not installed
