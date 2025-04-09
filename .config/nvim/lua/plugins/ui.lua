@@ -1,81 +1,105 @@
 return {
-  -- Better `vim.notify()`
   {
-    'rcarriga/nvim-notify',
-    keys = {
-      {
-        '<leader>un',
-        function()
-          require('notify').dismiss { silent = true, pending = true }
-        end,
-        desc = 'Dismiss All Notifications',
-      },
-    },
-    opts = {
-      stages = 'static',
-      timeout = 3000,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      on_open = function(win)
-        vim.api.nvim_win_set_config(win, { zindex = 100 })
-      end,
-    },
-  },
+    "nvim-lualine/lualine.nvim",
+    opts = function()
+      -- PERF: we don't need this lualine require madness 🤷
+      local lualine_require = require("lualine_require")
+      lualine_require.require = require
 
-  -- better vim.ui
-  {
-    'stevearc/dressing.nvim',
-    opts = {},
-  },
+      local icons = LazyVim.config.icons
 
-  -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
+      vim.o.laststatus = vim.g.lualine_laststatus
+
+      local opts = {
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch" },
+
+          lualine_c = {
+            {
+              "diagnostics",
+              symbols = {
+                error = icons.diagnostics.Error,
+                warn = icons.diagnostics.Warn,
+                info = icons.diagnostics.Info,
+                hint = icons.diagnostics.Hint,
+              },
+            },
+            { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+            { LazyVim.lualine.pretty_path() },
+          },
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {
+            { "progress", separator = " ", padding = { left = 1, right = 0 } },
+            { "location", padding = { left = 0, right = 1 } },
+          },
+        },
+        extensions = { "lazy", "fzf" },
+      }
+
+      return opts
+    end,
+  },
   {
-    'folke/noice.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-    },
+    "SmiteshP/nvim-navic",
+    opts = function()
+      vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+      return {
+        lsp = {
+          auto_attach = true,
+        },
+      }
+    end,
+  },
+  {
+    "snacks.nvim",
     opts = {
-      lsp = {
-        override = {
-          ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-          ['vim.lsp.util.stylize_markdown'] = true,
-          ['cmp.entry.get_documentation'] = true,
+      dashboard = {
+        preset = {
+          header = [[
+          _____                    _____                    _____                    _____          
+         /\    \                  /\    \                  /\    \                  /\    \         
+        /::\    \                /::\____\                /::\____\                /::\____\        
+       /::::\    \              /::::|   |               /::::|   |               /:::/    /        
+      /::::::\    \            /:::::|   |              /:::::|   |              /:::/    /         
+     /:::/\:::\    \          /::::::|   |             /::::::|   |             /:::/    /          
+    /:::/  \:::\    \        /:::/|::|   |            /:::/|::|   |            /:::/____/           
+   /:::/    \:::\    \      /:::/ |::|   |           /:::/ |::|   |           /::::\    \           
+  /:::/    / \:::\    \    /:::/  |::|___|______    /:::/  |::|   | _____    /::::::\____\________  
+ /:::/    /   \:::\ ___\  /:::/   |::::::::\    \  /:::/   |::|   |/\    \  /:::/\:::::::::::\    \ 
+/:::/____/     \:::|    |/:::/    |:::::::::\____\/:: /    |::|   /::\____\/:::/  |:::::::::::\____\
+\:::\    \     /:::|____|\::/    / ~~~~~/:::/    /\::/    /|::|  /:::/    /\::/   |::|~~~|~~~~~     
+ \:::\    \   /:::/    /  \/____/      /:::/    /  \/____/ |::| /:::/    /  \/____|::|   |          
+  \:::\    \ /:::/    /               /:::/    /           |::|/:::/    /         |::|   |          
+   \:::\    /:::/    /               /:::/    /            |::::::/    /          |::|   |          
+    \:::\  /:::/    /               /:::/    /             |:::::/    /           |::|   |          
+     \:::\/:::/    /               /:::/    /              |::::/    /            |::|   |          
+      \::::::/    /               /:::/    /               /:::/    /             |::|   |          
+       \::::/    /               /:::/    /               /:::/    /              \::|   |          
+        \::/____/                \::/    /                \::/    /                \:|   |          
+         ~~                       \/____/                  \/____/                  \|___|          
+
+
+ ]],
         },
       },
+    },
+  },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    -- REMOVE THIS once this issue is fixed: https://github.com/yioneko/vtsls/issues/159
+    opts = {
       routes = {
         {
           filter = {
-            event = 'msg_show',
-            any = {
-              { find = '%d+L, %d+B' },
-              { find = '; after #%d+' },
-              { find = '; before #%d+' },
-            },
+            event = "notify",
+            find = "Request textDocument/inlayHint failed",
           },
-          view = 'mini',
+          opts = { skip = true },
         },
       },
-      presets = {
-        bottom_search = true,
-        command_palette = true,
-        long_message_to_split = true,
-        inc_rename = true,
-      },
-    },
-    -- stylua: ignore
-    keys = {
-      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-      { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
-      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll Forward", mode = {"i", "n", "s"} },
-      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll Backward", mode = {"i", "n", "s"}},
     },
   },
 }

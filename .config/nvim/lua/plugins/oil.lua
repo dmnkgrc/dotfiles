@@ -1,7 +1,7 @@
 return {
   {
-    'stevearc/oil.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    "stevearc/oil.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       default_file_explorer = true,
       delete_to_trash = true,
@@ -10,7 +10,7 @@ return {
         show_hidden = true,
         natural_order = true,
         is_always_hidden = function(name, _)
-          return name == '..' or name == '.git'
+          return name == ".." or name == ".git"
         end,
       },
       float = {
@@ -23,20 +23,20 @@ return {
         winblend = 0,
       },
       keymaps = {
-        ['<C-c>'] = false,
-        ['q'] = 'actions.close',
+        ["<C-c>"] = false,
+        ["q"] = "actions.close",
       },
     },
     keys = {
       {
-        '<leader>e',
-        '<cmd>Oil --float<cr>',
-        desc = 'Opin parent directory',
+        "<leader>e",
+        "<cmd>Oil --float<cr>",
+        desc = "Opin parent directory",
       },
       {
-        '-',
-        '<cmd>Oil --float<cr>',
-        desc = 'Opin parent directory',
+        "-",
+        "<cmd>Oil --float<cr>",
+        desc = "Opin parent directory",
       },
     },
   },
