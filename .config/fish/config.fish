@@ -23,25 +23,15 @@ set -x MYVIMRC "~/dotfiles/.config/nvim/init.vim"
 set -gx GPG_TTY (tty)
 set -x NODE_OPTIONS "--max-old-space-size=9216"
 set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
-set -x RUST_BACKTRACE full
-set -x RUST_MIN_STACK 16777216
 set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
 set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
 set -x NO_FLIPPER 1
-set -x GITHUB_PACKAGES_TOKEN (op read "op://Private/GitHub Personal Access Token/token")
-set -x ANTHROPIC_API_KEY (op read "op://Employee/Anthropic/token")
 set -x BAT_THEME kanagawa
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
 fish_add_path /opt/homebrew/sbin
-fish_add_path /usr/local/opt/openjdk@11/bin
-fish_add_path $ANDROID_HOME/tools
-fish_add_path $ANDROID_HOME/platform-tools
-fish_add_path $HOME/.cargo/bin
 fish_add_path $PNPM_HOME
-fish_add_path $HOME/.maestro/bin
 fish_add_path $HOME/bin
-fish_add_path $HOME/go/bin
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin $PATH
 set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445
 set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
@@ -69,4 +59,9 @@ set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
 pyenv init - | source
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/dominikgarciabertapelle/Downloads/google-cloud-sdk/path.fish.inc' ]; . '/Users/dominikgarciabertapelle/Downloads/google-cloud-sdk/path.fish.inc'; end
+if [ -f '/Users/dominikgarciabertapelle/google-cloud-sdk/path.fish.inc' ]
+    . '/Users/dominikgarciabertapelle/google-cloud-sdk/path.fish.inc'
+end
+
+# Added by Windsurf
+fish_add_path /Users/dominikgarciabertapelle/.codeium/windsurf/bin
