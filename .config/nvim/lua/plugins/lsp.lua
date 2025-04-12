@@ -3,6 +3,20 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        vtsls = {
+          settings = {
+            typescript = {
+              preferences = {
+                importModuleSpecifier = "non-relative",
+              },
+            },
+            javascript = {
+              preferences = {
+                importModuleSpecifier = "non-relative",
+              },
+            },
+          }
+        },
         tailwindcss = {
           settings = {
             tailwindCSS = {
@@ -33,6 +47,10 @@ return {
           opts.root_dir = function(fname)
             return util.root_pattern(".trunk", ".git")(fname)
           end
+          opts.on_attach = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end
           require("lspconfig").pyright.setup(opts)
           return true
         end,
@@ -40,6 +58,10 @@ return {
           local util = require("lspconfig.util")
           opts.root_dir = function(fname)
             return util.root_pattern(".trunk", ".git")(fname)
+          end
+          opts.on_attach = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
           end
           require("lspconfig").ruff.setup(opts)
           return true

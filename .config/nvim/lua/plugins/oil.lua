@@ -23,6 +23,7 @@ return {
         winblend = 0,
       },
       keymaps = {
+        ["<C-v>"] = { "actions.select", opts = { vertical = true } },
         ["<C-c>"] = false,
         ["q"] = "actions.close",
       },
