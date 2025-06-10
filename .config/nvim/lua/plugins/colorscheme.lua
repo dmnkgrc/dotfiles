@@ -1,10 +1,10 @@
 return {
   {
-    "oxfist/night-owl.nvim",
-    lazy = false,         -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000,      -- make sure to load this before all the other start plugins
+    'datsfilipe/vesper.nvim',
+    priority = 1000,
+    lazy = false,
     opts = {
-      transparent = true, -- enable transparent background
+      -- transparent = true,
     },
   },
   {
@@ -17,9 +17,24 @@ return {
     },
   },
   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    enabled = false,
+    opts = {
+      transparent_background = true,
+    }
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    priority = 1000,
+    lazy = false,
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "night-owl",
+      colorscheme = "nightfox",
     },
   },
+
 }
