@@ -1,7 +1,7 @@
 font-family = BerkeleyMono Nerd Font Mono
 font-size = 16
 
-theme = Night Owl
+theme = nightfox
 cursor-style = block
 
 window-padding-balance = true
@@ -9,3 +9,4 @@ window-save-state = always
 
 macos-titlebar-style = transparent
 macos-option-as-alt = true
+keybind = shift+enter=text:\n
