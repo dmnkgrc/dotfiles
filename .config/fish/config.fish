@@ -26,7 +26,7 @@ set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
 set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
 set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
 set -x NO_FLIPPER 1
-set -x BAT_THEME kanagawa
+set -x BAT_THEME gruvbox-dark
 
 fish_add_path /opt/homebrew/bin # https://brew.sh/
 fish_add_path /opt/homebrew/sbin
@@ -42,9 +42,13 @@ set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
 set -gx GOPATH /Users/dominikgarciabertapelle/code/go
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
 set -gx FNM_LOGLEVEL info
-
+set -gx AIDER_CODE_THEME nord-darker
+set -gx AIDER_DARK_MODE true
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 status --is-interactive; and rbenv init - fish | source
+set -gx VITE_POSTHOG_KEY phc_cz3O8sw5qCHsv2ZUOjOaD9DupP8STFMu1b3WvOrN48N
+set -gx VITE_POSTHOG_HOST https://eu.i.posthog.com
+set -gx PATH ~/.npm-global/bin $PATH
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
@@ -65,3 +69,10 @@ end
 
 # Added by Windsurf
 fish_add_path /Users/dominikgarciabertapelle/.codeium/windsurf/bin
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init2.fish 2>/dev/null || :
+
+alias lazygit 'lazygit --use-config-dir ~/.config/lazygit'
+alias claude="/Users/dominikgarciabertapelle/.claude/local/claude"
