@@ -49,7 +49,7 @@ return {
           pyright = function(_, opts)
             local util = require("lspconfig.util")
             opts.root_dir = function(fname)
-              return util.root_pattern("pyproject.toml", "setup.py", ".trunk", ".git")(fname)
+              return util.root_pattern(".trunk", ".git", "pyproject.toml", "setup.py")(fname)
             end
 
             -- Look for pyrightconfig in .trunk/configs
