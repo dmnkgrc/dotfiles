@@ -64,6 +64,13 @@ opt.fillchars = {
   diff = '╱',
   eob = ' ',
 }
+opt.listchars = {
+  tab = '│ ',
+  trail = '·',
+  extends = '→',
+  precedes = '←',
+  nbsp = '␣',
+}
 
 if vim.fn.has 'nvim-0.10' == 1 then
   opt.smoothscroll = true
