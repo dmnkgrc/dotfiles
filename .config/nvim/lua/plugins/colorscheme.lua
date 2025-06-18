@@ -1,40 +1,21 @@
 return {
+  -- Nightfox colorscheme
+  {
+    'EdenEast/nightfox.nvim',
+    lazy = false,
+    priority = 1000,
+  },
   {
     'datsfilipe/vesper.nvim',
-    priority = 1000,
     lazy = false,
+    priority = 1000,
+  },
+  {
+    'rebelot/kanagawa.nvim',
+    lazy = false,
+    priority = 1000,
     opts = {
-      -- transparent = true,
+      theme = 'dragon',
     },
   },
-  {
-    "rebelot/kanagawa.nvim",
-    priority = 1000,
-    lazy = false,
-    enabled = false,
-    opts = {
-      transparent = true,
-    },
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    enabled = false,
-    opts = {
-      transparent_background = true,
-    }
-  },
-  {
-    "EdenEast/nightfox.nvim",
-    priority = 1000,
-    lazy = false,
-  },
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "nightfox",
-    },
-  },
-
 }

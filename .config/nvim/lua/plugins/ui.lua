@@ -1,52 +1,48 @@
 return {
+  -- Better UI for messages, cmdline and popupmenu
   {
-    "nvim-lualine/lualine.nvim",
-    opts = function()
-      -- PERF: we don't need this lualine require madness 🤷
-      local lualine_require = require("lualine_require")
-      lualine_require.require = require
-
-      local icons = LazyVim.config.icons
-
-      vim.o.laststatus = vim.g.lualine_laststatus
-
-      local opts = {
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "branch" },
-
-          lualine_c = {
-            {
-              "diagnostics",
-              symbols = {
-                error = icons.diagnostics.Error,
-                warn = icons.diagnostics.Warn,
-                info = icons.diagnostics.Info,
-                hint = icons.diagnostics.Hint,
-              },
-            },
-            { "filetype",                   icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-            { LazyVim.lualine.pretty_path() },
-          },
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {
-            { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
-            { "location", padding = { left = 0, right = 1 } },
-          },
-        },
-        extensions = { "lazy", "fzf" },
-      }
-
-      return opts
-    end,
-  },
-  {
-    "snacks.nvim",
+    "folke/noice.nvim",
+    event = "VeryLazy",
     opts = {
-      dashboard = {
-        preset = {
-          header = [[
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = true,
+      },
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+  },
+
+  -- Dashboard
+  {
+    "nvimdev/dashboard-nvim",
+    event = "VimEnter",
+    opts = function()
+      local logo = [[
           _____                    _____                    _____                    _____
          /\    \                  /\    \                  /\    \                  /\    \
         /::\    \                /::\____\                /::\____\                /::\____\
@@ -68,27 +64,51 @@ return {
        \::::/    /               /:::/    /               /:::/    /              \::|   |
         \::/____/                \::/    /                \::/    /                \:|   |
          ~~                       \/____/                  \/____/                  \|___|
+      ]]
 
+      logo = string.rep("\n", 8) .. logo .. "\n\n"
 
- ]],
+      local opts = {
+        theme = "doom",
+        hide = {
+          statusline = false,
         },
-      },
-    },
-  },
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    -- REMOVE THIS once this issue is fixed: https://github.com/yioneko/vtsls/issues/159
-    opts = {
-      routes = {
-        {
-          filter = {
-            event = "notify",
-            find = "Request textDocument/inlayHint failed",
+        config = {
+          header = vim.split(logo, "\n"),
+          center = {
+            { action = "Telescope find_files", desc = " Find file", icon = " ", key = "f" },
+            { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
+            { action = "Telescope oldfiles", desc = " Recent files", icon = " ", key = "r" },
+            { action = "Telescope live_grep", desc = " Find text", icon = " ", key = "g" },
+            { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
+            { action = "qa", desc = " Quit", icon = " ", key = "q" },
           },
-          opts = { skip = true },
+          footer = function()
+            local stats = require("lazy").stats()
+            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+            return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+          end,
         },
-      },
-    },
+      }
+
+      for _, button in ipairs(opts.config.center) do
+        button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+        button.key_format = "  %s"
+      end
+
+      -- close Lazy and re-open when the dashboard is ready
+      if vim.o.filetype == "lazy" then
+        vim.cmd.close()
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "DashboardLoaded",
+          callback = function()
+            require("lazy").show()
+          end,
+        })
+      end
+
+      return opts
+    end,
   },
+
 }

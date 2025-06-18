@@ -1,76 +1,41 @@
 return {
   {
-    "milanglacier/minuet-ai.nvim",
-    name = "minuet",
-    opts = {
-      provider = "codestral",
-      provider_options = {
-        openai_fim_compatible = {
-          api_key = "OPENROUTER_API_KEY",
-          end_point = "https://openrouter.ai/api/v1/completions",
-          model = "mistralai/codestral-2501",
-          name = "Openrouter",
-          optional = {
-            max_tokens = 256,
-            stop = { "\n\n" },
-          },
-        },
-      },
-      codestral = {
-        model = "codestral-latest",
-        end_point = "https://codestral.mistral.ai/v1/fim/completions",
-        api_key = "CODESTRAL_API_KEY",
-        stream = true,
-        optional = {
-          stop = nil, -- the identifier to stop the completion generation
-          max_tokens = nil,
-        },
-      },
-    },
+    'milanglacier/minuet-ai.nvim',
+    lazy = false,
     dependencies = {
-      {
-        "Saghen/blink.cmp",
-        opts = {
-          keymap = {
-            ["<A-y>"] = {
-              function(cmp)
-                cmp.show({ providers = { "minuet" } })
-              end,
-            },
-          },
-          sources = {
-            default = { "minuet" },
-            providers = {
-              minuet = {
-                name = "minuet",
-                module = "minuet.blink",
-                score_offset = 100,
-                transform_items = function(ctx, items)
-                  for _, item in ipairs(items) do
-                    item.kind_icon = "󰊠"
-                    item.kind_name = "Minuet"
-                  end
-                  return items
-                end,
-              },
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require('minuet').setup {
+        provider = 'codestral',
+        throttle = 0,
+        provider_options = {
+          codestral = {
+            api_key = 'CODESTRAL_API_KEY',
+            optional = {
+              max_tokens = 256,
+              temperature = 0.1,
             },
           },
         },
-      },
-    },
+      }
+    end,
   },
   {
-    "coder/claudecode.nvim",
+    'coder/claudecode.nvim',
     config = true,
     keys = {
-      { "<leader>a", nil, desc = "AI/Claude Code" },
-      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+      { '<leader>a', nil, desc = 'AI/Claude Code' },
+      { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
+      { '<leader>af', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude' },
+      { '<leader>ar', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
+      { '<leader>aC', '<cmd>ClaudeCode --continue<cr>', desc = 'Continue Claude' },
+      { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
       {
-        "<leader>as",
-        "<cmd>ClaudeCodeTreeAdd<cr>",
-        desc = "Add file",
-        ft = { "NvimTree", "neo-tree" },
+        '<leader>as',
+        '<cmd>ClaudeCodeTreeAdd<cr>',
+        desc = 'Add file',
+        ft = { 'NvimTree', 'neo-tree', 'oil' },
       },
     },
   },
