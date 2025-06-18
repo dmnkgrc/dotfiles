@@ -5,3 +5,4 @@ Session.vim
 .config/zed/embeddings
 .config/zed/prompts/prompts-library-db.0.mdb
 .config/zed/.tmp*
+.config/lazygit/state.yml

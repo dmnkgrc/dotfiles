@@ -76,3 +76,11 @@ source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 alias lazygit 'lazygit --use-config-dir ~/.config/lazygit'
 alias claude="/Users/dominikgarciabertapelle/.claude/local/claude"
+set -gx PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
+
+# Initialize pyenv
+pyenv init - | source
+
+# Initialize pyenv-virtualenv
+pyenv virtualenv-init - | source
