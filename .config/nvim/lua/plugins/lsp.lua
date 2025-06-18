@@ -140,14 +140,23 @@ return {
 				cmd = biome_cmd,
 				capabilities = capabilities,
 				on_attach = function(client, bufnr)
-					-- Enable organize imports on save
+					-- Enable organize imports and fix all on save
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						buffer = bufnr,
 						callback = function()
+							-- Run organize imports
 							vim.lsp.buf.code_action({
 								apply = true,
 								context = {
 									only = { "source.organizeImports.biome" },
+									diagnostics = {},
+								},
+							})
+							-- Run fix all (includes removing unused imports)
+							vim.lsp.buf.code_action({
+								apply = true,
+								context = {
+									only = { "source.fixAll.biome" },
 									diagnostics = {},
 								},
 							})
