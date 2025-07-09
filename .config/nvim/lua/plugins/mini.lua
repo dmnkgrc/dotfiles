@@ -62,6 +62,12 @@ return {
 			local mini_snippets = require("mini.snippets")
 			mini_snippets.setup({
 				snippets = { mini_snippets.gen_loader.from_lang() },
+				mappings = {
+					expand = '<C-j>',
+					jump_next = '<Tab>',
+					jump_prev = '<S-Tab>',
+					stop = '<Esc>',
+				},
 			})
 
 			-- Comments
@@ -85,6 +91,14 @@ return {
 				else
 					return "Recording @" .. recording_register
 				end
+			end
+
+			local function show_navic()
+				local ok, navic = pcall(require, "nvim-navic")
+				if ok and navic.is_available() then
+					return navic.get_location()
+				end
+				return ""
 			end
 
 			local minuet_processing = false
@@ -201,12 +215,14 @@ return {
 						-- Add custom sections
 						local macro = show_macro_recording()
 						local minuet = show_minuet_status()
+						local navic = show_navic()
 
 						return statusline.combine_groups({
 							{ hl = mode_hl, strings = { mode } },
 							{ hl = "MiniStatuslineDevinfo", strings = { git } },
 							"%<", -- Mark general truncate point
 							{ hl = "MiniStatuslineFilename", strings = { filename } },
+							{ hl = "MiniStatuslineDevinfo", strings = { navic } },
 							"%=", -- End left alignment
 							{ hl = "MiniStatuslineFilename", strings = { macro } },
 							{ hl = "MiniStatuslineDevinfo", strings = { minuet } },

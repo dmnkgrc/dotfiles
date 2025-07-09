@@ -7,8 +7,9 @@ return {
 		},
 		config = function()
 			require("minuet").setup({
-				provider = "codestral",
-				throttle = 0,
+				provider = "openai_compatible",
+				throttle = 1000,
+				debounce = 400,
 				provider_options = {
 					codestral = {
 						api_key = "CODESTRAL_API_KEY",

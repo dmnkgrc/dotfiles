@@ -33,10 +33,4 @@ return {
 			indent = { enable = true, disable = { "ruby" } },
 		},
 	},
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		config = true,
-	},
 }
-
