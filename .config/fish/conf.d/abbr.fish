@@ -18,7 +18,6 @@ abbr zja "zellij action"
 abbr zjatl "zellij action new-tab --layout"
 abbr zjs "zellij action edit-scrollback"
 abbr zj zellij
-abbr cd z
 abbr mux tmuxinator
 abbr lg lazygit
 abbr ls lsd

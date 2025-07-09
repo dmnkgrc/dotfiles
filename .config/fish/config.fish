@@ -43,6 +43,7 @@ set -gx GOPATH /Users/dominikgarciabertapelle/code/go
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
 set -gx FNM_LOGLEVEL info
 set -gx AIDER_CODE_THEME nord-darker
+set -gx OPENROUTER_API_KEY (op read "op://Personal/OpenRouter/credential")
 set -gx AIDER_DARK_MODE true
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 status --is-interactive; and rbenv init - fish | source
