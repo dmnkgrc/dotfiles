@@ -1,0 +1,4 @@
+- don't add comments to the code unless there's something confusing or a hack you implement.
+- Always keep the implementations and fixes clean, with good code practices and minimalistic. Never add additional complexity unless confirmed by the user or explicitly asked for.
+- When writing TypeScript, never use `any` or typecasting unless instructed to do so.
+- When writing TypeScript, don't use non-null assertion

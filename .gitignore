@@ -6,3 +6,4 @@ Session.vim
 .config/zed/prompts/prompts-library-db.0.mdb
 .config/zed/.tmp*
 .config/lazygit/state.yml
+.config/nvim/.claude/settings.local.json
