@@ -7,7 +7,7 @@ return {
 		lazy = false,
 		version = false,
 	},
-	install = { colorscheme = { "rose-pine" } },
+	install = { colorscheme = { "kanso-zen" } },
 	performance = {
 		rtp = {
 			disabled_plugins = {

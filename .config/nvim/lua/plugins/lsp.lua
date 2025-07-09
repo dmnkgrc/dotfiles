@@ -1,6 +1,9 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+		},
 		config = function(plugin, opts)
 			-- Configure diagnostic signs
 			local icons = require("config.icons")
@@ -49,6 +52,11 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
+					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					if client and client.server_capabilities.documentSymbolProvider then
+						require("nvim-navic").attach(client, ev.buf)
+					end
+
 					local map = function(keys, func, desc, mode)
 						mode = mode or "n"
 						vim.keymap.set(mode, keys, func, { buffer = ev.buf, desc = desc })
@@ -99,7 +107,7 @@ return {
 			lspconfig.vtsls.setup({
 				capabilities = capabilities,
 				settings = {
-					complete_function_calls = true,
+					complete_function_calls = false,
 					vtsls = {
 						enableMoveToFileCodeAction = true,
 						autoUseWorkspaceTsdk = true,
@@ -112,18 +120,18 @@ return {
 					typescript = {
 						updateImportsOnFileMove = { enabled = "always" },
 						suggest = {
-							completeFunctionCalls = true,
+							completeFunctionCalls = false,
 						},
 						preferences = {
 							importModuleSpecifier = "relative",
 							importModuleSpecifierEnding = "minimal",
 						},
 						inlayHints = {
-							enumMemberValues = { enabled = true },
-							functionLikeReturnTypes = { enabled = true },
-							parameterNames = { enabled = "literals" },
-							parameterTypes = { enabled = true },
-							propertyDeclarationTypes = { enabled = true },
+							enumMemberValues = { enabled = false },
+							functionLikeReturnTypes = { enabled = false },
+							parameterNames = { enabled = "none" },
+							parameterTypes = { enabled = false },
+							propertyDeclarationTypes = { enabled = false },
 							variableTypes = { enabled = false },
 						},
 					},

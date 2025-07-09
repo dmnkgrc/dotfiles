@@ -15,8 +15,8 @@ return {
 				preset = "super-tab",
 
 				-- Override specific keymaps
-				["<Tab>"] = { "select_and_accept", "fallback" },
-				["<S-Tab>"] = { "select_prev", "fallback" },
+				["<Tab>"] = { "select_and_accept", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 				["<CR>"] = { "accept", "fallback" },
 				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 				["<C-e>"] = { "cancel", "fallback" },
