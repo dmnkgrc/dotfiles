@@ -1,0 +1,22 @@
+{
+	"mcpServers": {
+		"Figma Dev Mode MCP": {
+			"type": "sse",
+			"url": "http://127.0.0.1:3845/sse"
+		},
+		"Ref": {
+			"type": "http",
+			"url": "https://api.ref.tools/mcp"
+		},
+		"playwright": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["@playwright/mcp@latest"],
+			"env": {}
+		},
+		"exa": {
+			"type": "http",
+			"url": "https://mcp.exa.ai/mcp"
+		}
+	}
+}

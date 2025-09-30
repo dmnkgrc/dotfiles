@@ -1,0 +1,1 @@
+functions/fzf.fish
