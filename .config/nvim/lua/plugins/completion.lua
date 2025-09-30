@@ -5,7 +5,8 @@ return {
 		event = "VimEnter",
 		version = "1.*",
 		dependencies = {
-			"milanglacier/minuet-ai.nvim",
+			-- "milanglacier/minuet-ai.nvim",
+			"fang2hou/blink-copilot",
 		},
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
@@ -15,7 +16,25 @@ return {
 				preset = "super-tab",
 
 				-- Override specific keymaps
-				["<Tab>"] = { "select_and_accept", "snippet_forward", "fallback" },
+				["<Tab>"] = {
+					function(cmp)
+						if vim.b[vim.api.nvim_get_current_buf()].nes_state then
+							cmp.hide()
+							return (
+								require("copilot-lsp.nes").apply_pending_nes()
+								and require("copilot-lsp.nes").walk_cursor_end_edit()
+							)
+						end
+						if cmp.snippet_active() then
+							return cmp.accept()
+						else
+							return cmp.select_and_accept()
+						end
+					end,
+					"select_and_accept",
+					"snippet_forward",
+					"fallback",
+				},
 				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 				["<CR>"] = { "accept", "fallback" },
 				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
@@ -30,7 +49,7 @@ return {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 				-- Adjusts spacing to ensure icons are aligned
 				nerd_font_variant = "mono",
-				use_nvim_cmp_as_default = true,
+				use_nvim_cmp_as_default = false,
 			},
 
 			completion = {
@@ -55,7 +74,7 @@ return {
 					border = "rounded",
 					winblend = 0,
 					draw = {
-						treesitter = { "lsp" },
+						treesitter = { "lsp", "copilot" },
 						columns = {
 							{ "label", "label_description", gap = 1 },
 							{ "kind_icon", "kind", gap = 1 },
@@ -76,7 +95,7 @@ return {
 			},
 
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "minuet" },
+				default = { "lsp", "path", "snippets", "buffer", "copilot" },
 
 				providers = {
 					lsp = {
@@ -92,19 +111,9 @@ return {
 						score_offset = -100,
 						min_keyword_length = 3,
 					},
-					minuet = {
-						name = "minuet",
-						module = "minuet.blink",
+					copilot = {
+						module = "blink-copilot",
 						async = true,
-						timeout_ms = 3000,
-						score_offset = 100,
-						transform_items = function(ctx, items)
-							for _, item in ipairs(items) do
-								item.kind_icon = "󰊠"
-								item.kind_name = "Minuet"
-							end
-							return items
-						end,
 					},
 				},
 			},

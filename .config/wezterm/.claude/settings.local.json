@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:wezterm.org)",
+      "Bash(git pull:*)",
+      "Bash(wezterm:*)",
+      "Bash(echo $WEZTERM_PANE)",
+      "WebFetch(domain:wezfurlong.org)",
+      "Bash(defaults read:*)"
+    ],
+    "deny": []
+  }
+}

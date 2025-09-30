@@ -1,0 +1,26 @@
+{
+	"mcpServers": {
+		"Figma Dev Mode MCP": {
+			"type": "sse",
+			"url": "http://127.0.0.1:3845/sse"
+		},
+		"Ref": {
+			"type": "http",
+			"url": "https://api.ref.tools/mcp?apiKey=ref-64b78831bbc296140412"
+		},
+		"playwright": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["@playwright/mcp@latest"],
+			"env": {}
+		},
+		"exa": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-y", "exa-mcp-server"],
+			"env": {
+				"EXA_API_KEY": "78c3935c-955a-415f-a98d-43cfedb39bd3"
+			}
+		}
+	}
+}

@@ -103,9 +103,13 @@ return {
 			-- Get capabilities from blink.cmp
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			local lspconfig = require("lspconfig")
-			lspconfig.vtsls.setup({
+			local util = require("lspconfig.util")
+
+			-- Configure vtsls
+			vim.lsp.config.vtsls = {
 				capabilities = capabilities,
+				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+				root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
 				settings = {
 					complete_function_calls = false,
 					vtsls = {
@@ -123,7 +127,7 @@ return {
 							completeFunctionCalls = false,
 						},
 						preferences = {
-							importModuleSpecifier = "relative",
+							importModuleSpecifier = "non-relative",
 							importModuleSpecifierEnding = "minimal",
 						},
 						inlayHints = {
@@ -136,86 +140,73 @@ return {
 						},
 					},
 				},
-			})
-			local util = require("lspconfig.util")
-			local biome_cmd = { "biome", "lsp-proxy" }
-			if vim.fn.filereadable(vim.fn.getcwd() .. "/.trunk/configs/biome.json") == 1 then
-				biome_cmd = { "biome", "lsp-proxy", "--config-path", ".trunk/configs" }
-			end
-			print(biome_cmd)
-			lspconfig.biome.setup({
-				root_dir = util.root_pattern(".trunk", "biome.json", "package.json"),
-				cmd = biome_cmd,
+			}
+
+			-- Configure biome
+			vim.lsp.config.biome = {
+				name = "biome",
+				cmd = { "biome", "lsp-proxy" },
+				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc" },
+				root_markers = { "biome.json", "package.json", ".git" },
+				capabilities = vim.tbl_deep_extend("force", capabilities, {
+					general = {
+						positionEncodings = { "utf-16" },
+					},
+				}),
+			}
+
+			-- Configure tailwindcss
+			vim.lsp.config.tailwindcss = {
 				capabilities = capabilities,
-				on_attach = function(client, bufnr)
-					-- Enable organize imports and fix all on save
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						buffer = bufnr,
-						callback = function()
-							-- Run organize imports
-							vim.lsp.buf.code_action({
-								apply = true,
-								context = {
-									only = { "source.organizeImports.biome" },
-									diagnostics = {},
-								},
-							})
-							-- Run fix all (includes removing unused imports)
-							vim.lsp.buf.code_action({
-								apply = true,
-								context = {
-									only = { "source.fixAll.biome" },
-									diagnostics = {},
-								},
-							})
-						end,
-					})
-				end,
-			})
-			lspconfig.tailwindcss.setup({
-				capabilities = capabilities,
-				single_file_support = false,
+				filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
+				root_markers = { "tailwind.config.js", "tailwind.config.ts", "tailwind.config.cjs", "package.json" },
 				settings = {
 					tailwindCSS = {
 						experimental = {
 							classRegex = {
-								{ "tv\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+								{ "tv\\(([\\s\\S]*?)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+								{ "slots:\\s*\\{([^}]*)\\}", "[\"'`]([^\"'`]*).*?[\"'`]" },
+								{ "base:\\s*[\"'`]([^\"'`]*)[\"'`]" },
+								{ "extend:\\s*[\"'`]([^\"'`]*)[\"'`]" },
+								{ "variants:\\s*\\{[\\s\\S]*?\\w+:\\s*\\{[\\s\\S]*?\\w+:\\s*[\"'`]([^\"'`]*)[\"'`]" },
+								{ "compoundVariants:\\s*\\[[\\s\\S]*?(?:class|className):\\s*[\"'`]([^\"'`]*)[\"'`]" },
+								{ "defaultVariants:\\s*\\{[\\s\\S]*?\\w+:\\s*[\"'`]([^\"'`]*)[\"'`]" },
 								{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
 								{ "cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
 								{ "clsx\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+								{ "className\\s*=\\s*[\"'`]([^\"'`]*)[\"'`]", "([^\"'`]+)" },
+								{ "class\\s*=\\s*[\"'`]([^\"'`]*)[\"'`]", "([^\"'`]+)" },
+								{ "(?:class|className)\\s*=\\s*{[^}]*[\"'`]([^\"'`]*)[\"'`]", "([^\"'`]+)" },
+								{
+									"(?:enter|leave|enter-from|enter-to|leave-from|leave-to)\\s*=\\s*[\"'`]([^\"'`]*)[\"'`]",
+									"([^\"'`]+)",
+								},
 							},
 						},
+						includeLanguages = {
+							typescript = "javascript",
+							typescriptreact = "javascript",
+						},
+						validate = true,
+						lint = {
+							cssConflict = "warning",
+							invalidApply = "error",
+							invalidScreen = "error",
+							invalidVariant = "error",
+							invalidConfigPath = "error",
+							invalidTailwindDirective = "error",
+							recommendedVariantOrder = "warning",
+						},
+						hovers = true,
+						suggestions = true,
 					},
 				},
-			})
-			lspconfig.pyright.setup({
+			}
+
+			vim.lsp.config.pyright = {
 				capabilities = capabilities,
-				single_file_support = false,
-				root_dir = function(fname)
-					-- First, look for .trunk directory up the tree
-					local trunk_root = util.root_pattern(".trunk")(fname)
-					if trunk_root then
-						return trunk_root
-					end
-					-- If no .trunk found, look for pyrightconfig.json
-					return util.root_pattern("pyrightconfig.json")(fname)
-				end,
-				on_new_config = function(config, root_dir)
-					-- Check for pyrightconfig.json in .trunk/configs
-					local trunk_config = root_dir .. "/.trunk/configs/pyrightconfig.json"
-					if vim.fn.filereadable(trunk_config) == 1 then
-						config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
-							python = {
-								pythonPath = vim.fn.exepath("python"),
-								venvPath = root_dir,
-							},
-							pyright = {
-								-- This tells pyright to use the config file at the specified path
-								configurationSources = { trunk_config },
-							},
-						})
-					end
-				end,
+				filetypes = { "python" },
+				root_markers = { ".trunk", "pyrightconfig.json" },
 				settings = {
 					python = {
 						analysis = {
@@ -226,9 +217,13 @@ return {
 						},
 					},
 				},
-			})
-			lspconfig.lua_ls.setup({
+			}
+
+			-- Configure lua_ls
+			vim.lsp.config.lua_ls = {
 				capabilities = capabilities,
+				filetypes = { "lua" },
+				root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git" },
 				settings = {
 					Lua = {
 						workspace = {
@@ -241,21 +236,39 @@ return {
 						hint = { enable = false },
 					},
 				},
-			})
-			lspconfig.ruff.setup({
+			}
+
+			vim.lsp.config.ruff = {
 				capabilities = vim.tbl_deep_extend("force", capabilities, {
 					general = {
 						positionEncodings = { "utf-16" },
 					},
 				}),
-				root_dir = function(fname)
-					-- First, look for .trunk directory up the tree
-					local trunk_root = util.root_pattern(".trunk")(fname)
-					if trunk_root then
-						return trunk_root
+				filetypes = { "python" },
+				root_markers = { ".trunk", "ruff.toml", ".ruff.toml", "pyproject.toml" },
+			}
+
+			-- Enable LSP servers
+			vim.lsp.enable({ "vtsls", "tailwindcss", "pyright", "lua_ls", "ruff" })
+
+			-- Workaround: biome doesn't attach via vim.lsp.enable(), so use FileType autocmd
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc" },
+				callback = function(args)
+					local root_dir = vim.fs.root(args.buf, { "biome.json", "package.json", ".git" })
+					if root_dir then
+						local biome_config = vim.deepcopy(vim.lsp.config.biome)
+						biome_config.root_dir = root_dir
+						-- Check for trunk config (search upward from buffer dir)
+						local bufname = vim.api.nvim_buf_get_name(args.buf)
+						local startpath = (bufname ~= "" and vim.fs.dirname(bufname)) or root_dir
+						local found = vim.fs.find(".trunk/configs/biome.json", { upward = true, path = startpath, type = "file" })
+						if #found > 0 then
+							local configs_dir = vim.fs.dirname(found[1])
+							biome_config.cmd = { "biome", "lsp-proxy", "--config-path", configs_dir }
+						end
+						vim.lsp.start(biome_config, { bufnr = args.buf })
 					end
-					-- If no .trunk found, look for ruff configuration files
-					return util.root_pattern("ruff.toml", ".ruff.toml", "pyproject.toml")(fname)
 				end,
 			})
 			-- Prevent duplicate Pyright and Ruff instances
@@ -300,7 +313,9 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client and client.name == "vtsls" then
+					if client and client.name == "biome" then
+						client.server_capabilities.documentFormattingProvider = true
+					elseif client and client.name == "vtsls" then
 						vim.keymap.set("n", "<leader>co", function()
 							vim.lsp.buf.code_action({
 								apply = true,
