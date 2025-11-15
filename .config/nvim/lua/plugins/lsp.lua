@@ -109,7 +109,7 @@ return {
 			vim.lsp.config.vtsls = {
 				capabilities = capabilities,
 				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-				root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+				root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
 				settings = {
 					complete_function_calls = false,
 					vtsls = {
@@ -142,23 +142,50 @@ return {
 				},
 			}
 
-			-- Configure biome
-			vim.lsp.config.biome = {
-				name = "biome",
-				cmd = { "biome", "lsp-proxy" },
-				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc" },
-				root_markers = { "biome.json", "package.json", ".git" },
-				capabilities = vim.tbl_deep_extend("force", capabilities, {
-					general = {
-						positionEncodings = { "utf-16" },
-					},
-				}),
-			}
+		-- Configure ESLint
+		vim.lsp.config.eslint = {
+			name = "eslint",
+			capabilities = capabilities,
+			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+			root_markers = {
+				"eslint.config.js",
+				"eslint.config.mjs",
+				"eslint.config.cjs",
+				"eslint.config.ts",
+				"eslint.config.mts",
+				"eslint.config.cts",
+				".eslintrc.js",
+				".eslintrc.cjs",
+				".eslintrc.yaml",
+				".eslintrc.yml",
+				".eslintrc.json",
+				".eslintrc",
+				"package.json",
+			},
+			settings = {
+				workingDirectories = { mode = "auto" },
+				run = "onSave",
+				useESLintClass = true,
+				problems = {
+					shortenToSingleLine = true,
+				},
+			},
+		}
 
 			-- Configure tailwindcss
 			vim.lsp.config.tailwindcss = {
 				capabilities = capabilities,
-				filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
+				filetypes = {
+					"html",
+					"css",
+					"scss",
+					"javascript",
+					"javascriptreact",
+					"typescript",
+					"typescriptreact",
+					"vue",
+					"svelte",
+				},
 				root_markers = { "tailwind.config.js", "tailwind.config.ts", "tailwind.config.cjs", "package.json" },
 				settings = {
 					tailwindCSS = {
@@ -223,7 +250,16 @@ return {
 			vim.lsp.config.lua_ls = {
 				capabilities = capabilities,
 				filetypes = { "lua" },
-				root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git" },
+				root_markers = {
+					".luarc.json",
+					".luarc.jsonc",
+					".luacheckrc",
+					".stylua.toml",
+					"stylua.toml",
+					"selene.toml",
+					"selene.yml",
+					".git",
+				},
 				settings = {
 					Lua = {
 						workspace = {
@@ -248,29 +284,10 @@ return {
 				root_markers = { ".trunk", "ruff.toml", ".ruff.toml", "pyproject.toml" },
 			}
 
-			-- Enable LSP servers
-			vim.lsp.enable({ "vtsls", "tailwindcss", "pyright", "lua_ls", "ruff" })
+			vim.lsp.config.copilot = {}
 
-			-- Workaround: biome doesn't attach via vim.lsp.enable(), so use FileType autocmd
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc" },
-				callback = function(args)
-					local root_dir = vim.fs.root(args.buf, { "biome.json", "package.json", ".git" })
-					if root_dir then
-						local biome_config = vim.deepcopy(vim.lsp.config.biome)
-						biome_config.root_dir = root_dir
-						-- Check for trunk config (search upward from buffer dir)
-						local bufname = vim.api.nvim_buf_get_name(args.buf)
-						local startpath = (bufname ~= "" and vim.fs.dirname(bufname)) or root_dir
-						local found = vim.fs.find(".trunk/configs/biome.json", { upward = true, path = startpath, type = "file" })
-						if #found > 0 then
-							local configs_dir = vim.fs.dirname(found[1])
-							biome_config.cmd = { "biome", "lsp-proxy", "--config-path", configs_dir }
-						end
-						vim.lsp.start(biome_config, { bufnr = args.buf })
-					end
-				end,
-			})
+			-- Enable LSP servers
+			vim.lsp.enable({ "vtsls", "eslint", "tailwindcss", "pyright", "lua_ls", "ruff", "copilot" })
 			-- Prevent duplicate Pyright and Ruff instances
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
@@ -313,9 +330,7 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client and client.name == "biome" then
-						client.server_capabilities.documentFormattingProvider = true
-					elseif client and client.name == "vtsls" then
+					if client and client.name == "vtsls" then
 						vim.keymap.set("n", "<leader>co", function()
 							vim.lsp.buf.code_action({
 								apply = true,
@@ -344,9 +359,9 @@ return {
 		opts = {
 			ensure_installed = {
 				"vtsls",
+				"eslint",
 				"pyright",
 				"ruff",
-				"biome",
 				"gopls",
 				"sqlls",
 				"zls",
@@ -360,11 +375,12 @@ return {
 					ensure_installed = {
 						"stylua",
 						"shfmt",
+						"prettier",
 						"vtsls",
+						"eslint",
 						"pyright",
 						"ruff",
 						"tailwindcss-language-server",
-						"biome",
 						"gopls",
 						"rust-analyzer",
 						"yaml-language-server",

@@ -23,46 +23,134 @@ return {
 	-- 		})
 	-- 	end,
 	-- },
+	-- {
+	-- 	"copilotlsp-nvim/copilot-lsp",
+	-- 	event = "BufEnter",
+	-- 	init = function()
+	-- 		vim.g.copilot_nes_debounce = 250
+	-- 		require("copilot-lsp").setup({})
+	-- 		vim.lsp.enable("copilot_ls")
+	-- 		vim.keymap.set("n", "<tab>", function()
+	-- 			local bufnr = vim.api.nvim_get_current_buf()
+	-- 			local state = vim.b[bufnr].nes_state
+	-- 			if state then
+	-- 				vim.schedule(function()
+	-- 					local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
+	-- 						or (
+	-- 							require("copilot-lsp.nes").apply_pending_nes()
+	-- 							and require("copilot-lsp.nes").walk_cursor_end_edit()
+	-- 						)
+	-- 				end)
+	-- 				return ""
+	-- 			else
+	-- 				return "<C-i>"
+	-- 			end
+	-- 		end, { desc = "Accept Copilot NES suggestion", expr = true })
+	-- 		vim.keymap.set("n", "<esc>", function()
+	-- 			---@diagnostic disable-next-line: empty-block
+	-- 			if not require("copilot-lsp.nes").clear() then
+	-- 				return "<esc>"
+	-- 			end
+	-- 			vim.keymap.set("n", "<leader>cr", function()
+	-- 				require("copilot-lsp.nes").restore_suggestion()
+	-- 				return nil
+	-- 			end, { desc = "Restore previous Copilot suggestion", expr = true })
+	-- 		end)
+	-- 	end,
+	-- },
 	{
-		"copilotlsp-nvim/copilot-lsp",
-		event = "BufEnter",
-		init = function()
-			vim.g.copilot_nes_debounce = 250
-			require("copilot-lsp").setup({})
-			vim.lsp.enable("copilot_ls")
-			vim.keymap.set("n", "<tab>", function()
-				local bufnr = vim.api.nvim_get_current_buf()
-				local state = vim.b[bufnr].nes_state
-				if state then
-					vim.schedule(function()
-						local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
-							or (
-								require("copilot-lsp.nes").apply_pending_nes()
-								and require("copilot-lsp.nes").walk_cursor_end_edit()
-							)
-					end)
-					return ""
-				else
-					return "<C-i>"
-				end
-			end, { desc = "Accept Copilot NES suggestion", expr = true })
-			vim.keymap.set("n", "<esc>", function()
-				---@diagnostic disable-next-line: empty-block
-				if not require("copilot-lsp.nes").clear() then
-					return "<esc>"
-				end
-				vim.keymap.set("n", "<leader>cr", function()
-					require("copilot-lsp.nes").restore_suggestion()
-					return nil
-				end, { desc = "Restore previous Copilot suggestion", expr = true })
-			end)
+		"zbirenbaum/copilot.lua",
+		-- requires = {
+		--   "copilotlsp-nvim/copilot-lsp", -- (optional) for NES functionality
+		-- },
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({})
 		end,
 	},
-
+	{
+		"sourcegraph/amp.nvim",
+		branch = "main",
+		lazy = false,
+		opts = { auto_start = true, log_level = "info" },
+	},
+	{
+		"folke/sidekick.nvim",
+		lazy = false,
+		opts = {
+			cli = {
+				mux = {
+					backend = "tmux",
+					enabled = false,
+				},
+			},
+		},
+		keys = {
+			{
+				"<tab>",
+				function()
+					-- if there is a next edit, jump to it, otherwise apply it if any
+					if not require("sidekick").nes_jump_or_apply() then
+						return "<Tab>" -- fallback to normal tab
+					end
+				end,
+				expr = true,
+				desc = "Goto/Apply Next Edit Suggestion",
+			},
+			{
+				"<c-.>",
+				function()
+					require("sidekick.cli").focus()
+				end,
+				desc = "Sidekick Switch Focus",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>aa",
+				function()
+					require("sidekick.cli").toggle({ focus = true })
+				end,
+				desc = "Sidekick Toggle CLI",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>ac",
+				function()
+					require("sidekick.cli").toggle({ name = "claude", focus = true })
+				end,
+				desc = "Sidekick Claude Toggle",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>ao",
+				function()
+					require("sidekick.cli").toggle({ name = "opencode", focus = true })
+				end,
+				desc = "Sidekick Opencode Toggle",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>ax",
+				function()
+					require("sidekick.cli").toggle({ name = "codex", focus = true })
+				end,
+				desc = "Sidekick Codex Toggle",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>ap",
+				function()
+					require("sidekick.cli").select_prompt()
+				end,
+				desc = "Sidekick Ask Prompt",
+				mode = { "n", "v" },
+			},
+		},
+	},
 	{
 		"NickvanDyke/opencode.nvim",
 		{ "folke/snacks.nvim", opts = { input = { enabled = true } } },
-		---@type opencode.Config
 		config = function()
 			vim.opt.autoread = true
 		end,
