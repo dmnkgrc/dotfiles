@@ -28,8 +28,10 @@ set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
 set -x NO_FLIPPER 1
 set -x BAT_THEME gruvbox-dark
 
-fish_add_path /opt/homebrew/bin # https://brew.sh/
-fish_add_path /opt/homebrew/sbin
+# Nix/Home Manager packages are automatically added to PATH
+# If you need to use Homebrew alongside Nix temporarily, uncomment:
+# fish_add_path /opt/homebrew/bin
+# fish_add_path /opt/homebrew/sbin
 fish_add_path $PNPM_HOME
 fish_add_path $HOME/bin
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin $PATH
@@ -46,7 +48,6 @@ set -gx AIDER_CODE_THEME nord-darker
 # set -gx OPENROUTER_API_KEY (op read "op://Personal/OpenRouter/credential")
 set -gx AIDER_DARK_MODE true
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-status --is-interactive; and rbenv init - fish | source
 set -gx VITE_POSTHOG_KEY phc_cz3O8sw5qCHsv2ZUOjOaD9DupP8STFMu1b3WvOrN48N
 set -gx VITE_POSTHOG_HOST https://eu.i.posthog.com
 set -gx PATH ~/.npm-global/bin $PATH

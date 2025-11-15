@@ -19,13 +19,14 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				python = { "ruff_format" },
-				-- JS/TS files are handled by Biome LSP to avoid conflicts
-				-- javascript = { "biome", "prettier", stop_after_first = true },
-				-- typescript = { "biome", "prettier", stop_after_first = true },
-				-- javascriptreact = { "biome", "prettier", stop_after_first = true },
-				-- typescriptreact = { "biome", "prettier", stop_after_first = true },
-				json = { "biome", "prettier", stop_after_first = true },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
+				json = { "prettier" },
+				jsonc = { "prettier" },
 				markdown = { "prettier" },
+				css = { "prettier" },
 				yaml = { "prettier" },
 				go = { "goimports", "gofmt" },
 				rust = { "rustfmt" },
@@ -65,30 +66,23 @@ return {
 						return {}
 					end,
 				},
-				biome = {
-					command = "biome",
-					args = function(self, ctx)
-						local config_path = vim.fn.findfile("biome.json", ctx.dirname .. ";")
-						if config_path == "" then
-							config_path = vim.fn.findfile(".trunk/configs/biome.json", ctx.dirname .. ";")
-						end
-						if config_path ~= "" then
-							return { "format", "--stdin-file-path", "$FILENAME", "--config-path", config_path }
-						end
-						return { "format", "--stdin-file-path", "$FILENAME" }
-					end,
-				},
 				prettier = {
-					-- Check for trunk config directory
-					prepend_args = function()
-						if vim.fn.filereadable(vim.fn.getcwd() .. "/.trunk/configs/.prettierrc.yaml") == 1 then
-							return { "--config", ".trunk/configs/.prettierrc.yaml" }
-						elseif vim.fn.filereadable(vim.fn.getcwd() .. "/.prettierrc") == 1 then
-							return { "--config", ".prettierrc" }
-						elseif vim.fn.filereadable(vim.fn.getcwd() .. "/.prettierrc.json") == 1 then
-							return { "--config", ".prettierrc.json" }
-						elseif vim.fn.filereadable(vim.fn.getcwd() .. "/.prettierrc.yaml") == 1 then
-							return { "--config", ".prettierrc.yaml" }
+					cwd = function()
+						require("conform.util").root_file({ ".trunk", "pnpm-workspace.yaml" })
+					end,
+					prepend_args = function(self, ctx)
+						local trunk_dir = vim.fn.finddir(".trunk", ctx.dirname .. ";")
+						if trunk_dir ~= "" then
+							local trunk_root = vim.fs.dirname(trunk_dir)
+							local trunk_configs = {
+								trunk_root .. "/.trunk/configs/.prettierrc.json",
+								trunk_root .. "/.trunk/configs/.prettierrc.yaml",
+							}
+							for _, config_path in ipairs(trunk_configs) do
+								if vim.fn.filereadable(config_path) == 1 then
+									return { "--config", config_path }
+								end
+							end
 						end
 						return {}
 					end,
@@ -97,4 +91,3 @@ return {
 		},
 	},
 }
-

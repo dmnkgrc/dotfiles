@@ -7,3 +7,8 @@ Session.vim
 .config/zed/.tmp*
 .config/lazygit/state.yml
 .config/nvim/.claude/settings.local.json
+
+# Nix
+result
+result-*
+.direnv/
