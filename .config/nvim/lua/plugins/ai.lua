@@ -84,6 +84,25 @@ return {
 					backend = "tmux",
 					enabled = false,
 				},
+				tools = {
+					amp = {
+						cmd = { "amp" },
+						format = function(text)
+							local Text = require("sidekick.text")
+							Text.transform(text, function(str)
+								return str:find("[^%w/_%.%-]") and ('"' .. str .. '"') or str
+							end, "SidekickLocFile")
+							local ret = Text.to_string(text)
+							-- transform line ranges to a format that amp understands
+							ret = ret:gsub("@([^ ]+)%s*:L(%d+):C%d+%-L(%d+):C%d+", "@%1#L%2-%3") -- @file :L5:C20-L6:C8 => @file#L5-6
+							ret = ret:gsub("@([^ ]+)%s*:L(%d+):C%d+%-C%d+", "@%1#L%2") -- @file :L5:C9-C29 => @file#L5
+							ret = ret:gsub("@([^ ]+)%s*:L(%d+)%-L(%d+)", "@%1#L%2-%3") -- @file :L5-L13 => @file#L5-13
+							ret = ret:gsub("@([^ ]+)%s*:L(%d+):C%d+", "@%1#L%2") -- @file :L5:C9 => @file#L5
+							ret = ret:gsub("@([^ ]+)%s*:L(%d+)", "@%1#L%2") -- @file :L5 => @file#L5
+							return ret
+						end,
+					},
+				},
 			},
 		},
 		keys = {
@@ -107,7 +126,7 @@ return {
 				mode = { "n", "v" },
 			},
 			{
-				"<leader>aa",
+				"<leader>at",
 				function()
 					require("sidekick.cli").toggle({ focus = true })
 				end,
@@ -131,6 +150,14 @@ return {
 				mode = { "n", "v" },
 			},
 			{
+				"<leader>aa",
+				function()
+					require("sidekick.cli").toggle({ name = "amp", focus = true })
+				end,
+				desc = "Sidekick Amp Toggle",
+				mode = { "n", "v" },
+			},
+			{
 				"<leader>ax",
 				function()
 					require("sidekick.cli").toggle({ name = "codex", focus = true })
@@ -145,74 +172,6 @@ return {
 				end,
 				desc = "Sidekick Ask Prompt",
 				mode = { "n", "v" },
-			},
-		},
-	},
-	{
-		"NickvanDyke/opencode.nvim",
-		{ "folke/snacks.nvim", opts = { input = { enabled = true } } },
-		config = function()
-			vim.opt.autoread = true
-		end,
-		keys = {
-			{
-				"<leader>ot",
-				function()
-					require("opencode").toggle()
-				end,
-				desc = "Toggle embedded opencode",
-			},
-			{
-				"<leader>oa",
-				function()
-					require("opencode").ask()
-				end,
-				desc = "Ask opencode",
-				mode = "n",
-			},
-			{
-				"<leader>oa",
-				function()
-					require("opencode").ask("@selection: ")
-				end,
-				desc = "Ask opencode about selection",
-				mode = "v",
-			},
-			{
-				"<leader>op",
-				function()
-					require("opencode").select()
-				end,
-				desc = "Select prompt",
-				mode = { "n", "v" },
-			},
-			{
-				"<leader>on",
-				function()
-					require("opencode").command("session_new")
-				end,
-				desc = "New session",
-			},
-			{
-				"<leader>oy",
-				function()
-					require("opencode").command("messages_copy")
-				end,
-				desc = "Copy last message",
-			},
-			{
-				"<S-C-u>",
-				function()
-					require("opencode").command("messages_half_page_up")
-				end,
-				desc = "Scroll messages up",
-			},
-			{
-				"<S-C-d>",
-				function()
-					require("opencode").command("messages_half_page_down")
-				end,
-				desc = "Scroll messages down",
 			},
 		},
 	},

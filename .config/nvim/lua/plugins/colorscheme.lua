@@ -5,9 +5,12 @@ return {
 		priority = 1000,
 	},
 	{
-		"datsfilipe/vesper.nvim",
+		"nexxeln/vesper.nvim",
 		lazy = false,
 		priority = 1000,
+		config = function()
+			vim.cmd.colorscheme("vesper")
+		end,
 	},
 	{
 		"rebelot/kanagawa.nvim",
@@ -59,7 +62,16 @@ return {
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.cmd("colorscheme kanso-zen")
+			-- vim.cmd("colorscheme kanso-zen")
+		end,
+	},
+	{
+		dir = "~/dotfiles/themes/dracula-pro",
+		name = "dracula-pro",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			-- vim.cmd("colorscheme dracula_pro_van_helsing")
 		end,
 	},
 }

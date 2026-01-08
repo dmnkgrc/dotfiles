@@ -80,7 +80,6 @@ fish_add_path /Users/dominikgarciabertapelle/.codeium/windsurf/bin
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 alias lazygit 'lazygit --use-config-dir ~/.config/lazygit'
-alias claude="/Users/dominikgarciabertapelle/.claude/local/claude"
 set -gx PYENV_ROOT $HOME/.pyenv
 fish_add_path $PYENV_ROOT/bin
 
@@ -92,3 +91,5 @@ pyenv virtualenv-init - | source
 
 # opencode
 fish_add_path /Users/dominikgarciabertapelle/.opencode/bin
+source "$HOME/.cargo/env.fish"  # For fish
+

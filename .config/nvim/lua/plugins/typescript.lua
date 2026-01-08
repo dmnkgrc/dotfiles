@@ -9,6 +9,7 @@ return {
 		ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
 		opts = {
 			run_as_monorepo = true,
+			flags = "--build --noEmit",
 		},
 	},
 }

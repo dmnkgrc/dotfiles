@@ -1,160 +1,111 @@
 {
+  "context_servers": {
+    "mcp-server-context7": {
+      "enabled": true,
+      "settings": {
+        "context7_api_key": "",
+      },
+    },
+  },
+  "icon_theme": "Phosphor Icons Theme",
+  "disable_ai": false,
   "features": {
-    "edit_prediction_provider": "copilot"
+    "edit_prediction_provider": "zed",
   },
   "agent": {
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
-    }
+      "model": "claude-sonnet-4-5",
+    },
   },
   "base_keymap": "VSCode",
-  "theme": "Vesper",
-  "buffer_font_family": "Berkeley Mono",
-  "ui_font_family": "Berkeley Mono",
+  "theme": "Dracula Pro (Van Helsing)",
+  "buffer_font_family": "BerkeleyMono Nerd Font Mono",
+  "ui_font_family": "BerkeleyMono Nerd Font Mono",
   "buffer_line_height": {
-    "custom": 1.5
+    "custom": 1.5,
   },
   "buffer_font_size": 16,
   "terminal": {
     "font_family": "BerkeleyMono Nerd Font Mono",
     "font_size": 16,
     "line_height": {
-      "custom": 1.5
-    }
+      "custom": 1.5,
+    },
   },
   "toolbar": {
     "breadcrumbs": true,
-    "quick_actions": false
+    "quick_actions": false,
   },
   "vim_mode": true,
   "vim": {
-    "use_system_clipboard": "always"
+    "use_system_clipboard": "always",
   },
   "scrollbar": {
-    "show": "never"
+    "show": "never",
   },
   "tab_bar": {
-    "show": false
+    "show": false,
   },
   "vertical_scroll_margin": 0,
   "cursor_blink": false,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "code_actions_on_format": {
     "source.fixAll.trunk": true,
-    "source.organizeImports.trunk": true
+    "source.organizeImports.trunk": true,
   },
   "languages": {
     "Python": {
-      "language_servers": ["pyright", "ruff"],
       "format_on_save": "on",
-      "formatter": [
-        {
-          "code_actions": {
-            "source.organizeImports.ruff": true,
-            "source.fixAll.ruff": true
-          }
-        },
-        {
-          "language_server": {
-            "name": "ruff"
-          }
-        }
-      ]
     },
     "JavaScript": {
-      "language_servers": ["vtsls", "biome"],
+      "language_servers": ["vtsls"],
       "format_on_save": "on",
-      "formatter": [
-        {
-          "code_actions": {
-            "source.organizeImports.biome": true,
-            "source.fixAll.biome": true
-          }
+      "formatter": {
+        "external": {
+          "command": "prettierd",
+          "arguments": ["--stdin-filepath", "{buffer_path}"],
         },
-        {
-          "language_server": {
-            "name": "biome"
-          }
-        }
-      ]
+      },
     },
     "TypeScript": {
-      "language_servers": ["vtsls", "biome"],
+      "language_servers": ["vtsls"],
       "format_on_save": "on",
-      "formatter": [
-        {
-          "code_actions": {
-            "source.organizeImports.biome": true,
-            "source.fixAll.biome": true
-          }
+      "formatter": {
+        "external": {
+          "command": "prettierd",
+          "arguments": ["--stdin-filepath", "{buffer_path}"],
         },
-        {
-          "language_server": {
-            "name": "biome"
-          }
-        }
-      ]
+      },
     },
     "TSX": {
-      "language_servers": ["vtsls", "biome"],
+      "language_servers": ["vtsls"],
       "format_on_save": "on",
-      "formatter": [
-        {
-          "code_actions": {
-            "source.organizeImports.biome": true,
-            "source.fixAll.biome": true
-          }
+      "formatter": {
+        "external": {
+          "command": "prettierd",
+          "arguments": ["--stdin-filepath", "{buffer_path}"],
         },
-        {
-          "language_server": {
-            "name": "biome"
-          }
-        }
-      ]
+      },
     },
-    "JSX": {
-      "language_servers": ["vtsls", "biome"],
-      "format_on_save": "on",
-      "formatter": [
-        {
-          "code_actions": {
-            "source.organizeImports.biome": true,
-            "source.fixAll.biome": true
-          }
-        },
-        {
-          "language_server": {
-            "name": "biome"
-          }
-        }
-      ]
-    }
   },
   "lsp": {
-    "biome": {
-      "settings": {
-        "biome": {
-          "configPath": ".trunk/configs/biome.json"
-        }
-      }
-    },
     "rust-analyzer": {
       "initialization_options": {
         "checkOnSave": {
-          "command": "clippy"
+          "command": "clippy",
         },
         "inlayHints": {
           "maxLength": null,
           "lifetimeElisionHints": {
             "useParameterNames": true,
-            "enable": "skip_trivial"
+            "enable": "skip_trivial",
           },
           "closureReturnTypeHints": {
-            "enable": "always"
-          }
-        }
-      }
+            "enable": "always",
+          },
+        },
+      },
     },
     "tailwindcss-language-server": {
       "settings": {
@@ -162,73 +113,47 @@
         "tailwindCSS": {
           "experimental": {
             "classRegex": [
-              ["([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]"]
-            ]
-          }
-        }
-      }
+              ["([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]"],
+            ],
+          },
+        },
+      },
     },
     "vtsls": {
       "settings": {
         "complete_function_calls": false,
-        "vtsls": {
-          "enableMoveToFileCodeAction": true,
-          "autoUseWorkspaceTsdk": true,
-          "experimental": {
-            "completion": {
-              "enableServerSideFuzzyMatch": true
-            }
-          }
-        },
         "typescript": {
           "updateImportsOnFileMove": { "enabled": "always" },
-          "suggest": {
-            "completeFunctionCalls": false
-          },
           "preferences": {
             "importModuleSpecifier": "non-relative",
-            "importModuleSpecifierEnding": "minimal"
+            "importModuleSpecifierEnding": "minimal",
           },
-          "inlayHints": {
-            "enumMemberValues": { "enabled": false },
-            "functionLikeReturnTypes": { "enabled": false },
-            "parameterNames": { "enabled": "none" },
-            "parameterTypes": { "enabled": false },
-            "propertyDeclarationTypes": { "enabled": false },
-            "variableTypes": { "enabled": false }
-          }
-        }
+        },
       },
       "initialization_options": {
         "typescript": {
           "tsserver": {
             "experimental": {
-              "enableProjectDiagnostics": true
-            }
-          }
-        }
-      }
-    },
-    "pyright": {
-      "settings": {
-        "python": {
-          "pythonPath": ".venv/bin/python",
-          "analysis": {
-            "typeCheckingMode": "basic",
-            "autoImportCompletions": true,
-            "diagnosticMode": "workspace",
-            "useLibraryCodeForTypes": true
-          }
+              "enableProjectDiagnostics": true,
+            },
+          },
         },
-        "pyright": {
-          "configurationSources": [".trunk/configs/pyrightconfig.json"]
-        }
-      }
+      },
+    },
+    "basedpyright": {
+      "settings": {
+        "diagnosticMode": "workspace",
+        "python.analysis.useLibraryCodeForTypes": true,
+        "basedpyright.analysis.useLibraryCodeForTypes": true,
+      },
+      "initialization_options": {
+        "useLibraryCodeForTypes": true,
+      },
     },
     "ruff": {
       "settings": {
-        "configuration": ".trunk/configs/ruff.toml"
-      }
-    }
-  }
+        "configuration": ".trunk/configs/ruff.toml",
+      },
+    },
+  },
 }

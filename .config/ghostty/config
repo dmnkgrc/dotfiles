@@ -1,7 +1,7 @@
 font-family = BerkeleyMono Nerd Font Mono
 font-size = 16
 
-theme = kanso-zen
+theme = vesper
 cursor-style = block
 
 window-padding-balance = true
