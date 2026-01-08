@@ -109,7 +109,8 @@ return {
 			vim.lsp.config.vtsls = {
 				capabilities = capabilities,
 				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-				root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
+				root_markers = { "tsconfig.app.json", "tsconfig.json", "package.json", "jsconfig.json", ".git" },
+
 				settings = {
 					complete_function_calls = false,
 					vtsls = {
@@ -142,35 +143,35 @@ return {
 				},
 			}
 
-		-- Configure ESLint
-		vim.lsp.config.eslint = {
-			name = "eslint",
-			capabilities = capabilities,
-			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-			root_markers = {
-				"eslint.config.js",
-				"eslint.config.mjs",
-				"eslint.config.cjs",
-				"eslint.config.ts",
-				"eslint.config.mts",
-				"eslint.config.cts",
-				".eslintrc.js",
-				".eslintrc.cjs",
-				".eslintrc.yaml",
-				".eslintrc.yml",
-				".eslintrc.json",
-				".eslintrc",
-				"package.json",
-			},
-			settings = {
-				workingDirectories = { mode = "auto" },
-				run = "onSave",
-				useESLintClass = true,
-				problems = {
-					shortenToSingleLine = true,
+			-- Configure ESLint
+			vim.lsp.config.eslint = {
+				name = "eslint",
+				capabilities = capabilities,
+				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+				root_markers = {
+					"eslint.config.js",
+					"eslint.config.mjs",
+					"eslint.config.cjs",
+					"eslint.config.ts",
+					"eslint.config.mts",
+					"eslint.config.cts",
+					".eslintrc.js",
+					".eslintrc.cjs",
+					".eslintrc.yaml",
+					".eslintrc.yml",
+					".eslintrc.json",
+					".eslintrc",
+					"package.json",
 				},
-			},
-		}
+				settings = {
+					workingDirectories = { mode = "auto" },
+					run = "onSave",
+					useESLintClass = true,
+					problems = {
+						shortenToSingleLine = true,
+					},
+				},
+			}
 
 			-- Configure tailwindcss
 			vim.lsp.config.tailwindcss = {
@@ -230,7 +231,7 @@ return {
 				},
 			}
 
-			vim.lsp.config.pyright = {
+			vim.lsp.config.basedpyright = {
 				capabilities = capabilities,
 				filetypes = { "python" },
 				root_markers = { ".trunk", "pyrightconfig.json" },
@@ -287,45 +288,7 @@ return {
 			vim.lsp.config.copilot = {}
 
 			-- Enable LSP servers
-			vim.lsp.enable({ "vtsls", "eslint", "tailwindcss", "pyright", "lua_ls", "ruff", "copilot" })
-			-- Prevent duplicate Pyright and Ruff instances
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client and (client.name == "pyright" or client.name == "ruff") then
-						-- Get all clients of the same type
-						local clients = vim.lsp.get_clients({ name = client.name })
-						if #clients > 1 then
-							-- Find the client with .trunk in its root
-							local trunk_client = nil
-							local other_clients = {}
-
-							for _, c in ipairs(clients) do
-								if vim.fn.isdirectory(c.config.root_dir .. "/.trunk") == 1 then
-									trunk_client = c
-								else
-									table.insert(other_clients, c)
-								end
-							end
-
-							-- If we have a trunk client, stop all others
-							if trunk_client then
-								for _, c in ipairs(other_clients) do
-									vim.lsp.stop_client(c.id, true)
-								end
-							else
-								-- Otherwise, keep the one with shortest root_dir
-								table.sort(clients, function(a, b)
-									return #a.config.root_dir < #b.config.root_dir
-								end)
-								for i = 2, #clients do
-									vim.lsp.stop_client(clients[i].id, true)
-								end
-							end
-						end
-					end
-				end,
-			})
+			vim.lsp.enable({ "vtsls", "eslint", "tailwindcss", "basedpyright", "lua_ls", "ruff", "copilot" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
@@ -360,7 +323,7 @@ return {
 			ensure_installed = {
 				"vtsls",
 				"eslint",
-				"pyright",
+				"basedpyright",
 				"ruff",
 				"gopls",
 				"sqlls",
@@ -378,7 +341,7 @@ return {
 						"prettier",
 						"vtsls",
 						"eslint",
-						"pyright",
+						"basedpyright",
 						"ruff",
 						"tailwindcss-language-server",
 						"gopls",
