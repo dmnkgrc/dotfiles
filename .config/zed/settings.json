@@ -18,8 +18,15 @@
       "model": "claude-sonnet-4-5",
     },
   },
+  "agent_servers": {
+    "Amp": {
+      "type": "custom",
+      "command": "npx",
+      "args": ["-y", "amp-acp"],
+    },
+  },
   "base_keymap": "VSCode",
-  "theme": "Dracula Pro (Van Helsing)",
+  "theme": "Vesper",
   "buffer_font_family": "BerkeleyMono Nerd Font Mono",
   "ui_font_family": "BerkeleyMono Nerd Font Mono",
   "buffer_line_height": {

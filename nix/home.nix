@@ -17,7 +17,6 @@
     avrdude
     bash
     bat
-    bun
     coreutils
     csvkit
     efm-langserver
@@ -28,7 +27,6 @@
     fnm
     fontforge
     fzf
-    gcc
     gh
     ghostscript
     git
@@ -52,11 +50,9 @@
     luarocks
     ncdu
     neovim
-    orbstack
     pgcli
     pigz
     pinentry_mac
-    pnpm
     pyenv
     ripgrep
     sesh
@@ -66,7 +62,6 @@
     tmux
     tree-sitter
     unar
-    uv
     w3m
     wget
     yazi
