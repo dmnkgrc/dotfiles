@@ -7,6 +7,30 @@ Session.vim
 .config/zed/.tmp*
 .config/lazygit/state.yml
 .config/nvim/.claude/settings.local.json
+.config/fish/conf.d/secrets.fish
+.config/opencode/.gitignore
+.config/opencode/node_modules/
+.config/opencode/opencode.json.tui-migration.bak
+.codex/.codex-global-state.json
+.codex/.personality_migration
+.codex/auth.json
+.codex/history.jsonl
+.codex/internal_storage.json
+.codex/log/
+.codex/logs_*.sqlite
+.codex/logs_*.sqlite-*
+.codex/memories/
+.codex/models_cache.json
+.codex/rules/
+.codex/sessions/
+.codex/shell_snapshots/
+.codex/sqlite/
+.codex/state_*.sqlite
+.codex/state_*.sqlite-*
+.codex/tmp/
+.codex/vendor_imports/
+.codex/version.json
+.codex/worktrees/
 
 # Nix
 result

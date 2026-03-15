@@ -8,6 +8,10 @@ zoxide init fish | source
 
 source $HOME/.config/fish/conf.d/abbr.fish
 
+if test -f ~/.config/fish/conf.d/secrets.fish
+    source ~/.config/fish/conf.d/secrets.fish
+end
+
 set -x ANDROID_HOME $HOME/Library/Android/sdk
 set -x FZF_DEFAULT_COMMAND "rg --files --hidden --follow --glob '!.git'"
 set -x FZF_CTRL_T_COMMAND 'ag --hidden --ignore .git -g ""'
@@ -44,12 +48,10 @@ set -gx GOPATH /Users/dominikgarciabertapelle/code/go
 set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
 set -gx FNM_LOGLEVEL info
 set -gx AIDER_CODE_THEME nord-darker
-# set -gx OPENROUTER_API_KEY (op read "op://Personal/OpenRouter/credential")
 set -gx AIDER_DARK_MODE true
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 set -gx VITE_POSTHOG_HOST https://eu.i.posthog.com
 set -gx PATH ~/.npm-global/bin $PATH
-set -gx CLAWDBOT_GATEWAY_TOKEN 32ob64K9kPGFuVLmcX9NUEKpAP6pwc
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
@@ -91,4 +93,3 @@ pyenv virtualenv-init - | source
 # opencode
 fish_add_path /Users/dominikgarciabertapelle/.opencode/bin
 source "$HOME/.cargo/env.fish"  # For fish
-
