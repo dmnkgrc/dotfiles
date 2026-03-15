@@ -5,8 +5,9 @@
 			"url": "http://127.0.0.1:3845/sse"
 		},
 		"Ref": {
-			"type": "http",
-			"url": "https://api.ref.tools/mcp"
+			"type": "stdio",
+			"command": "sh",
+			"args": ["-lc", "npx -y mcp-remote \"https://api.ref.tools/mcp?apiKey=$REF_API_KEY\""]
 		},
 		"playwright": {
 			"type": "stdio",
@@ -15,8 +16,10 @@
 			"env": {}
 		},
 		"exa": {
-			"type": "http",
-			"url": "https://mcp.exa.ai/mcp"
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-y", "exa-mcp-server"],
+			"env": {}
 		}
 	}
 }
