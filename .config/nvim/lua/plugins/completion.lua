@@ -4,10 +4,7 @@ return {
 		"saghen/blink.cmp",
 		event = "VimEnter",
 		version = "1.*",
-		dependencies = {
-			-- "milanglacier/minuet-ai.nvim",
-			"fang2hou/blink-copilot",
-		},
+		dependencies = {},
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
 		opts = {
@@ -63,7 +60,7 @@ return {
 				border = "rounded",
 				winblend = 0,
 				draw = {
-				treesitter = { "lsp", "copilot" },
+				treesitter = { "lsp" },
 				columns = {
 				{ "label", "label_description", gap = 1 },
 				{ "kind_icon", "kind", gap = 1 },
@@ -108,7 +105,7 @@ return {
 			},
 
 			sources = {
-			default = { "lsp", "path", "snippets", "buffer", "copilot" },
+			default = { "lsp", "path", "snippets", "buffer" },
 
 				providers = {
 					lsp = {
@@ -123,12 +120,6 @@ return {
 					buffer = {
 						score_offset = -100,
 						min_keyword_length = 3,
-					},
-					copilot = {
-					name = "copilot",
-					module = "blink-copilot",
-					score_offset = 100,
-					async = true,
 					},
 				},
 			},

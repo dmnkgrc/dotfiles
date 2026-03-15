@@ -216,6 +216,39 @@ return {
 							typescriptreact = "javascript",
 						},
 						validate = true,
+						classAttributes = {
+							"class",
+							"className",
+							"headerClassName",
+							"contentContainerClassName",
+							"columnWrapperClassName",
+							"endFillColorClassName",
+							"imageClassName",
+							"tintColorClassName",
+							"ios_backgroundColorClassName",
+							"thumbColorClassName",
+							"trackColorOnClassName",
+							"trackColorOffClassName",
+							"selectionColorClassName",
+							"cursorColorClassName",
+							"underlineColorAndroidClassName",
+							"placeholderTextColorClassName",
+							"selectionHandleColorClassName",
+							"colorsClassName",
+							"progressBackgroundColorClassName",
+							"titleColorClassName",
+							"underlayColorClassName",
+							"colorClassName",
+							"drawerBackgroundColorClassName",
+							"statusBarBackgroundColorClassName",
+							"backdropColorClassName",
+							"backgroundColorClassName",
+							"ListFooterComponentClassName",
+							"ListHeaderComponentClassName",
+						},
+						classFunctions = {
+							"useResolveClassNames",
+						},
 						lint = {
 							cssConflict = "warning",
 							invalidApply = "error",
@@ -285,10 +318,8 @@ return {
 				root_markers = { ".trunk", "ruff.toml", ".ruff.toml", "pyproject.toml" },
 			}
 
-			vim.lsp.config.copilot = {}
-
 			-- Enable LSP servers
-			vim.lsp.enable({ "vtsls", "eslint", "tailwindcss", "basedpyright", "lua_ls", "ruff", "copilot" })
+			vim.lsp.enable({ "vtsls", "eslint", "tailwindcss", "basedpyright", "lua_ls", "ruff" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)

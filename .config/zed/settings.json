@@ -1,4 +1,7 @@
 {
+  "edit_predictions": {
+    "provider": "zed",
+  },
   "context_servers": {
     "mcp-server-context7": {
       "enabled": true,
@@ -6,12 +9,19 @@
         "context7_api_key": "",
       },
     },
+    "react-grab-mcp": {
+      "source": "custom",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@react-grab/mcp",
+        "--stdio"
+      ],
+      "env": {}
+    },
   },
-  "icon_theme": "Phosphor Icons Theme",
+  "icon_theme": "Warm Charmed Icons",
   "disable_ai": false,
-  "features": {
-    "edit_prediction_provider": "zed",
-  },
   "agent": {
     "default_model": {
       "provider": "zed.dev",
@@ -26,7 +36,7 @@
     },
   },
   "base_keymap": "VSCode",
-  "theme": "Vesper",
+  "theme": "Dracula Pro (Van Helsing)",
   "buffer_font_family": "BerkeleyMono Nerd Font Mono",
   "ui_font_family": "BerkeleyMono Nerd Font Mono",
   "buffer_line_height": {
@@ -44,6 +54,9 @@
     "breadcrumbs": true,
     "quick_actions": false,
   },
+  "status_bar": {
+    "experimental.show": false,
+  },
   "vim_mode": true,
   "vim": {
     "use_system_clipboard": "always",
@@ -53,6 +66,12 @@
   },
   "tab_bar": {
     "show": false,
+  },
+  "title_bar": {
+    "show_onboarding_banner": false,
+    "show_project_items": false,
+    "show_user_menu": false,
+    "show_branch_name": false,
   },
   "vertical_scroll_margin": 0,
   "cursor_blink": false,
@@ -66,37 +85,45 @@
       "format_on_save": "on",
     },
     "JavaScript": {
-      "language_servers": ["vtsls"],
+      "language_servers": ["vtsls", "oxlint", "oxfmt"],
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "prettierd",
-          "arguments": ["--stdin-filepath", "{buffer_path}"],
-        },
-      },
+      "prettier": { "allowed": false },
+      "formatter": [
+        { "language_server": { "name": "oxfmt" } },
+        { "code_action": "source.fixAll.oxc" },
+      ],
     },
     "TypeScript": {
-      "language_servers": ["vtsls"],
+      "language_servers": ["vtsls", "oxlint", "oxfmt"],
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "prettierd",
-          "arguments": ["--stdin-filepath", "{buffer_path}"],
-        },
-      },
+      "prettier": { "allowed": false },
+      "formatter": [{ "language_server": { "name": "oxfmt" } }],
     },
     "TSX": {
-      "language_servers": ["vtsls"],
+      "language_servers": ["vtsls", "oxlint", "oxfmt"],
       "format_on_save": "on",
-      "formatter": {
-        "external": {
-          "command": "prettierd",
-          "arguments": ["--stdin-filepath", "{buffer_path}"],
-        },
-      },
+      "prettier": { "allowed": false },
+      "formatter": [{ "language_server": { "name": "oxfmt" } }],
     },
   },
   "lsp": {
+    "oxlint": {
+      "initialization_options": {
+        "settings": {
+          "run": "onType",
+          "disableNestedConfig": false,
+          "fixKind": "safe_fix",
+        },
+      },
+    },
+    "oxfmt": {
+      "initialization_options": {
+        "settings": {
+          "fmt.configPath": null,
+          "run": "onSave",
+        },
+      },
+    },
     "rust-analyzer": {
       "initialization_options": {
         "checkOnSave": {

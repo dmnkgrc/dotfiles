@@ -7,7 +7,6 @@ set -gx EDITOR nvim
 zoxide init fish | source
 
 source $HOME/.config/fish/conf.d/abbr.fish
-source $HOME/.config/op/plugins.sh
 
 set -x ANDROID_HOME $HOME/Library/Android/sdk
 set -x FZF_DEFAULT_COMMAND "rg --files --hidden --follow --glob '!.git'"
@@ -50,6 +49,7 @@ set -gx AIDER_DARK_MODE true
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 set -gx VITE_POSTHOG_HOST https://eu.i.posthog.com
 set -gx PATH ~/.npm-global/bin $PATH
+set -gx CLAWDBOT_GATEWAY_TOKEN 32ob64K9kPGFuVLmcX9NUEKpAP6pwc
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"

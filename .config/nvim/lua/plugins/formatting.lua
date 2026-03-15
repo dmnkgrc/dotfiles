@@ -19,15 +19,15 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				python = { "ruff_format" },
-				javascript = { "prettierd" },
-				typescript = { "prettierd" },
-				javascriptreact = { "prettierd" },
-				typescriptreact = { "prettierd" },
-				json = { "prettierd" },
-				jsonc = { "prettierd" },
-				markdown = { "prettierd" },
-				css = { "prettierd" },
-				yaml = { "prettierd" },
+				javascript = { "oxfmt" },
+				typescript = { "oxfmt" },
+				javascriptreact = { "oxfmt" },
+				typescriptreact = { "oxfmt" },
+				json = { "oxfmt" },
+				jsonc = { "oxfmt" },
+				markdown = { "oxfmt" },
+				css = { "oxfmt" },
+				yaml = { "oxfmt" },
 				go = { "goimports", "gofmt" },
 				rust = { "rustfmt" },
 				ruby = { "rubocop" },
@@ -42,6 +42,11 @@ return {
 				return { timeout_ms = 500, lsp_fallback = true }
 			end,
 			formatters = {
+				oxfmt = {
+					command = "oxfmt",
+					args = { "--stdin-filepath", "$FILENAME" },
+					stdin = true,
+				},
 				ruff_format = {
 					-- Check for trunk config directory
 					prepend_args = function(self, ctx)
@@ -62,48 +67,6 @@ return {
 
 						if config_path ~= "" then
 							return { "--config", vim.fn.fnamemodify(config_path, ":p") }
-						end
-						return {}
-					end,
-				},
-				prettier = {
-					cwd = function()
-						require("conform.util").root_file({ ".trunk", "pnpm-workspace.yaml" })
-					end,
-					prepend_args = function(self, ctx)
-						local trunk_dir = vim.fn.finddir(".trunk", ctx.dirname .. ";")
-						if trunk_dir ~= "" then
-							local trunk_root = vim.fs.dirname(trunk_dir)
-							local trunk_configs = {
-								trunk_root .. "/.trunk/configs/.prettierrc.json",
-								trunk_root .. "/.trunk/configs/.prettierrc.yaml",
-							}
-							for _, config_path in ipairs(trunk_configs) do
-								if vim.fn.filereadable(config_path) == 1 then
-									return { "--config", config_path }
-								end
-							end
-						end
-						return {}
-					end,
-				},
-				prettierd = {
-					cwd = function()
-						require("conform.util").root_file({ ".trunk", "pnpm-workspace.yaml" })
-					end,
-					env = function(self, ctx)
-						local trunk_dir = vim.fn.finddir(".trunk", ctx.dirname .. ";")
-						if trunk_dir ~= "" then
-							local trunk_root = vim.fs.dirname(trunk_dir)
-							local trunk_configs = {
-								trunk_root .. "/.trunk/configs/.prettierrc.json",
-								trunk_root .. "/.trunk/configs/.prettierrc.yaml",
-							}
-							for _, config_path in ipairs(trunk_configs) do
-								if vim.fn.filereadable(config_path) == 1 then
-									return { PRETTIERD_DEFAULT_CONFIG = config_path }
-								end
-							end
 						end
 						return {}
 					end,

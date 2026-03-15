@@ -36,7 +36,6 @@
     gnused
     go
     imagemagick
-    ice-bar
     jq
     kanata
     keycastr

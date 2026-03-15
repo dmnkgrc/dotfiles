@@ -100,7 +100,7 @@ return {
 		opts = {
 			ignored_filetypes = { "nofile", "quickfix", "prompt" },
 			default_amount = 3,
-			at_edge = "wrap",
+			at_edge = "stop",
 			resize_mode = {
 				quit_key = "<ESC>",
 				resize_keys = { "h", "j", "k", "l" },
@@ -112,4 +112,3 @@ return {
 		},
 	},
 }
-

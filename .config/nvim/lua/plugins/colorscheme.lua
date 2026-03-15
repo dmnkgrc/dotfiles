@@ -1,25 +1,28 @@
 return {
 	{
-		"EdenEast/nightfox.nvim",
-		lazy = false,
-		priority = 1000,
-	},
-	{
-		"nexxeln/vesper.nvim",
+		"oskarnurm/koda.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.cmd.colorscheme("vesper")
+			-- vim.cmd("colorscheme koda")
 		end,
 	},
+	-- {
+	-- 	"nexxeln/vesper.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	-- config = function()
+	-- 	-- 	vim.cmd.colorscheme("vesper")
+	-- 	-- end,
+	-- },
 	{
 		"rebelot/kanagawa.nvim",
 		lazy = false,
 		priority = 1000,
 		opts = {
-			theme = "dragon",
+			theme = "wave",
 			background = {
-				dark = "dragon",
+				dark = "wave",
 			},
 			colors = {
 				theme = {
@@ -46,25 +49,18 @@ return {
 				}
 			end,
 		},
-		-- config = function()
-		-- 	vim.cmd("colorscheme kanagawa-dragon")
-		-- end,
-	},
-	{
-		"rose-pine/neovim",
-		name = "rose-pine",
 		config = function()
-			-- vim.cmd("colorscheme rose-pine")
+			vim.cmd("colorscheme kanagawa")
 		end,
 	},
-	{
-		"webhooked/kanso.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			-- vim.cmd("colorscheme kanso-zen")
-		end,
-	},
+	-- {
+	-- 	"webhooked/kanso.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		-- vim.cmd("colorscheme kanso-zen")
+	-- 	end,
+	-- },
 	{
 		dir = "~/dotfiles/themes/dracula-pro",
 		name = "dracula-pro",
