@@ -1,0 +1,17 @@
+{
+  "packages": [
+    "npm:@aliou/pi-guardrails",
+    "npm:pi-super-curl",
+    "npm:pi-subagents",
+    "npm:@marckrenn/pi-sub-bar",
+    "npm:pi-messenger",
+    "npm:pi-agentic-compaction",
+    "npm:pi-powerline-footer",
+    "npm:pi-image-preview",
+    "npm:pi-mcp-adapter"
+  ],
+  "lastChangelogVersion": "0.64.0",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.3-codex",
+  "defaultThinkingLevel": "high"
+}

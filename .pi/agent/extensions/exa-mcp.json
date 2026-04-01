@@ -1,0 +1,12 @@
+{
+  "url": "https://mcp.exa.ai/mcp",
+  "apiKey": null,
+  "tools": [
+    "web_search_exa",
+    "get_code_context_exa"
+  ],
+  "timeoutMs": 30000,
+  "protocolVersion": "2025-06-18",
+  "maxBytes": 51200,
+  "maxLines": 2000
+}

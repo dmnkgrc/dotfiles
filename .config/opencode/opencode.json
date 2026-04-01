@@ -33,6 +33,14 @@
       "type": "local",
       "command": ["fff-mcp"],
       "enabled": true
+    },
+    "solo": {
+      "type": "remote",
+      "url": "http://localhost:45678/"
+    },
+    "datadog-mcp": {
+      "type": "remote",
+      "url": "https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp"
     }
   }
 }

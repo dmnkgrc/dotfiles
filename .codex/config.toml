@@ -1,33 +1,21 @@
 model = "gpt-5.4"
-personality = "pragmatic"
 model_reasoning_effort = "high"
 
-[projects."/Users/dominikgarciabertapelle/code"]
-trust_level = "trusted"
+[mcp_servers.solo]
+url = "http://localhost:45678/"
 
-[projects."/Users/dominikgarciabertapelle/code/cortea"]
-trust_level = "trusted"
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
 
-[notice.model_migrations]
-gpt-5-codex = "gpt-5.2-codex"
+[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
 
 [mcp_servers.figma]
 url = "https://mcp.figma.com/mcp"
 
-[mcp_servers.context7]
-url = "https://mcp.context7.com/mcp"
-env_http_headers = { CONTEXT7_API_KEY = "CONTEXT7_API_KEY" }
-
-[mcp_servers.codebase-retrieval]
-command = "/Users/dominikgarciabertapelle/.npm-global/bin/auggie"
-args = ["--mcp", "--mcp-auto-workspace"]
-
-[mcp_servers.react-grab-mcp]
+[mcp_servers.playwright]
+args = ["@playwright/mcp@latest"]
 command = "npx"
-args = ["-y", "@react-grab/mcp", "--stdio"]
 
-[mcp_servers.datadog]
-url = "https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp"
-
-[mcp_servers.fff]
-command = "fff-mcp"
+[projects."/Users/dominikgarciabertapelle/code/cortea"]
+trust_level = "trusted"
