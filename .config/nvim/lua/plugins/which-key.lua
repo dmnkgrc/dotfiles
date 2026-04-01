@@ -15,7 +15,7 @@ return {
     { '<leader>uw', function() vim.opt.wrap = not vim.opt.wrap:get() end, desc = 'Toggle Word Wrap' },
     { '<leader>uL', function() vim.opt.relativenumber = not vim.opt.relativenumber:get() end, desc = 'Toggle Relative Line Numbers' },
     { '<leader>ul', function() vim.opt.number = not vim.opt.number:get(); vim.opt.relativenumber = not vim.opt.relativenumber:get() end, desc = 'Toggle Line Numbers' },
-    { '<leader>ud', function() if vim.diagnostic.is_disabled() then vim.diagnostic.enable() else vim.diagnostic.disable() end end, desc = 'Toggle Diagnostics' },
+    { '<leader>ud', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, desc = 'Toggle Diagnostics' },
     { '<leader>uc', function() vim.opt.conceallevel = vim.opt.conceallevel:get() == 0 and (vim.o.conceallevel > 0 and vim.o.conceallevel or 3) or 0 end, desc = 'Toggle Conceal' },
     vim.lsp.inlay_hint and { '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, desc = 'Toggle Inlay Hints' } or nil,
     { '<leader>uT', function() vim.opt.showtabline = vim.opt.showtabline:get() == 0 and 2 or 0 end, desc = 'Toggle Tabline' },

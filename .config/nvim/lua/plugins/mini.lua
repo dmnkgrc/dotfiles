@@ -145,7 +145,7 @@ return {
 			end
 
 			-- Timer for spinner animation
-			local minuet_timer = vim.loop.new_timer()
+			local minuet_timer = vim.uv.new_timer()
 
 			-- Set up autocmds for minuet status updates
 			vim.api.nvim_create_autocmd("User", {
