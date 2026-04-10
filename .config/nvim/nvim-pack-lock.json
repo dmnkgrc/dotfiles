@@ -49,11 +49,6 @@
       "rev": "6f8c2097ab4422976063fefe0f29331e12a32334",
       "src": "https://github.com/MagicDuck/grug-far.nvim"
     },
-    "harpoon": {
-      "rev": "87b1a3506211538f460786c23f98ec63ad9af4e5",
-      "src": "https://github.com/ThePrimeagen/harpoon",
-      "version": "'harpoon2'"
-    },
     "inc-rename.nvim": {
       "rev": "0074b551a17338ccdcd299bd86687cc651bcb33d",
       "src": "https://github.com/smjonas/inc-rename.nvim"
@@ -157,10 +152,6 @@
     "smart-splits.nvim": {
       "rev": "0bd02161ee5c5378bf4133fcedf53d1fc4179e1d",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
-    },
-    "snacks.nvim": {
-      "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
-      "src": "https://github.com/folke/snacks.nvim"
     },
     "statuscol.nvim": {
       "rev": "c46172d0911aa5d49ba5f39f4351d1bb7aa289cc",

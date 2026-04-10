@@ -12,6 +12,9 @@ function M.setup()
 	vim.keymap.set("n", "<leader>fg", function()
 		require("fff").find_in_git_root()
 	end, { desc = "Find Files (git-files)" })
+	vim.keymap.set("n", "<leader>sg", function()
+		require("fff").live_grep()
+	end, { desc = "Grep (fff live grep)" })
 end
 
 return M

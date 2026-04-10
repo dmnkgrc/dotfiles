@@ -30,7 +30,7 @@ function M.setup()
 	local center = {
 		{
 			action = function()
-				require("snacks").picker.files()
+				require("fff").find_files()
 			end,
 			desc = " Find file",
 			icon = " ",
@@ -39,7 +39,7 @@ function M.setup()
 		{ action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
 		{
 			action = function()
-				require("snacks").picker.recent()
+				require("fff").find_files()
 			end,
 			desc = " Recent files",
 			icon = " ",
@@ -47,7 +47,7 @@ function M.setup()
 		},
 		{
 			action = function()
-				require("snacks").picker.grep()
+				require("fff").live_grep()
 			end,
 			desc = " Find text",
 			icon = " ",
