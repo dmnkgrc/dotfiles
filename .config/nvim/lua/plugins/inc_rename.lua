@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-	require("nvim-ts-autotag").setup({})
+	require("inc_rename").setup()
 end
 
 return M

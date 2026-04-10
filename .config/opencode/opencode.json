@@ -42,5 +42,6 @@
       "type": "remote",
       "url": "https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp"
     }
-  }
+  },
+  "plugin": ["@plannotator/opencode@latest"]
 }

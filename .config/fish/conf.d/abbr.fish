@@ -23,6 +23,7 @@ abbr lg lazygit
 abbr ls lsd
 abbr ws "~/dotfiles/.config/wezterm/scripts/workspace_switcher.sh"
 abbr cat bat
+abbr yolo 'claude --dangerously-skip-permissions'
 
 # Git
 abbr -a -- g git

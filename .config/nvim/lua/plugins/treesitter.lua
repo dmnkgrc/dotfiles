@@ -1,36 +1,61 @@
-return {
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		main = "nvim-treesitter.configs",
-		opts = {
-			ensure_installed = {
-				"bash",
-				"c",
-				"diff",
-				"html",
-				"javascript",
-				"typescript",
-				"tsx",
-				"python",
-				"lua",
-				"luadoc",
-				"markdown",
-				"markdown_inline",
-				"query",
-				"vim",
-				"vimdoc",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
-				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
-		},
-	},
+local M = {}
+
+--- Parser names for nvim-treesitter (rewrite; no more `nvim-treesitter.configs`).
+--- See $VIMRUNTIME/pack/.../nvim-treesitter/README.md and :h nvim-treesitter-quickstart
+local parsers = {
+	"bash",
+	"c",
+	"diff",
+	"html",
+	"javascript",
+	"typescript",
+	"tsx",
+	"python",
+	"lua",
+	"luadoc",
+	"markdown",
+	"markdown_inline",
+	"query",
+	"vim",
+	"vimdoc",
 }
+
+--- Vim |filetypes| to enable core TS features (highlight/folds/indent).
+local filetypes = {
+	"bash",
+	"sh",
+	"c",
+	"diff",
+	"html",
+	"javascript",
+	"typescript",
+	"typescriptreact",
+	"tsx",
+	"python",
+	"lua",
+	"markdown",
+	"query",
+	"vim",
+	"help",
+}
+
+function M.setup()
+	require("nvim-treesitter").setup({})
+	require("nvim-treesitter").install(parsers)
+
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = filetypes,
+		callback = function()
+			pcall(vim.treesitter.start)
+			pcall(function()
+				vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+				vim.wo.foldmethod = "expr"
+			end)
+			pcall(function()
+				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end)
+		end,
+	})
+end
+
+return M

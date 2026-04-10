@@ -16,6 +16,7 @@
       "g c c": "editor::ToggleComments",
       "space f": "file_finder::Toggle",
       "space e": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock",
       "space p": "outline::Toggle",
       "space v": "editor::GoToDefinitionSplit",
       "space o": "tab_switcher::Toggle",

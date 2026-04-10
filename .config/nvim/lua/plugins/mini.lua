@@ -1,15 +1,8 @@
-return {
-	-- Collection of various small independent plugins/modules
-	{
-		"echasnovski/mini.nvim",
-		version = false,
-		dependencies = {
-			{ "JoosepAlviste/nvim-ts-context-commentstring", opts = { enable_autocmd = false } },
-			{
-				"rafamadriz/friendly-snippets",
-			},
-		},
-		config = function()
+local M = {}
+
+function M.setup()
+	require("ts_context_commentstring").setup({ enable_autocmd = false })
+
 			-- Better Around/Inside textobjects with tree-sitter integration
 			local ai = require("mini.ai")
 			local spec_treesitter = ai.gen_spec.treesitter
@@ -238,6 +231,6 @@ return {
 			statusline.section_location = function()
 				return "%p%%"
 			end
-		end,
-	},
-}
+end
+
+return M

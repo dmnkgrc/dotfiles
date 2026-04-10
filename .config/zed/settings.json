@@ -10,7 +10,6 @@
       },
     },
     "react-grab-mcp": {
-      "source": "custom",
       "command": "npx",
       "args": [
         "-y",

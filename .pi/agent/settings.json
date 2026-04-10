@@ -8,7 +8,8 @@
     "npm:pi-agentic-compaction",
     "npm:pi-powerline-footer",
     "npm:pi-image-preview",
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:@plannotator/pi-extension"
   ],
   "lastChangelogVersion": "0.64.0",
   "defaultProvider": "openai-codex",
