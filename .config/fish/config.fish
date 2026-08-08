@@ -4,6 +4,8 @@ if status is-interactive
 end
 starship init fish | source
 set -gx EDITOR nvim
+set -gx _ZO_EXCLUDE_DIRS "$HOME/google-cloud-sdk"
+set -gx _ZO_MAXAGE 50000
 zoxide init fish | source
 
 source $HOME/.config/fish/conf.d/abbr.fish
@@ -93,3 +95,7 @@ pyenv virtualenv-init - | source
 # opencode
 fish_add_path /Users/dominikgarciabertapelle/.opencode/bin
 source "$HOME/.cargo/env.fish"  # For fish
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/dominikgarciabertapelle/.lmstudio/bin
+# End of LM Studio CLI section

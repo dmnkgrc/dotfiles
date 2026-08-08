@@ -9,7 +9,6 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-    _1password-cli
     ast-grep
     atuin
     autoconf
@@ -27,7 +26,6 @@
     fnm
     fontforge
     fzf
-    gh
     ghostscript
     git
     git-absorb
@@ -65,7 +63,6 @@
     wget
     yazi
     yq-go
-    zoxide
     delta
   ];
 
