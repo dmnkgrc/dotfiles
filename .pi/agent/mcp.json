@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "linear": {
+      "url": "https://mcp.linear.app/mcp",
+      "auth": "oauth",
+      "lifecycle": "lazy"
+    },
+    "figma": {
+      "url": "http://127.0.0.1:3845/sse",
+      "auth": false,
+      "lifecycle": "lazy",
+      "directTools": true
+    },
+    "fallow": {
+      "command": "fallow-mcp",
+      "lifecycle": "lazy"
+    },
+    "expect": {
+      "command": "npx",
+      "args": ["-y", "expect-cli@latest", "mcp"]
+    }
+  }
+}

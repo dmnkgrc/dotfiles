@@ -1,4 +1,16 @@
 {
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
   "edit_predictions": {
     "provider": "zed",
   },
@@ -18,16 +30,42 @@
       ],
       "env": {}
     },
+    "argent": {
+      "source": "custom",
+      "command": "argent",
+      "args": [
+        "mcp"
+      ]
+    },
   },
   "icon_theme": "Warm Charmed Icons",
   "disable_ai": false,
   "agent": {
+    "dock": "left",
     "default_model": {
       "provider": "zed.dev",
       "model": "claude-sonnet-4-5",
     },
+    "tool_permissions": {
+      "default": "allow"
+    },
   },
   "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    },
+    "cursor": {
+      "type": "registry"
+    },
+    "amp-acp": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "type": "registry"
+    },
+    "pi-acp": {
+      "type": "registry"
+    },
     "Amp": {
       "type": "custom",
       "command": "npx",

@@ -1,18 +1,58 @@
 {
   "packages": [
-    "npm:@aliou/pi-guardrails",
-    "npm:pi-super-curl",
     "npm:pi-subagents",
-    "npm:@marckrenn/pi-sub-bar",
-    "npm:pi-messenger",
-    "npm:pi-agentic-compaction",
-    "npm:pi-powerline-footer",
-    "npm:pi-image-preview",
     "npm:pi-mcp-adapter",
-    "npm:@plannotator/pi-extension"
+    "npm:pi-web-access",
+    "git:github.com/badlogic/pi-diff-review@1584211692c49780ecd0f490a82762b0823fd475",
+    "npm:@devkade/pi-plan",
+    "npm:pi-add-dir",
+    "npm:pi-prompt-template-model",
+    "npm:@tmustier/pi-usage-extension",
+    "npm:@tmustier/pi-raw-paste",
+    "git:github.com/tintinweb/pi-manage-todo-list@b75c449aa85ce328e9a8b632f62bf642aed40359",
+    "git:github.com/davebcn87/pi-autoresearch",
+    "npm:pi-terminal-theme",
+    "npm:pi-ask-user",
+    "git:github.com/VandeeFeng/pi-memory-md",
+    "npm:pi-cursor-sdk",
+    "npm:@ff-labs/pi-fff",
+    "npm:@qhn/pi-goal",
+    "npm:@plannotator/pi-extension",
+    "npm:@victor-software-house/pi-curated-themes"
   ],
-  "lastChangelogVersion": "0.64.0",
+  "lastChangelogVersion": "0.84.1",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.3-codex",
-  "defaultThinkingLevel": "high"
+  "defaultModel": "gpt-5.6-terra",
+  "defaultThinkingLevel": "high",
+  "enabledModels": [
+    "openai-codex/gpt-5.6-terra",
+    "openai-codex/*",
+    "cursor/gpt-5.6-terra@272k",
+    "cursor/gpt-5.6-terra@1m"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "context-builder": {
+        "model": ""
+      },
+      "planner": {
+        "model": ""
+      },
+      "researcher": {
+        "model": ""
+      },
+      "reviewer": {
+        "model": ""
+      },
+      "scout": {
+        "model": ""
+      },
+      "worker": {
+        "model": ""
+      }
+    }
+  },
+  "quietStartup": true,
+  "theme": "kanagawa-wave",
+  "hideThinkingBlock": false
 }
