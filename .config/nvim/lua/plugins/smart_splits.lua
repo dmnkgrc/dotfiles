@@ -1,7 +1,33 @@
 local M = {}
 
+local is_herdr_session = vim.env.HERDR_ENV == "1"
+
+local function set_navigation_keymaps(splits)
+	vim.keymap.set("n", "<C-h>", splits.move_cursor_left, { desc = "Move to left split" })
+	vim.keymap.set("n", "<C-j>", splits.move_cursor_down, { desc = "Move to below split" })
+	vim.keymap.set("n", "<C-k>", splits.move_cursor_up, { desc = "Move to above split" })
+	vim.keymap.set("n", "<C-l>", splits.move_cursor_right, { desc = "Move to right split" })
+	vim.keymap.set("n", "<A-h>", splits.resize_left, { desc = "Resize split left" })
+	vim.keymap.set("n", "<A-j>", splits.resize_down, { desc = "Resize split down" })
+	vim.keymap.set("n", "<A-k>", splits.resize_up, { desc = "Resize split up" })
+	vim.keymap.set("n", "<A-l>", splits.resize_right, { desc = "Resize split right" })
+end
+
 function M.setup()
-	require("smart-splits").setup({
+	if is_herdr_session then
+		local splits = require("herdr-splits")
+		splits.setup({
+			at_edge = "stop",
+			neovim_amount = 3,
+			move_cursor_same_row = false,
+			auto_sync_herdr = true,
+		})
+		set_navigation_keymaps(splits)
+		return
+	end
+
+	local splits = require("smart-splits")
+	splits.setup({
 		ignored_filetypes = { "nofile", "quickfix", "prompt" },
 		default_amount = 3,
 		at_edge = "stop",
@@ -14,43 +40,12 @@ function M.setup()
 		move_cursor_same_row = false,
 		log_level = "info",
 	})
+	set_navigation_keymaps(splits)
 
-	vim.keymap.set("n", "<C-h>", function()
-		require("smart-splits").move_cursor_left()
-	end, { desc = "Move to left split" })
-	vim.keymap.set("n", "<C-j>", function()
-		require("smart-splits").move_cursor_down()
-	end, { desc = "Move to below split" })
-	vim.keymap.set("n", "<C-k>", function()
-		require("smart-splits").move_cursor_up()
-	end, { desc = "Move to above split" })
-	vim.keymap.set("n", "<C-l>", function()
-		require("smart-splits").move_cursor_right()
-	end, { desc = "Move to right split" })
-	vim.keymap.set("n", "<A-h>", function()
-		require("smart-splits").resize_left()
-	end, { desc = "Resize split left" })
-	vim.keymap.set("n", "<A-j>", function()
-		require("smart-splits").resize_down()
-	end, { desc = "Resize split down" })
-	vim.keymap.set("n", "<A-k>", function()
-		require("smart-splits").resize_up()
-	end, { desc = "Resize split up" })
-	vim.keymap.set("n", "<A-l>", function()
-		require("smart-splits").resize_right()
-	end, { desc = "Resize split right" })
-	vim.keymap.set("n", "<leader>wh", function()
-		require("smart-splits").swap_buf_left()
-	end, { desc = "Swap buffer left" })
-	vim.keymap.set("n", "<leader>wj", function()
-		require("smart-splits").swap_buf_down()
-	end, { desc = "Swap buffer down" })
-	vim.keymap.set("n", "<leader>wk", function()
-		require("smart-splits").swap_buf_up()
-	end, { desc = "Swap buffer up" })
-	vim.keymap.set("n", "<leader>wl", function()
-		require("smart-splits").swap_buf_right()
-	end, { desc = "Swap buffer right" })
+	vim.keymap.set("n", "<leader>wh", splits.swap_buf_left, { desc = "Swap buffer left" })
+	vim.keymap.set("n", "<leader>wj", splits.swap_buf_down, { desc = "Swap buffer down" })
+	vim.keymap.set("n", "<leader>wk", splits.swap_buf_up, { desc = "Swap buffer up" })
+	vim.keymap.set("n", "<leader>wl", splits.swap_buf_right, { desc = "Swap buffer right" })
 	vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 	vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 	vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })

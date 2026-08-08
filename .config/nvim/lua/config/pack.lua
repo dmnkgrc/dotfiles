@@ -61,6 +61,10 @@ function M.register_hooks()
 end
 
 function M.add_all()
+	local splits_plugin = vim.env.HERDR_ENV == "1"
+		and "https://github.com/lmilojevicc/herdr-splits.nvim"
+		or "https://github.com/mrjones2014/smart-splits.nvim"
+
 	-- During init.lua sourcing, vim.pack defaults load=false (|:packadd!|); Lua
 	-- requires from plugin modules need full load so rtp/package.path resolve.
 	vim.pack.add({
@@ -68,7 +72,6 @@ function M.add_all()
 		"https://github.com/MunifTanjim/nui.nvim",
 		"https://github.com/rcarriga/nvim-notify",
 		"https://github.com/antoinemadec/FixCursorHold.nvim",
-		"https://github.com/nvim-neotest/nvim-nio",
 		"https://github.com/kevinhwang91/promise-async",
 		"https://github.com/nvim-tree/nvim-web-devicons",
 		"https://github.com/rafamadriz/friendly-snippets",
@@ -76,6 +79,7 @@ function M.add_all()
 		"https://github.com/nvim-treesitter/nvim-treesitter",
 		"https://github.com/windwp/nvim-ts-autotag",
 		"https://github.com/mason-org/mason.nvim",
+		"https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
 		"https://github.com/neovim/nvim-lspconfig",
 		"https://github.com/SmiteshP/nvim-navic",
 		"https://github.com/mason-org/mason-lspconfig.nvim",
@@ -84,33 +88,41 @@ function M.add_all()
 		"https://github.com/rebelot/kanagawa.nvim",
 		"https://github.com/stevearc/conform.nvim",
 		"https://github.com/nvimdev/dashboard-nvim",
-		"https://github.com/sindrets/diffview.nvim",
 		"https://github.com/dmtrKovalenko/fff.nvim",
 		"https://github.com/folke/flash.nvim",
 		"https://github.com/lewis6991/gitsigns.nvim",
 		"https://github.com/vuciv/golf",
-		"https://github.com/MagicDuck/grug-far.nvim",
 		"https://github.com/smjonas/inc-rename.nvim",
 		"https://github.com/lukas-reineke/indent-blankline.nvim",
 		"https://github.com/echasnovski/mini.nvim",
-		"https://github.com/nvim-neotest/neotest",
-		"https://github.com/nvim-neotest/neotest-jest",
 		"https://github.com/folke/noice.nvim",
 		"https://github.com/brenoprata10/nvim-highlight-colors",
 		"https://github.com/kevinhwang91/nvim-ufo",
 		"https://github.com/stevearc/oil.nvim",
 		"https://github.com/folke/sidekick.nvim",
-		"https://github.com/mrjones2014/smart-splits.nvim",
+		splits_plugin,
 		"https://github.com/luukvbaal/statuscol.nvim",
 		"https://github.com/folke/todo-comments.nvim",
 		"https://github.com/folke/trouble.nvim",
 		"https://github.com/dmmulroy/ts-error-translator.nvim",
 		"https://github.com/dmmulroy/tsc.nvim",
-		"https://github.com/mbbill/undotree",
 		"https://github.com/tpope/vim-fugitive",
 		"https://github.com/folke/which-key.nvim",
 		"https://github.com/sourcegraph/amp.nvim",
 	}, { load = true })
+
+	-- Optional tools are registered so vim.pack can install and lock them, but a
+	-- no-op loader prevents Neovim from sourcing their plugin files at startup.
+	-- Their configuration and commands load only from their first mapping.
+	vim.pack.add({
+		"https://github.com/nvim-neotest/nvim-nio",
+		"https://github.com/sindrets/diffview.nvim",
+		"https://github.com/MagicDuck/grug-far.nvim",
+		"https://github.com/nvim-neotest/neotest",
+		"https://github.com/nvim-neotest/neotest-jest",
+		"https://github.com/folke/trouble.nvim",
+		"https://github.com/mbbill/undotree",
+	}, { load = function() end })
 
 	-- Ensure fff backend exists even when plugin is already installed but its
 	-- binary is missing (e.g. after cache cleanup or failed previous build).

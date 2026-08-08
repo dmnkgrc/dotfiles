@@ -1,10 +1,18 @@
 local M = {}
 
 function M.setup()
-	require("grug-far").setup({ headerMaxWidth = 80 })
+	local configured = false
+	local function load_grug_far()
+		vim.cmd.packadd("grug-far.nvim")
+		if not configured then
+			require("grug-far").setup({ headerMaxWidth = 80 })
+			configured = true
+		end
+		return require("grug-far")
+	end
 
 	vim.keymap.set({ "n", "v" }, "<leader>sr", function()
-		local grug = require("grug-far")
+		local grug = load_grug_far()
 		local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
 		grug.open({
 			transient = true,

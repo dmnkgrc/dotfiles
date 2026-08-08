@@ -1,0 +1,9 @@
+# Herdr runtime state
+herdr*.log
+*.sock
+session.json
+release-notes.json
+
+# Installed plugins and their platform-specific build artifacts.
+# Keep plugin configuration under plugins/config/ versionable.
+plugins/github/

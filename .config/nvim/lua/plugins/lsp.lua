@@ -1,26 +1,28 @@
 local M = {}
 
 function M.setup()
-	require("mason").setup({
+	-- Mason owns portable editor tooling. Language runtimes own formatters that
+	-- are coupled to their toolchains: gofmt (Go), rustfmt (rustup), and rubocop
+	-- (Ruby). Keep this list aligned with plugins/formatting.lua.
+	require("mason").setup()
+	require("mason-lspconfig").setup()
+	require("mason-tool-installer").setup({
 		ensure_installed = {
+			-- LSP config names resolve through mason-lspconfig.
+			"vtsls",
+			"eslint",
+			"basedpyright",
+			"ruff",
+			"tailwindcss",
+			"lua_ls",
+			-- Mason package names for non-LSP tooling.
 			"stylua",
 			"shfmt",
-			"prettier",
-			"vtsls",
-			"eslint",
-			"basedpyright",
-			"ruff",
-			"tailwindcss-language-server",
+			"oxfmt",
+			"goimports",
 		},
-	})
-
-	require("mason-lspconfig").setup({
-		ensure_installed = {
-			"vtsls",
-			"eslint",
-			"basedpyright",
-			"ruff",
-		},
+		run_on_start = true,
+		debounce_hours = 24,
 	})
 
 	local icons = require("config.icons")

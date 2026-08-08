@@ -1,0 +1,501 @@
+[
+  {
+    "plugin_id": "herdr-splits",
+    "name": "Herdr Splits",
+    "version": "0.5.2",
+    "min_herdr_version": "0.7.0",
+    "description": "Seamless navigation and resizing between Herdr panes and Neovim splits",
+    "manifest_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr-splits-d880c4924f2b/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr-splits-d880c4924f2b",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "actions": [
+      {
+        "id": "nav-down",
+        "title": "Navigate down (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "down"
+        ]
+      },
+      {
+        "id": "nav-left",
+        "title": "Navigate left (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "left"
+        ]
+      },
+      {
+        "id": "nav-right",
+        "title": "Navigate right (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "right"
+        ]
+      },
+      {
+        "id": "nav-up",
+        "title": "Navigate up (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "up"
+        ]
+      },
+      {
+        "id": "resize-down",
+        "title": "Resize down (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "down"
+        ]
+      },
+      {
+        "id": "resize-left",
+        "title": "Resize left (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "left"
+        ]
+      },
+      {
+        "id": "resize-right",
+        "title": "Resize right (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "right"
+        ]
+      },
+      {
+        "id": "resize-up",
+        "title": "Resize up (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "up"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "lmilojevicc",
+      "repo": "herdr-splits.nvim",
+      "resolved_commit": "c58bfdf01520845583e0033c11c56fc9d21a5424",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr-splits-d880c4924f2b",
+      "installed_unix_ms": 1786104052309
+    }
+  },
+  {
+    "plugin_id": "herdr.collie",
+    "name": "Collie",
+    "version": "0.25.0",
+    "min_herdr_version": "0.7.0",
+    "description": "Mobile web UI to monitor and reply to your agent herd, served over Tailscale",
+    "manifest_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "build": [
+      {
+        "platforms": [
+          "linux",
+          "macos"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "build"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "restart",
+        "title": "Restart web bridge",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "restart"
+        ]
+      },
+      {
+        "id": "start",
+        "title": "Start web bridge",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "start"
+        ]
+      },
+      {
+        "id": "status",
+        "title": "Bridge status",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "status"
+        ]
+      },
+      {
+        "id": "stop",
+        "title": "Stop web bridge",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "stop"
+        ]
+      },
+      {
+        "id": "uninstall",
+        "title": "Uninstall web bridge (remove service)",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "uninstall"
+        ]
+      },
+      {
+        "id": "update",
+        "title": "Update plugin",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "update"
+        ]
+      },
+      {
+        "id": "url",
+        "title": "Show bridge URL",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "url"
+        ]
+      },
+      {
+        "id": "version",
+        "title": "Show version",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "scripts/collie-ctl.sh",
+          "version"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "AltanS",
+      "repo": "collie",
+      "resolved_commit": "f7b692b00a4c81d5c3a63766d6c0f15ac56836da",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e",
+      "installed_unix_ms": 1786103919698
+    }
+  },
+  {
+    "plugin_id": "nathanflurry.jj-workspace",
+    "name": "jj workspaces",
+    "version": "0.1.0",
+    "min_herdr_version": "0.7.0",
+    "description": "Create and remove Jujutsu (jj) workspaces as Herdr workspaces or tabs.",
+    "manifest_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/nathanflurry.jj-workspace-19f0b858b2b4/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/nathanflurry.jj-workspace-19f0b858b2b4",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "build": [
+      {
+        "command": [
+          "cargo",
+          "build",
+          "--release"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "new",
+        "title": "New jj workspace",
+        "contexts": [
+          "workspace",
+          "global"
+        ],
+        "command": [
+          "./target/release/jj-workspace",
+          "open",
+          "workspace"
+        ]
+      },
+      {
+        "id": "new-tab",
+        "title": "New jj workspace (in tab)",
+        "contexts": [
+          "workspace",
+          "global"
+        ],
+        "command": [
+          "./target/release/jj-workspace",
+          "open",
+          "tab"
+        ]
+      },
+      {
+        "id": "remove",
+        "title": "Remove jj workspace",
+        "contexts": [
+          "workspace"
+        ],
+        "command": [
+          "./target/release/jj-workspace",
+          "remove"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "wizard",
+        "title": "New jj workspace",
+        "placement": "overlay",
+        "command": [
+          "./target/release/jj-workspace",
+          "wizard"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "NathanFlurry",
+      "repo": "herdr-plugin-jj-workspace",
+      "resolved_commit": "a9f1d3bcdaa2354e336a5173da85cbe4970c0f2e",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/nathanflurry.jj-workspace-19f0b858b2b4",
+      "installed_unix_ms": 1786104090376
+    }
+  },
+  {
+    "plugin_id": "persiyanov.reviewr",
+    "name": "reviewr",
+    "version": "0.29.0",
+    "min_herdr_version": "0.7.5",
+    "description": "Review agent-written diffs beside the chat and add line comments to the agent input.",
+    "manifest_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
+    "enabled": true,
+    "platforms": [
+      "macos",
+      "linux"
+    ],
+    "build": [
+      {
+        "command": [
+          "bash",
+          "herdr/install.sh"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "close",
+        "title": "reviewr: close pane",
+        "contexts": [
+          "pane",
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "herdr/pane.sh",
+          "close"
+        ]
+      },
+      {
+        "id": "open",
+        "title": "reviewr: open pane",
+        "contexts": [
+          "pane",
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "herdr/pane.sh",
+          "open"
+        ]
+      },
+      {
+        "id": "toggle",
+        "title": "reviewr: toggle pane",
+        "contexts": [
+          "pane",
+          "workspace"
+        ],
+        "command": [
+          "bash",
+          "herdr/pane.sh",
+          "toggle"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "on": "worktree.created",
+        "command": [
+          "bash",
+          "herdr/pane.sh",
+          "auto-open"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "pane",
+        "title": "reviewr",
+        "placement": "split",
+        "command": [
+          "sh",
+          "-c",
+          "exec \"$HERDR_PLUGIN_ROOT/bin/herdr-reviewr\""
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "persiyanov",
+      "repo": "herdr-reviewr",
+      "resolved_commit": "42ccaaa72176937181c82a91484f97466fb5ed59",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
+      "installed_unix_ms": 1786103945790
+    }
+  },
+  {
+    "plugin_id": "vim-herdr-navigation",
+    "name": "Vim Herdr Navigation",
+    "version": "0.1.0",
+    "min_herdr_version": "0.7.0",
+    "description": "Seamless Ctrl+h/j/k/l navigation across herdr panes and Vim/Neovim splits",
+    "manifest_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/vim-herdr-navigation-a8bf42123d81/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/vim-herdr-navigation-a8bf42123d81",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "actions": [
+      {
+        "id": "down",
+        "title": "Navigate down (Vim/herdr)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "navigate.sh",
+          "down"
+        ]
+      },
+      {
+        "id": "left",
+        "title": "Navigate left (Vim/herdr)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "navigate.sh",
+          "left"
+        ]
+      },
+      {
+        "id": "right",
+        "title": "Navigate right (Vim/herdr)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "navigate.sh",
+          "right"
+        ]
+      },
+      {
+        "id": "up",
+        "title": "Navigate up (Vim/herdr)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "navigate.sh",
+          "up"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "paulbkim-dev",
+      "repo": "vim-herdr-navigation",
+      "resolved_commit": "820d48f5d9c9a7dece6a4bebfa3982ec30bbfbb7",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/vim-herdr-navigation-a8bf42123d81",
+      "installed_unix_ms": 1786104059535
+    }
+  }
+]
