@@ -3,3 +3,4 @@
 - When writing TypeScript, never use `any` or typecasting unless instructed to do so.
 - When writing TypeScript, don't use non-null assertion
 - Use the fff MCP tools for all file search operations instead of default tools.
+- Do not add yourself as a co-author of commits

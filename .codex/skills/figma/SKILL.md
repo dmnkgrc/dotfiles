@@ -10,6 +10,12 @@ Use the Figma MCP server for Figma-driven implementation. For setup and debuggin
 ## Figma MCP Integration Rules
 These rules define how to translate Figma inputs into code for this project and must be followed for every Figma-driven change.
 
+### Tool discovery in Codex app
+- When the user attaches the Figma plugin (for example `[@figma](plugin://figma@openai-curated)`), assume the Figma tools are intended to be available through that plugin.
+- Do not conclude that the Figma MCP tools are unavailable after a single generic `tool_search` query. First try an explicit deferred-tool load with `select:use_figma,get_design_context,get_screenshot,get_metadata,search_design_system,get_libraries,generate_figma_design`.
+- If explicit selection still returns no callable tool schemas, state only that the current session did not expose the schemas after those exact discovery attempts. Do not say the plugin is not attached or the tools do not exist.
+- For design-to-code work, continue from provided screenshots/specs only after recording that limitation; if the user corrects the tool-discovery path, retry discovery before implementing.
+
 ### Required flow (do not skip)
 1. Run get_design_context first to fetch the structured representation for the exact node(s).
 2. If the response is too large or truncated, run get_metadata to get the high-level node map and then re-fetch only the required node(s) with get_design_context.

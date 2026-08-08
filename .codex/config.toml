@@ -1,21 +1,150 @@
-model = "gpt-5.4"
-model_reasoning_effort = "high"
-
-[mcp_servers.solo]
-url = "http://localhost:45678/"
+model = "gpt-5.5"
+model_reasoning_effort = "xhigh"
+notify = [
+  "/Users/dominikgarciabertapelle/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
+  "turn-ended"
+]
+service_tier = "fast"
 
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
 
-[mcp_servers.notion]
-url = "https://mcp.notion.com/mcp"
-
-[mcp_servers.figma]
-url = "https://mcp.figma.com/mcp"
-
 [mcp_servers.playwright]
-args = ["@playwright/mcp@latest"]
+args = [ "@playwright/mcp@latest" ]
 command = "npx"
+
+[mcp_servers.playwright.tools.browser_navigate]
+approval_mode = "approve"
+
+[mcp_servers.fallow]
+command = "fallow-mcp"
+
+[mcp_servers.fff]
+command = "fff-mcp"
+
+[mcp_servers.fff.tools.find_files]
+approval_mode = "approve"
+
+[mcp_servers.fff.tools.grep]
+approval_mode = "approve"
+
+[mcp_servers.fff.tools.multi_grep]
+approval_mode = "approve"
+
+[mcp_servers.expect]
+command = "npx"
+args = [ "-y", "expect-cli@latest", "mcp" ]
+startup_timeout_sec = 20
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/Codex.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/dominikgarciabertapelle/.codex"
+CODEX_HOME = "/Users/dominikgarciabertapelle/.codex"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "72614174f4dad67a58d46a3ac759cffb45c92fa48a293af4c4ea35102ba391ba"
+BROWSER_USE_AVAILABLE_BACKENDS = "iab"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.608.12217"
+CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
+
+[projects."/Users/dominikgarciabertapelle/dotfiles"]
+trust_level = "trusted"
 
 [projects."/Users/dominikgarciabertapelle/code/cortea"]
 trust_level = "trusted"
+
+[projects."/Users/dominikgarciabertapelle/Library/Scripts"]
+trust_level = "trusted"
+
+[projects."/Users/dominikgarciabertapelle/Downloads"]
+trust_level = "trusted"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
+[notice.model_migrations]
+"gpt-5.4" = "gpt-5.5"
+
+[desktop]
+appearanceLightCodeThemeId = "gruvbox"
+appearanceDarkCodeThemeId = "night-owl"
+followUpQueueMode = "queue"
+preventSleepWhileRunning = true
+keepRemoteControlAwakeWhilePluggedIn = true
+git-branch-prefix = "dmnk/"
+git-commit-instructions = "If the branch name contains a ticket name like ENG-666, you commit should be [ENG-666] commit message. As well you should try to always use conventional commits"
+default-service-tier = "priority"
+
+  [desktop.appearanceLightChromeTheme]
+  accent = "#458588"
+  contrast = 45
+  ink = "#3c3836"
+  opaqueWindows = false
+  surface = "#fbf1c7"
+  fonts = { }
+
+    [desktop.appearanceLightChromeTheme.semanticColors]
+    diffAdded = "#3c3836"
+    diffRemoved = "#cc241d"
+    skill = "#b16286"
+
+  [desktop.appearanceDarkChromeTheme]
+  accent = "#44596b"
+  contrast = 60
+  ink = "#d6deeb"
+  opaqueWindows = true
+  surface = "#011627"
+
+    [desktop.appearanceDarkChromeTheme.fonts]
+    code = "BerkeleyMono Nerd Font Mono"
+ui = "Inter"
+
+    [desktop.appearanceDarkChromeTheme.semanticColors]
+    diffAdded = "#c5e478"
+    diffRemoved = "#ef5350"
+    skill = "#c792ea"
+
+  [desktop.open-in-target-preferences]
+  global = "cursor"
+
+    [desktop.open-in-target-preferences.perPath]
+    "/Users/dominikgarciabertapelle/.codex/worktrees/59e2/cortea-copy" = "terminal"
+    "/Users/dominikgarciabertapelle/.codex/worktrees/e31b/cortea" = "ghostty"
+
+[marketplaces.openai-bundled]
+last_updated = "2026-06-10T20:46:23Z"
+source_type = "local"
+source = "/Users/dominikgarciabertapelle/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-06-01T20:09:44Z"
+source_type = "local"
+source = "/Users/dominikgarciabertapelle/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."figma@openai-curated"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[features]
+js_repl = false
