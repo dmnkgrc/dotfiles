@@ -46,10 +46,14 @@ set -gx FNM_LOGLEVEL info
 set -gx FNM_ARCH arm64
 set -gx FNM_VERSION_FILE_STRATEGY local
 set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
-# Use fnm's `default` alias rather than a ~/Library/Caches multishell dir: the cache is
-# disposable, the alias follows `fnm default <version>`, and neither costs a subprocess.
-# Per-shell `fnm use` needs `fnm env | source` instead, which does cost an exec.
-set -gx PATH "$FNM_DIR/aliases/default/bin" $PATH
+# Per-project node: `fnm env` sets up a per-shell multishell dir so `fnm use` works,
+# and --use-on-cd switches version on entering a dir with .node-version / .nvmrc.
+# Falls back to the `default` alias so a missing fnm can't strip node from PATH.
+if type -q fnm
+    fnm env --use-on-cd | source
+else
+    set -gx PATH "$FNM_DIR/aliases/default/bin" $PATH
+end
 set -gx GOPATH /Users/dominikgarciabertapelle/code/go
 set -gx AIDER_CODE_THEME nord-darker
 set -gx AIDER_DARK_MODE true
@@ -76,9 +80,6 @@ end
 
 set -gx TERM xterm-256color
 set -gx COLORTERM truecolor
-
-# Added by Windsurf
-fish_add_path /Users/dominikgarciabertapelle/.codeium/windsurf/bin
 
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
