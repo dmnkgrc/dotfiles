@@ -9,7 +9,7 @@
       "url": "http://127.0.0.1:3845/sse",
       "auth": false,
       "lifecycle": "lazy",
-      "directTools": true
+      "directTools": false
     },
     "fallow": {
       "command": "fallow-mcp",
@@ -17,7 +17,8 @@
     },
     "expect": {
       "command": "npx",
-      "args": ["-y", "expect-cli@latest", "mcp"]
+      "args": ["-y", "expect-cli@0.1.3", "mcp"],
+      "lifecycle": "lazy"
     }
   }
 }
