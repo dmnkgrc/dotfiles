@@ -32,6 +32,11 @@ Session.vim
 .codex/version.json
 .codex/worktrees/
 
+# herdr runtime state — logs, per-plugin env, and tailnet identifiers
+.config/herdr/plugins/
+.config/herdr/*.log
+.config/herdr/session*.json
+
 # Nix
 result
 result-*

@@ -122,11 +122,11 @@
   {
     "plugin_id": "herdr.collie",
     "name": "Collie",
-    "version": "0.25.0",
+    "version": "0.27.0",
     "min_herdr_version": "0.7.0",
     "description": "Mobile web UI to monitor and reply to your agent herd, served over Tailscale",
-    "manifest_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e/herdr-plugin.toml",
-    "plugin_root": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e",
+    "manifest_path": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e",
     "enabled": true,
     "platforms": [
       "linux",
@@ -247,9 +247,9 @@
       "kind": "github",
       "owner": "AltanS",
       "repo": "collie",
-      "resolved_commit": "f7b692b00a4c81d5c3a63766d6c0f15ac56836da",
+      "resolved_commit": "f615362949bda6f33537caf50e18f930c73d8f57",
       "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/herdr.collie-1edf0e1e987e",
-      "installed_unix_ms": 1786103919698
+      "installed_unix_ms": 1786467757491
     }
   },
   {
