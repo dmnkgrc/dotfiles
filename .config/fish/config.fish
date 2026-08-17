@@ -27,6 +27,8 @@ set -x LC_ALL "en_US.UTF-8"
 set -x MYVIMRC "~/dotfiles/.config/nvim/init.vim"
 set -gx GPG_TTY (tty)
 set -x NODE_OPTIONS "--max-old-space-size=9216"
+# Cache V8 compiled bytecode across runs so big CLIs (pi, tsc) skip re-parsing.
+set -gx NODE_COMPILE_CACHE $HOME/.cache/node-compile-cache
 set -gx PNPM_HOME /Users/dominikgarciabertapelle/Library/pnpm
 set -x PRETTIERD_LOCAL_PRETTIER_ONLY 1
 set -x FLAVOURS_CONFIG_FILE ~/.config/flavours/config.toml
