@@ -4,20 +4,16 @@
     "npm:pi-mcp-adapter",
     "npm:pi-web-access",
     "git:github.com/badlogic/pi-diff-review@1584211692c49780ecd0f490a82762b0823fd475",
-    "npm:pi-add-dir",
     "npm:pi-prompt-template-model",
     "npm:@tmustier/pi-usage-extension",
     "npm:@tmustier/pi-raw-paste",
     "git:github.com/tintinweb/pi-manage-todo-list@b75c449aa85ce328e9a8b632f62bf642aed40359",
-    "git:github.com/davebcn87/pi-autoresearch@00062fb9cc425e71d82e75445dc5b6ad31c32f0e",
     "npm:pi-ask-user",
     "git:github.com/VandeeFeng/pi-memory-md@2c6e1948f0a594bf904c5f9dcd92a16be96710d9",
-    "npm:pi-cursor-sdk",
     "npm:@ff-labs/pi-fff",
     "npm:@qhn/pi-goal",
     "npm:@plannotator/pi-extension",
     "npm:@victor-software-house/pi-curated-themes",
-    "npm:pi-model-control",
     "npm:@dietrichgebert/ponytail",
     "npm:pi-zentui"
   ],
@@ -27,8 +23,7 @@
   "defaultThinkingLevel": "medium",
   "enabledModels": [
     "openai-codex/gpt-5.4-mini:low",
-    "openai-codex/gpt-5.6-terra:xhigh",
-    "cursor/gpt-5.6-terra@1m:high"
+    "openai-codex/gpt-5.6-terra:xhigh"
   ],
   "subagents": {
     "agentOverrides": {
