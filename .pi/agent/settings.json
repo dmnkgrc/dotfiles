@@ -17,7 +17,7 @@
     "npm:@dietrichgebert/ponytail",
     "npm:pi-zentui"
   ],
-  "lastChangelogVersion": "0.84.1",
+  "lastChangelogVersion": "0.84.2",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-terra",
   "defaultThinkingLevel": "medium",

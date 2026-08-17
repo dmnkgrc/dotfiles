@@ -41,16 +41,16 @@ set -x BAT_THEME gruvbox-dark
 # fish_add_path /opt/homebrew/sbin
 fish_add_path $PNPM_HOME
 fish_add_path $HOME/bin
-set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445/bin $PATH
-set -gx FNM_MULTISHELL_PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/41941_1685363240445
-set -gx FNM_DIR "/Users/dominikgarciabertapelle/Library/Application Support/fnm"
+set -gx FNM_DIR "$HOME/Library/Application Support/fnm"
 set -gx FNM_LOGLEVEL info
 set -gx FNM_ARCH arm64
 set -gx FNM_VERSION_FILE_STRATEGY local
 set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist"
+# Use fnm's `default` alias rather than a ~/Library/Caches multishell dir: the cache is
+# disposable, the alias follows `fnm default <version>`, and neither costs a subprocess.
+# Per-shell `fnm use` needs `fnm env | source` instead, which does cost an exec.
+set -gx PATH "$FNM_DIR/aliases/default/bin" $PATH
 set -gx GOPATH /Users/dominikgarciabertapelle/code/go
-set -gx PATH /Users/dominikgarciabertapelle/Library/Caches/fnm_multishells/48671_1685363413320/bin $PATH
-set -gx FNM_LOGLEVEL info
 set -gx AIDER_CODE_THEME nord-darker
 set -gx AIDER_DARK_MODE true
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
