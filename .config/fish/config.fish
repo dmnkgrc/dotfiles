@@ -65,14 +65,6 @@ set -gx PATH ~/.npm-global/bin $PATH
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
-set -Ux PYENV_ROOT $HOME/.pyenv
-set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
-
-# Load pyenv automatically by appending
-# the following to ~/.config/fish/config.fish:
-
-pyenv init - | source
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/dominikgarciabertapelle/google-cloud-sdk/path.fish.inc' ]
     . '/Users/dominikgarciabertapelle/google-cloud-sdk/path.fish.inc'
@@ -86,13 +78,10 @@ set -gx COLORTERM truecolor
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
 alias lazygit 'lazygit --use-config-dir ~/.config/lazygit'
+# pyenv. $PYENV_ROOT/bin is deliberately not on PATH: pyenv itself comes from nix and
+# that directory does not exist. `pyenv init -` adds the shims, which is what matters.
 set -gx PYENV_ROOT $HOME/.pyenv
-fish_add_path $PYENV_ROOT/bin
-
-# Initialize pyenv
 pyenv init - | source
-
-# Initialize pyenv-virtualenv
 pyenv virtualenv-init - | source
 
 # opencode
