@@ -15,7 +15,8 @@
     "npm:@plannotator/pi-extension@0.27.3",
     "npm:@victor-software-house/pi-curated-themes@0.2.1",
     "npm:@dietrichgebert/ponytail@4.9.0",
-    "npm:pi-zentui@0.20.1"
+    "npm:pi-zentui@0.20.1",
+    "npm:@llblab/pi-codex-usage"
   ],
   "lastChangelogVersion": "0.84.2",
   "defaultProvider": "openai-codex",
@@ -30,7 +31,9 @@
     "modelScope": {
       "enforce": true,
       "strict": true,
-      "allow": ["openai-codex/*"]
+      "allow": [
+        "openai-codex/*"
+      ]
     },
     "agentOverrides": {
       "delegate": {
