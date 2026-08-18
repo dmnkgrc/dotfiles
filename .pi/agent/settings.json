@@ -1,21 +1,21 @@
 {
   "packages": [
-    "npm:pi-subagents",
-    "npm:pi-mcp-adapter",
-    "npm:pi-web-access",
+    "npm:pi-subagents@0.50.0",
+    "npm:pi-mcp-adapter@2.26.0",
+    "npm:pi-web-access@0.23.0",
     "git:github.com/badlogic/pi-diff-review@1584211692c49780ecd0f490a82762b0823fd475",
-    "npm:pi-prompt-template-model",
-    "npm:@tmustier/pi-usage-extension",
-    "npm:@tmustier/pi-raw-paste",
+    "npm:pi-prompt-template-model@0.12.0",
+    "npm:@tmustier/pi-usage-extension@0.9.4",
+    "npm:@tmustier/pi-raw-paste@0.1.3",
     "git:github.com/tintinweb/pi-manage-todo-list@b75c449aa85ce328e9a8b632f62bf642aed40359",
-    "npm:pi-ask-user",
+    "npm:pi-ask-user@0.14.0",
     "git:github.com/VandeeFeng/pi-memory-md@2c6e1948f0a594bf904c5f9dcd92a16be96710d9",
-    "npm:@ff-labs/pi-fff",
-    "npm:@qhn/pi-goal",
-    "npm:@plannotator/pi-extension",
-    "npm:@victor-software-house/pi-curated-themes",
-    "npm:@dietrichgebert/ponytail",
-    "npm:pi-zentui"
+    "npm:@ff-labs/pi-fff@0.10.5",
+    "npm:@qhn/pi-goal@0.4.1",
+    "npm:@plannotator/pi-extension@0.27.3",
+    "npm:@victor-software-house/pi-curated-themes@0.2.1",
+    "npm:@dietrichgebert/ponytail@4.9.0",
+    "npm:pi-zentui@0.20.1"
   ],
   "lastChangelogVersion": "0.84.2",
   "defaultProvider": "openai-codex",
@@ -23,15 +23,25 @@
   "defaultThinkingLevel": "medium",
   "enabledModels": [
     "openai-codex/gpt-5.4-mini:low",
+    "openai-codex/gpt-5.6-sol:high",
     "openai-codex/gpt-5.6-terra:xhigh"
   ],
   "subagents": {
+    "modelScope": {
+      "enforce": true,
+      "strict": true,
+      "allow": ["openai-codex/*"]
+    },
     "agentOverrides": {
-      "context-builder": {
-        "model": ""
+      "delegate": {
+        "model": "openai-codex/gpt-5.6-terra",
+        "thinking": "medium",
+        "defaultContext": "fresh"
       },
-      "planner": {
-        "model": ""
+      "oracle": {
+        "model": "openai-codex/gpt-5.6-sol",
+        "thinking": "high",
+        "defaultContext": "fresh"
       },
       "researcher": {
         "model": "openai-codex/gpt-5.4-mini",

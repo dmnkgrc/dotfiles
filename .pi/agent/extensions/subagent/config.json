@@ -1,0 +1,10 @@
+{
+  "toolDescriptionMode": "compact",
+  "maxActiveAsyncRunsPerSession": 4,
+  "maxSubagentSpawnsPerSession": 64,
+  "maxSubagentSpawnsPerRun": 32,
+  "parallel": {
+    "maxTasks": 8,
+    "concurrency": 4
+  }
+}

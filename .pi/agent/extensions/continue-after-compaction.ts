@@ -10,17 +10,20 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-const buildContinuationPrompt = (sessionFile: string | undefined, compactionEntryId: string): string => {
-	const sessionSource =
-		sessionFile === undefined
-			? "This session is ephemeral, so no persisted session file is available."
-			: [
-					`The persisted session JSONL is ${JSON.stringify(sessionFile)}.`,
-					"Inspect it directly with the read and bash tools.",
-					"Do not launch a nested Pi process or open the session with `pi --session`.",
-				].join(" ");
+export const buildContinuationPrompt = (
+  sessionFile: string | undefined,
+  compactionEntryId: string,
+): string => {
+  const sessionSource =
+    sessionFile === undefined
+      ? "This session is ephemeral, so no persisted session file is available."
+      : [
+          `The persisted session JSONL is ${JSON.stringify(sessionFile)}.`,
+          "Inspect it directly with the read and bash tools.",
+          "Do not launch a nested Pi process or open the session with `pi --session`.",
+        ].join(" ");
 
-	return `Compaction has just completed. Resume the existing task rather than waiting for another user prompt.
+  return `Compaction has just completed. Resume the existing task rather than waiting for another user prompt.
 
 ${sessionSource}
 The new compaction entry ID is ${JSON.stringify(compactionEntryId)}.
@@ -35,24 +38,27 @@ Before continuing:
 };
 
 export default function continueAfterCompaction(pi: ExtensionAPI): void {
-	const pendingTimers = new Set<ReturnType<typeof setTimeout>>();
+  const pendingTimers = new Set<ReturnType<typeof setTimeout>>();
 
-	pi.on("session_compact", (event, ctx) => {
-		const sessionFile = ctx.sessionManager.getSessionFile();
-		const prompt = buildContinuationPrompt(sessionFile, event.compactionEntry.id);
+  pi.on("session_compact", (event, ctx) => {
+    const sessionFile = ctx.sessionManager.getSessionFile();
+    const prompt = buildContinuationPrompt(
+      sessionFile,
+      event.compactionEntry.id,
+    );
 
-		// ponytail: deferred a tick so manual /compact finishes reconnecting the
-		// agent runtime before the follow-up prompt lands.
-		const timer = setTimeout(() => {
-			pendingTimers.delete(timer);
-			pi.sendUserMessage(prompt, { deliverAs: "followUp" });
-		}, 0);
+    // ponytail: deferred a tick so manual /compact finishes reconnecting the
+    // agent runtime before the follow-up prompt lands.
+    const timer = setTimeout(() => {
+      pendingTimers.delete(timer);
+      pi.sendUserMessage(prompt, { deliverAs: "followUp" });
+    }, 0);
 
-		pendingTimers.add(timer);
-	});
+    pendingTimers.add(timer);
+  });
 
-	pi.on("session_shutdown", () => {
-		for (const timer of pendingTimers) clearTimeout(timer);
-		pendingTimers.clear();
-	});
+  pi.on("session_shutdown", () => {
+    for (const timer of pendingTimers) clearTimeout(timer);
+    pendingTimers.clear();
+  });
 }

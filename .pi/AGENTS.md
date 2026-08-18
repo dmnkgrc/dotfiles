@@ -5,16 +5,19 @@ runtime state (sessions, caches, auth, installed packages) and is not tracked.
 
 ## WHERE TO LOOK
 
-| Task | Location |
-|------|----------|
-| Change default model / provider / thinking | `agent/settings.json` → `defaultProvider`, `defaultModel`, `defaultThinkingLevel` |
-| Change a subagent role's model | `agent/settings.json` → `subagents.agentOverrides` |
-| Add or remove a pi package | `pi install npm:<name>` / `pi remove` — writes `agent/settings.json` → `packages[]` |
-| Add an MCP server | `agent/mcp.json` (schema is `pi-mcp-adapter`'s `mcpServers`, not pi core) |
-| Global instructions for every session | `agent/AGENTS.md` |
-| Write an extension | `agent/extensions/<name>.ts`, then symlink into `~/.pi/agent/extensions/` |
-| Write a skill | `~/dotfiles/.agents/skills/<name>/SKILL.md`, then symlink into `~/.agents/skills/` |
-| Keybindings | `agent/keybindings.json` |
+| Task                                       | Location                                                                            |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Change default model / provider / thinking | `agent/settings.json` → `defaultProvider`, `defaultModel`, `defaultThinkingLevel`   |
+| Change a subagent role's model             | `agent/settings.json` → `subagents.agentOverrides`                                  |
+| Add or remove a pi package                 | `pi install npm:<name>` / `pi remove` — writes `agent/settings.json` → `packages[]` |
+| Add an MCP server                          | `agent/mcp.json` (schema is `pi-mcp-adapter`'s `mcpServers`, not pi core)           |
+| Global instructions for every session      | `agent/AGENTS.md`                                                                   |
+| Write an extension                         | `agent/extensions/<name>.ts`, then symlink into `~/.pi/agent/extensions/`           |
+| Configure subagent runtime limits          | `agent/extensions/subagent/config.json`                                             |
+| Write an opt-in prompt command             | `agent/prompts/<name>.md`, then symlink into `~/.pi/agent/prompts/`                 |
+| Write a skill                              | `~/dotfiles/.agents/skills/<name>/SKILL.md`, then symlink into `~/.agents/skills/`  |
+| Keybindings                                | `agent/keybindings.json`                                                            |
+| Validate this setup                        | `npm install`, then `npm run verify` from this directory                            |
 
 ## CONVENTIONS
 
@@ -52,4 +55,5 @@ pi list                # installed packages and their paths
 pi update              # update pi and all packages
 pi config              # TUI to enable/disable package resources
 pi -p "..." --no-session --provider openai-codex --model gpt-5.4-mini --thinking low   # cheap headless check
+npm run verify         # JSON policy, typecheck, tests, and formatting
 ```
