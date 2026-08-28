@@ -2,7 +2,7 @@
   "name": "dmnkstack",
   "displayName": "dmnkstack",
   "version": "0.1.0",
-  "description": "Personal model-first routing for coding agents",
+  "description": "Personal model-first routing and delegation for coding agents",
   "author": {
     "name": "Dominik Garcia Bertapelle"
   },

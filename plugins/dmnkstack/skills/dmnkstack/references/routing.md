@@ -46,6 +46,7 @@ Project skills own domain rules. Dmnkstack owns task classification, model choic
 | Design a workflow for unusual work | custom | `figure-it-out` | hardest tasks |
 | Resume prior work | resume | `recall` | how explorer and how explainer |
 | Keep an audit trail | state | `show-me-your-work` | current |
+| Run work through another model or agent | delegation | `delegate` | selected task role |
 | Publish an authorized change | delivery | `deliver` | current |
 
 Use the narrow role when several match. A small mechanical edit does not need a feature model. An unknown failure stays in diagnosis until evidence identifies a change.
@@ -54,4 +55,4 @@ Use the narrow role when several match. A small mechanical edit does not need a 
 
 Use a single agent by default. Use several agents only when their work is independent or read-only. A panel returns opinions to the parent and does not edit. If several implementations are useful, give each a separate worktree.
 
-Every delegated prompt must contain the task, scope, active constraints, selected project skills, whether edits are allowed, and the expected evidence. Do not give a child more authority than the parent has.
+Every delegated prompt must contain the task, scope, active constraints, selected project skills, whether edits are allowed, and the expected evidence. Use `delegate` to create the child session, collect its result, and report it back. Do not give a child more authority than the parent has.

@@ -20,6 +20,7 @@ The main router selects these skills. Users may also invoke any skill directly.
 
 ## Design and compare
 
+- `delegate` runs work through another model or agent, collects its result, and returns verified evidence to the parent.
 - `design-handoff` turns Figma context into project-native UI code and browser proof.
 - `architect` settles caller usage, types, state ownership, and module shape.
 - `arena` compares independent attempts at the same task.

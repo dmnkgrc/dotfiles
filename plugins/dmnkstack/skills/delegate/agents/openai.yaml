@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delegate"
+  short_description: "Run another model and collect its result"
+  default_prompt: "Use $delegate to run this task through the selected agent and report its result back."

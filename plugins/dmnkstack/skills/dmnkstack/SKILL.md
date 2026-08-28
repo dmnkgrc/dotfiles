@@ -16,8 +16,9 @@ Route by task, then choose how to run the selected model. Do not let the current
 5. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source.
 6. Read [references/skill-map.md](references/skill-map.md) and load the matching operational skill when one exists.
 7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md` when it exists. Choose the model assigned to the role, independent of the current agent.
-8. Read [references/launchers.md](references/launchers.md) only when the selected model requires another agent or the route calls for a panel.
-9. Execute, verify the changed artifact, and report the evidence.
+8. Load `delegate` when the selected model requires another agent, the user requests another agent, or the route calls for a panel. Then read [references/launchers.md](references/launchers.md).
+9. Inside Conductor, use a new same-workspace session for that delegation. The parent must wait for the child, collect its transcript, verify its evidence, and report the result back.
+10. Execute, verify the changed artifact, and report the evidence.
 
 Once invoked, keep Dmnkstack active for the thread until the user says to stop. Reclassify unrelated new tasks instead of carrying stale constraints into them.
 
@@ -25,7 +26,7 @@ Once invoked, keep Dmnkstack active for the thread until the user says to stop. 
 
 - A route changes how work is done, not what actions are authorized.
 - Do not commit, push, open a pull request, post a review, or modify an external system unless the user requested it.
-- Default to one agent. Spawn another agent when the chosen model is unavailable in the current agent, the user requests parallel work, or an independent read-only judgment materially improves the result.
+- Default to one agent. Delegate when the chosen model is unavailable in the current agent, the user requests another agent or parallel work, or an independent read-only judgment materially improves the result.
 - Keep one writer per worktree. The parent owns the final decision and diff.
 
 ## Load details only when needed

@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import platform
 import shutil
 import subprocess
 from pathlib import Path
@@ -91,10 +92,32 @@ def discover_conductor() -> dict[str, Any]:
     else:
         error = result.get("output") or result.get("error")
 
+    credential_source = None
+    if os.environ.get("CONDUCTOR_API_TOKEN"):
+        credential_source = "workspace-token"
+    elif os.environ.get("CONDUCTOR_API_KEY"):
+        credential_source = "api-key"
+
+    auth_status = run([resolved, "auth", "status"])
+    auth_output = auth_status.get("output", "").lower()
+    keychain_ready = bool(
+        auth_status.get("ok")
+        and auth_output
+        and "no keychain entry" not in auth_output
+    )
+    if credential_source is None and keychain_ready:
+        credential_source = "macos-keychain"
+
+    local_flag = os.environ.get("CONDUCTOR_IS_LOCAL")
+    local = local_flag == "1" if local_flag is not None else platform.system() == "Darwin"
+
     return {
         "installed": True,
         "active": bool(os.environ.get("CONDUCTOR_WORKSPACE_ID")),
-        "local": os.environ.get("CONDUCTOR_IS_LOCAL") == "1",
+        "local": local,
+        "local_source": "environment" if local_flag is not None else "host-platform",
+        "session_create_ready": credential_source is not None,
+        "credential_source": credential_source,
         "agents": catalog,
         "error": error,
     }

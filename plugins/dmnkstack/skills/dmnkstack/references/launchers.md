@@ -6,11 +6,15 @@ Reuse the current agent when it supports the selected model. Codex and Pi both s
 
 ## Conductor
 
-Use Conductor when `CONDUCTOR_WORKSPACE_ID` is set. Check the installed catalog with:
+Use Conductor when `CONDUCTOR_WORKSPACE_ID` is set. Load `delegate` and use a new session in the current workspace whenever another agent or model is selected. Do not use Herdr inside Conductor.
+
+Check `CONDUCTOR_IS_LOCAL` before assuming the host has macOS applications or local-only tools. If it is absent, use actual host evidence and explicit user context instead of treating the workspace as cloud. Check the installed model catalog with:
 
 ```sh
 conductor --json model
 ```
+
+Session creation also requires Conductor authentication. On a local Mac, check `conductor auth status` and use `conductor auth login` to store the token in the macOS Keychain. In other environments, use a workspace token or `CONDUCTOR_API_KEY`. Never store the credential in Dmnkstack config or a committed prompt.
 
 Create a session in the current workspace with the resolved agent, model, effort, and a complete task prompt:
 
@@ -24,7 +28,20 @@ conductor --json session create \
   --message-file <prompt-file>
 ```
 
-Read the returned session ID. Poll with `conductor --json session status <session-id>` and read the result with `conductor --json session message <session-id>`. Do not create a new workspace for a read-only specialist. Use separate workspaces only for independent writers.
+The parent owns the whole round trip:
+
+1. Give the child a complete contract with scope, repository instructions, selected project skills, write authority, and expected evidence.
+2. Read and retain the session ID returned by `session create`.
+3. Poll `conductor --json session status <session-id>` until the session reaches a terminal state.
+4. Fetch the transcript with `conductor --json session message <session-id> --limit 100`, following pagination when required.
+5. Extract the child's final `RESULT`, `EVIDENCE`, `CHANGES`, `GAPS`, and `NEXT` sections.
+6. Verify claimed artifacts and evidence, then report the useful result in the parent session with the agent, model, and session ID.
+
+The child does not push a message into the parent session. The parent must collect and report it. Preserve the child session for inspection.
+
+If local Keychain auth is absent or `session create` reports a missing credential, stop and report that prerequisite without retrying or switching managers.
+
+Do not create a new workspace for a read-only specialist. One delegated writer may use the current workspace while the parent stops editing. Use separate workspaces only for independent writers.
 
 ## Herdr in Kitty
 
