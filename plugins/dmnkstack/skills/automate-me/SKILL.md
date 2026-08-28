@@ -20,7 +20,7 @@ The script reads known local history formats, extracts user prompts, removes com
 
 ## Turn evidence into preferences
 
-Cluster findings into response style, autonomy, corrections, implementation, verification, agent use, project-skill use, and delivery.
+Cluster findings into response style, autonomy, corrections, implementation, verification, agent use, project-skill use, evidence integrations, and delivery.
 
 Promote a preference only when one of these is true:
 
@@ -38,6 +38,7 @@ Ask one concise question only when an unresolved choice would materially change 
 2. Show the proposed additions, changes, and removals with their evidence counts.
 3. Update the file only after resolving contradictions.
 4. Change `models.md` only when model and task metadata provide repeated evidence or the user directs the change.
-5. Do not commit or push unless the user asks.
+5. Update Dmnkstack's integration map when repeated usage proves an evidence source belongs in the normal workflow.
+6. Do not commit or push unless the user asks.
 
 End with the rules changed, the evidence used, and any source that could not be read. Never include raw transcript excerpts in the final summary.

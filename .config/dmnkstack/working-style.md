@@ -12,6 +12,7 @@
 - Make the smallest clean change that solves the stated problem.
 - Reuse existing code, components, conventions, and repository skills before adding anything new.
 - Follow the repository's prescribed search tools. Prefer FFF when it is available.
+- Route external evidence by source. Use designs and specifications for intent, runtime captures for observed behavior, and independent verification for completion.
 - Do not add speculative abstractions, compatibility layers, configuration, or fallback behavior.
 - Do not add comments unless they explain a confusing constraint or deliberate workaround.
 - In TypeScript, avoid `any`, type assertions, and non-null assertions. Narrow or model the type instead.

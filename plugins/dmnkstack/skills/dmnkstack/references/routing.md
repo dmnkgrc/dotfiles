@@ -28,10 +28,13 @@ Project skills own domain rules. Dmnkstack owns task classification, model choic
 | Recover motivation or history | investigation | `why` | why investigators and why synthesizer |
 | Learn a subsystem deeply | investigation | `teach` | how and why roles |
 | Diagnose or fix a failure | bug-fix | `debug` | bug-fix |
+| Triage a Jam or captured bug report | bug-fix | `jam-triage` | bug-fix |
+| Investigate logs, traces, metrics, runs, or workflows | investigation | `observe` | bug-fix, perf-issue, or why roles |
 | Prove a completion claim | verification | `verify` | bug-fix or fast mechanical work |
 | Write the failing regression first | bug-fix | `tdd` | bug-fix |
 | Assess hidden downstream risk | review | `blast-radius` | judgment |
 | Settle types, interfaces, or ownership | design | `architect` | architect runners |
+| Implement a Figma or visual specification | UI | `design-handoff` | feature |
 | Build new behavior | feature | Dmnkstack playbook | feature or general implementation |
 | Restructure without changing behavior | refactoring | Dmnkstack playbook | refactoring |
 | Change layout, interaction, or visual polish | UI | project UI skill or Dmnkstack playbook | feature |

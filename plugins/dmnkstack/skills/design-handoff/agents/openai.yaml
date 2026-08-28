@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Handoff"
+  short_description: "Turn Figma context into verified UI work"
+  default_prompt: "Use $design-handoff to implement this Figma design through the project design system and verify it."

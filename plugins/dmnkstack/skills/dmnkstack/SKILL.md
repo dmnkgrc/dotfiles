@@ -13,10 +13,11 @@ Route by task, then choose how to run the selected model. Do not let the current
 2. Read active repository instructions and the available skill catalog. Use the most specific matching project skill before a generic playbook.
 3. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/working-style.md` when it exists. Otherwise read [references/working-style.md](references/working-style.md).
 4. Read [references/routing.md](references/routing.md) and select the task route.
-5. Read [references/skill-map.md](references/skill-map.md) and load the matching operational skill when one exists.
-6. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md` when it exists. Choose the model assigned to the role, independent of the current agent.
-7. Read [references/launchers.md](references/launchers.md) only when the selected model requires another agent or the route calls for a panel.
-8. Execute, verify the changed artifact, and report the evidence.
+5. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source.
+6. Read [references/skill-map.md](references/skill-map.md) and load the matching operational skill when one exists.
+7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md` when it exists. Choose the model assigned to the role, independent of the current agent.
+8. Read [references/launchers.md](references/launchers.md) only when the selected model requires another agent or the route calls for a panel.
+9. Execute, verify the changed artifact, and report the evidence.
 
 Once invoked, keep Dmnkstack active for the thread until the user says to stop. Reclassify unrelated new tasks instead of carrying stale constraints into them.
 
@@ -30,6 +31,7 @@ Once invoked, keep Dmnkstack active for the thread until the user says to stop. 
 ## Load details only when needed
 
 - Read [references/playbooks.md](references/playbooks.md) after selecting a route.
+- Read [references/integrations.md](references/integrations.md) to route external evidence through installed specialist skills.
 - Read [references/skill-map.md](references/skill-map.md) to select a callable workflow.
 - Read [references/launchers.md](references/launchers.md) before using Conductor or Herdr.
 - Read [references/state.md](references/state.md) before persisting state across a pause or handoff.

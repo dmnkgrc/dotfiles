@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jam Triage"
+  short_description: "Turn Jam evidence into a reproduced diagnosis"
+  default_prompt: "Use $jam-triage to inspect this Jam report, reproduce the bug, and diagnose it."

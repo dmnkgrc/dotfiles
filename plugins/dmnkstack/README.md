@@ -6,6 +6,6 @@ The implementation and personal workflow rules in this plugin are maintained ind
 
 ## Skills
 
-Dmnkstack routes everyday work through callable skills for debugging, verification, TDD, code walkthroughs, code archaeology, teaching, architecture, blast-radius analysis, multi-model comparison, adversarial review, parallel sweeps, task recovery, decision trails, and git delivery.
+Dmnkstack routes everyday work through callable skills for debugging, verification, TDD, code walkthroughs, code archaeology, Figma handoff, Jam triage, observability, architecture, multi-model review, task recovery, and git delivery.
 
 Use `dmnkstack` as the sticky router, or invoke a workflow directly with `debug`, `how`, `why`, `verify`, `architect`, `arena`, `interrogate`, `swarm`, `figure-it-out`, and the other skills under `skills/`.

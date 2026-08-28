@@ -23,6 +23,23 @@ SIGNALS = {
     "agents-skills": ["agent", "model", "skill", "claude", "codex", "cursor", " pi "],
 }
 
+INTEGRATIONS = {
+    "figma": ["figma"],
+    "jam": [" jam ", "jam.dev"],
+    "datadog": ["datadog"],
+    "linear": ["linear"],
+    "notion": ["notion"],
+    "braintrust": ["braintrust"],
+    "bigquery": ["bigquery", "big query", " bq "],
+    "temporal": ["temporal"],
+    "browser": ["browser", "chrome", "playwright", "playwriter", "screenshot"],
+    "github": ["github", "pull request", " pr "],
+    "slack": ["slack"],
+    "sentry": ["sentry"],
+    "metabase": ["metabase"],
+    "lokalise": ["lokalise"],
+}
+
 DIRECTIVES = [
     "fix",
     "check",
@@ -224,6 +241,9 @@ def analyze(prompts: list[Prompt], missing: list[str], home: Path, examples_per_
     signal_counts: Counter[str] = Counter()
     signal_sessions: dict[str, set[tuple[str, str]]] = defaultdict(set)
     examples: dict[str, list[str]] = defaultdict(list)
+    integration_counts: Counter[str] = Counter()
+    integration_sessions: dict[str, set[tuple[str, str]]] = defaultdict(set)
+    integration_examples: dict[str, list[str]] = defaultdict(list)
     directive_counts: Counter[str] = Counter()
 
     for prompt in prompts:
@@ -238,6 +258,13 @@ def analyze(prompts: list[Prompt], missing: list[str], home: Path, examples_per_
             signal_sessions[signal].add((prompt.source, prompt.session))
             if len(examples[signal]) < examples_per_signal:
                 examples[signal].append(redact(prompt.text, home))
+        for integration, terms in INTEGRATIONS.items():
+            if not matches(prompt.text, terms):
+                continue
+            integration_counts[integration] += 1
+            integration_sessions[integration].add((prompt.source, prompt.session))
+            if len(integration_examples[integration]) < examples_per_signal:
+                integration_examples[integration].append(redact(prompt.text, home))
 
     signals = {
         signal: {
@@ -246,6 +273,14 @@ def analyze(prompts: list[Prompt], missing: list[str], home: Path, examples_per_
             "examples": examples[signal],
         }
         for signal in SIGNALS
+    }
+    integrations = {
+        integration: {
+            "prompts": integration_counts[integration],
+            "sessions": len(integration_sessions[integration]),
+            "examples": integration_examples[integration],
+        }
+        for integration in INTEGRATIONS
     }
     return {
         "summary": {
@@ -263,6 +298,7 @@ def analyze(prompts: list[Prompt], missing: list[str], home: Path, examples_per_
         },
         "missing_sources": missing,
         "signals": signals,
+        "integrations": integrations,
         "directives": dict(directive_counts.most_common()),
     }
 

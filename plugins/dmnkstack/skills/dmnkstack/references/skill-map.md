@@ -11,6 +11,8 @@ The main router selects these skills. Users may also invoke any skill directly.
 
 ## Diagnose and prove
 
+- `jam-triage` turns a Jam capture into an independent reproduction and correlated evidence.
+- `observe` investigates Datadog, Braintrust, Temporal, Sentry, and data sources through installed specialist skills.
 - `debug` reproduces, isolates, fixes, and verifies failures.
 - `tdd` writes a focused failing regression before the fix.
 - `verify` proves a completion claim against the real artifact.
@@ -18,6 +20,7 @@ The main router selects these skills. Users may also invoke any skill directly.
 
 ## Design and compare
 
+- `design-handoff` turns Figma context into project-native UI code and browser proof.
 - `architect` settles caller usage, types, state ownership, and module shape.
 - `arena` compares independent attempts at the same task.
 - `interrogate` runs an adversarial multi-model review.
