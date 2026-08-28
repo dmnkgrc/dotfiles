@@ -1,0 +1,4 @@
+interface:
+  display_name: "Setup Dmnkstack"
+  short_description: "Configure Dmnkstack models and launchers"
+  default_prompt: "Use $setup-dmnkstack to configure my model routes and launchers."

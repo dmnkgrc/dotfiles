@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dmnkstack"
+  short_description: "Route coding work across agents and models"
+  default_prompt: "Use $dmnkstack to route and complete this coding task."

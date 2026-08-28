@@ -1,0 +1,15 @@
+{
+  "name": "dmnkstack",
+  "displayName": "dmnkstack",
+  "version": "0.1.0",
+  "description": "Personal model-first routing for coding agents",
+  "author": {
+    "name": "Dominik Garcia Bertapelle"
+  },
+  "homepage": "https://github.com/dmnkgrc/dotfiles/tree/main/plugins/dmnkstack",
+  "repository": "https://github.com/dmnkgrc/dotfiles",
+  "keywords": ["routing", "agents", "models", "workflow"],
+  "category": "developer-tools",
+  "tags": ["workflow", "routing", "review", "planning"],
+  "skills": "./skills/"
+}
