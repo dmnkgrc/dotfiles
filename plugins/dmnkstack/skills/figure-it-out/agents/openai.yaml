@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figure It Out"
+  short_description: "Design a rigorous workflow for unusual work"
+  default_prompt: "Use $figure-it-out to design and run an auditable workflow for this task."

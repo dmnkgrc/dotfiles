@@ -1,0 +1,4 @@
+interface:
+  display_name: "Teach"
+  short_description: "Build understanding from mechanics and rationale"
+  default_prompt: "Use $teach to help me understand this subsystem, not merely summarize it."

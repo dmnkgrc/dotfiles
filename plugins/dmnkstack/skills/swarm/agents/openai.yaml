@@ -1,0 +1,4 @@
+interface:
+  display_name: "Swarm"
+  short_description: "Fan out independent slices and aggregate evidence"
+  default_prompt: "Use $swarm to split this work into independent slices and return one report."

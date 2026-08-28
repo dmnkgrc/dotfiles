@@ -13,7 +13,7 @@
   "interface": {
     "displayName": "Dmnkstack",
     "shortDescription": "Route coding work across agents and models.",
-    "longDescription": "Dmnkstack classifies coding work, uses repository skills, picks a model by task, and runs it through Conductor or Herdr.",
+    "longDescription": "Dmnkstack routes debugging, building, verification, design, review, and research through repository skills and task-specific models, then runs them through Conductor or Herdr.",
     "developerName": "Dominik Garcia Bertapelle",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],

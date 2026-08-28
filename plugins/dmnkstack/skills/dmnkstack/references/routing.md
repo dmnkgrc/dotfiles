@@ -22,20 +22,30 @@ Project skills own domain rules. Dmnkstack owns task classification, model choic
 
 ## Task routes
 
-| Signal | Route | Default model role |
-| --- | --- | --- |
-| Explain, trace, compare, or answer | investigation | how explorer and how explainer |
-| Diagnose a failure or regression | bug-fix | bug-fix |
-| Build new behavior | feature | feature or general implementation |
-| Restructure without changing behavior | refactoring | refactoring |
-| Change layout, interaction, or visual polish | UI | feature |
-| Repair lint, types, tests, or CI | check-repair | bug-fix or fast mechanical work |
-| Review a diff or pull request | review | judgment |
-| Fix local tools, config, or environment | environment | bug-fix |
-| Compare independent solutions | arena | arena runners |
-| Challenge a consequential decision | panel | how critics |
+| Signal | Route | Operational skill | Default model role |
+| --- | --- | --- | --- |
+| Explain mechanics, trace, or ownership | investigation | `how` | how explorer and how explainer |
+| Recover motivation or history | investigation | `why` | why investigators and why synthesizer |
+| Learn a subsystem deeply | investigation | `teach` | how and why roles |
+| Diagnose or fix a failure | bug-fix | `debug` | bug-fix |
+| Prove a completion claim | verification | `verify` | bug-fix or fast mechanical work |
+| Write the failing regression first | bug-fix | `tdd` | bug-fix |
+| Assess hidden downstream risk | review | `blast-radius` | judgment |
+| Settle types, interfaces, or ownership | design | `architect` | architect runners |
+| Build new behavior | feature | Dmnkstack playbook | feature or general implementation |
+| Restructure without changing behavior | refactoring | Dmnkstack playbook | refactoring |
+| Change layout, interaction, or visual polish | UI | project UI skill or Dmnkstack playbook | feature |
+| Repair lint, types, tests, or CI | check-repair | `debug` | bug-fix or fast mechanical work |
+| Review a diff or pull request | review | `interrogate` | interrogate reviewers |
+| Fix local tools, config, or environment | environment | `debug` | bug-fix |
+| Compare independent solutions | arena | `arena` | arena runners |
+| Split independent slices | swarm | `swarm` | swarm workers |
+| Design a workflow for unusual work | custom | `figure-it-out` | hardest tasks |
+| Resume prior work | resume | `recall` | how explorer and how explainer |
+| Keep an audit trail | state | `show-me-your-work` | current |
+| Publish an authorized change | delivery | `deliver` | current |
 
-Use the narrow role when several match. A small mechanical edit does not need a feature model. An unknown failure stays in investigation until evidence identifies a change.
+Use the narrow role when several match. A small mechanical edit does not need a feature model. An unknown failure stays in diagnosis until evidence identifies a change.
 
 ## Execution shape
 

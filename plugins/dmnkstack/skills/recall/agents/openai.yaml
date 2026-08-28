@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recall"
+  short_description: "Rebuild current task context from local evidence"
+  default_prompt: "Use $recall to rebuild the current state of this work from local evidence."

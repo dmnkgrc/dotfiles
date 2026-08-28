@@ -1,0 +1,4 @@
+interface:
+  display_name: "Show Me Your Work"
+  short_description: "Keep a compact decision and evidence trail"
+  default_prompt: "Use $show-me-your-work to keep a reviewable decision trail for this task."
