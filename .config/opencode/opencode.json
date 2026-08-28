@@ -66,6 +66,11 @@
         "mcp"
       ],
       "enabled": true
+    },
+    "executor": {
+      "type": "remote",
+      "url": "https://executor.sh/cortea/mcp",
+      "enabled": true
     }
   },
   "plugin": [

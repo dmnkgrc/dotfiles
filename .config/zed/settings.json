@@ -73,7 +73,7 @@
     },
   },
   "base_keymap": "VSCode",
-  "theme": "Dracula Pro (Van Helsing)",
+  "theme": "Kanagawa Dragon",
   "buffer_font_family": "BerkeleyMono Nerd Font Mono",
   "ui_font_family": "BerkeleyMono Nerd Font Mono",
   "buffer_line_height": {
