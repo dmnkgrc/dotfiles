@@ -1,0 +1,4 @@
+interface:
+  display_name: "Arena"
+  short_description: "Compare independent solutions and synthesize one"
+  default_prompt: "Use $arena to compare independent attempts and synthesize the strongest result."

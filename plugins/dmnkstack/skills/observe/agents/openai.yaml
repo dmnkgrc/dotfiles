@@ -1,0 +1,4 @@
+interface:
+  display_name: "Observe"
+  short_description: "Investigate runtime evidence across observability tools"
+  default_prompt: "Use $observe to investigate this runtime behavior with the available observability sources."

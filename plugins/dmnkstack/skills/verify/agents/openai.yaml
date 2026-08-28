@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify"
+  short_description: "Prove changed behavior against the real artifact"
+  default_prompt: "Use $verify to prove this change works at the closest realistic boundary."

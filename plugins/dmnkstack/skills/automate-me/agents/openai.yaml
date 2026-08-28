@@ -1,0 +1,4 @@
+interface:
+  display_name: "Automate Me"
+  short_description: "Learn working preferences from agent history"
+  default_prompt: "Use $automate-me to learn my working preferences from local agent history."

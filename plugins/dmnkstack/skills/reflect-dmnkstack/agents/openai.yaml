@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reflect on Dmnkstack"
+  short_description: "Record corrections and improve Dmnkstack"
+  default_prompt: "Use $reflect-dmnkstack to capture what this task should teach Dmnkstack."

@@ -1,0 +1,46 @@
+version = 1
+
+[selection]
+reuse_compatible_current_agent = true
+inside_conductor = "conductor"
+outside_conductor = "herdr"
+fallback = "current"
+one_writer_per_worktree = true
+
+[environments]
+conductor = "CONDUCTOR_WORKSPACE_ID"
+herdr = "HERDR_ENV"
+
+[conductor]
+session_scope = "current-workspace"
+parent_collects_result = true
+preserve_child_sessions = true
+poll_interval_seconds = 5
+result_sections = ["RESULT", "EVIDENCE", "CHANGES", "GAPS", "NEXT"]
+local_auth = "macos-keychain"
+remote_auth = "environment"
+
+[families.openai_codex]
+models = ["gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5", "gpt-5.4"]
+executors = ["current", "codex", "pi"]
+
+[families.anthropic]
+models = ["fable-5", "opus-5-1m", "opus-4-8", "sonnet-5-1m", "sonnet-4-6", "haiku-4-5"]
+executors = ["current", "claude"]
+
+[families.cursor]
+models = ["grok-4.6", "grok-4.5", "composer-2.5"]
+executors = ["current", "cursor"]
+
+[agents.codex]
+kind = "codex"
+
+[agents.pi]
+kind = "pi"
+provider = "openai-codex"
+
+[agents.claude]
+kind = "claude"
+
+[agents.cursor]
+kind = "cursor"

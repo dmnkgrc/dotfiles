@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deliver"
+  short_description: "Prepare and publish an authorized change"
+  default_prompt: "Use $deliver to verify and publish this change through the requested git workflow."

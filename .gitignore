@@ -32,6 +32,8 @@ Session.vim
 .codex/version.json
 .codex/worktrees/
 .pi/node_modules/
+__pycache__/
+*.pyc
 
 # herdr runtime state — logs, per-plugin env, and tailnet identifiers
 .config/herdr/plugins/

@@ -1,0 +1,22 @@
+{
+  "name": "dmnkstack",
+  "version": "0.1.0",
+  "description": "Personal model-first routing for coding agents",
+  "author": {
+    "name": "Dominik Garcia Bertapelle",
+    "url": "https://github.com/dmnkgrc"
+  },
+  "homepage": "https://github.com/dmnkgrc/dotfiles/tree/main/plugins/dmnkstack",
+  "repository": "https://github.com/dmnkgrc/dotfiles",
+  "keywords": ["routing", "agents", "models", "workflow"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Dmnkstack",
+    "shortDescription": "Route coding work across agents and models.",
+    "longDescription": "Dmnkstack routes debugging, building, verification, design, review, and research through repository skills and task-specific models, then runs them through Conductor or Herdr.",
+    "developerName": "Dominik Garcia Bertapelle",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": "Use Dmnkstack to route and complete this coding task."
+  }
+}

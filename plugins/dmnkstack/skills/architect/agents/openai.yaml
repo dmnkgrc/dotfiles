@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architect"
+  short_description: "Settle interfaces and module shape before coding"
+  default_prompt: "Use $architect to design the caller-facing shape before implementation."
