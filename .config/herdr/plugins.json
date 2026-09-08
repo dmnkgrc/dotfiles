@@ -1,5 +1,183 @@
 [
   {
+    "plugin_id": "cortea-factory",
+    "name": "cortea-factory",
+    "version": "1.0.0",
+    "min_herdr_version": "0.8.0",
+    "description": "Opt-in personal Cortea feature VMs with local provider agents and VM-only work.",
+    "manifest_path": "/Users/dominikgarciabertapelle/.local/share/cortea-factory/herdr/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/.local/share/cortea-factory/herdr",
+    "enabled": true,
+    "platforms": [
+      "macos"
+    ],
+    "actions": [
+      {
+        "id": "open-claude",
+        "title": "Open local Claude with VM MCP",
+        "contexts": [
+          "workspace",
+          "tab",
+          "pane"
+        ],
+        "command": [
+          "python3",
+          "handler.py",
+          "open",
+          "claude"
+        ]
+      },
+      {
+        "id": "open-codex",
+        "title": "Open local Codex with VM executor",
+        "contexts": [
+          "workspace",
+          "tab",
+          "pane"
+        ],
+        "command": [
+          "python3",
+          "handler.py",
+          "open",
+          "codex"
+        ]
+      },
+      {
+        "id": "open-pi",
+        "title": "Open local Pi with VM tools",
+        "contexts": [
+          "workspace",
+          "tab",
+          "pane"
+        ],
+        "command": [
+          "python3",
+          "handler.py",
+          "open",
+          "pi"
+        ]
+      },
+      {
+        "id": "open-shell",
+        "title": "Open VM shell",
+        "contexts": [
+          "workspace",
+          "tab",
+          "pane"
+        ],
+        "command": [
+          "python3",
+          "handler.py",
+          "open",
+          "shell"
+        ]
+      },
+      {
+        "id": "open-tunnel",
+        "title": "Open VM tunnel",
+        "contexts": [
+          "workspace",
+          "tab",
+          "pane"
+        ],
+        "command": [
+          "python3",
+          "handler.py",
+          "open",
+          "tunnel"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "on": "worktree.created",
+        "command": [
+          "python3",
+          "handler.py",
+          "event"
+        ]
+      },
+      {
+        "on": "worktree.removed",
+        "command": [
+          "python3",
+          "handler.py",
+          "event"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "claude",
+        "title": "Cortea Claude (local provider, VM tools)",
+        "placement": "tab",
+        "command": [
+          "python3",
+          "handler.py",
+          "pane",
+          "claude"
+        ]
+      },
+      {
+        "id": "codex",
+        "title": "Cortea Codex (local provider, VM tools)",
+        "placement": "tab",
+        "command": [
+          "python3",
+          "handler.py",
+          "pane",
+          "codex"
+        ]
+      },
+      {
+        "id": "pi",
+        "title": "Cortea Pi (local provider, VM tools)",
+        "placement": "tab",
+        "command": [
+          "python3",
+          "handler.py",
+          "pane",
+          "pi"
+        ]
+      },
+      {
+        "id": "provisioning",
+        "title": "Cortea VM provisioning",
+        "placement": "tab",
+        "command": [
+          "python3",
+          "handler.py",
+          "provision"
+        ]
+      },
+      {
+        "id": "shell",
+        "title": "Cortea VM shell",
+        "placement": "tab",
+        "command": [
+          "python3",
+          "handler.py",
+          "pane",
+          "shell"
+        ]
+      },
+      {
+        "id": "tunnel",
+        "title": "Cortea VM tunnel",
+        "placement": "tab",
+        "command": [
+          "python3",
+          "handler.py",
+          "pane",
+          "tunnel"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "local"
+    }
+  },
+  {
     "plugin_id": "herdr-splits",
     "name": "Herdr Splits",
     "version": "0.5.2",
