@@ -10,7 +10,7 @@ Dmnkstack routes everyday work through 23 callable skills for debugging, verific
 
 Use `dmnkstack` as the sticky router, or invoke a workflow directly with `debug`, `how`, `why`, `verify`, `architect`, `arena`, `interrogate`, `swarm`, `figure-it-out`, and the other skills under `skills/`.
 
-Inside Conductor, `delegate` starts the selected agent as a new session in the current workspace. The parent waits for it, collects the final transcript, verifies its evidence, and reports the result back. Outside Conductor, the same workflow runs through Herdr in Kitty.
+Inside Conductor, `delegate` starts the selected agent as a new session in the current workspace. The parent collects the authoritative result artifact and transcript, verifies the evidence, and reports the result back. User-requested callbacks follow the shared [delivery contract](skills/dmnkstack/references/delivery.md). Outside Conductor, the same workflow runs through Herdr in Kitty.
 
 ## Routing and checks
 
