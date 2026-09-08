@@ -78,4 +78,4 @@ Parallel read-only sessions may share the workspace. Independent writers need se
 
 When `HERDR_ENV=1`, use Herdr in Kitty according to Dmnkstack's launcher reference. Start the selected agent, wait for a settled result, read its output, verify it, and report it through the same protocol.
 
-When neither manager is active, reuse a compatible current agent. If the selected model is unavailable, use the configured fallback and disclose the substitution. Do not start a terminal or session manager without the user's knowledge.
+When neither manager is active, reuse the current session only if its actual model matches the selected target or an explicit `fallback ROLE` target. Otherwise stop and report the unavailable executor. Follow Dmnkstack's ordered fallback chains and disclose substitutions. Never substitute the author's session for an independent reviewer or count duplicate fallback models as cross-model coverage. Do not start a terminal or session manager without the user's knowledge.

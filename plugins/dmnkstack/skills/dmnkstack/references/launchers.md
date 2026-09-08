@@ -2,7 +2,7 @@
 
 Select the model first. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/launchers.toml`, then choose an executor that can run the model.
 
-Reuse the current agent when it supports the selected model. Codex and Pi both support the OpenAI Codex model family. Do not maintain separate Pi model routes.
+Reuse the current session only when its actual model matches the selection, or the documented phase-retention rule applies. An executor supporting a model does not mean the current session is running it. Resolve `fallback ROLE` targets in order; stop when none satisfy the task. Never fall back to an unnamed current model. Codex and Pi both support the OpenAI Codex model family. Do not maintain separate Pi model routes.
 
 ## Conductor
 
@@ -67,7 +67,7 @@ herdr agent read <name> --source recent-unwrapped --lines 120
 Native model arguments:
 
 - Codex: `-m <model> -c model_reasoning_effort=\"<effort>\"`
-- Pi: `--provider openai-codex --model <model> --thinking <effort>`
+- Pi: `--provider <catalog-provider> --model <model> --thinking <effort>`. Preserve the provider from discovery; do not assume every model uses OpenAI Codex.
 - Claude: `--model <model> --effort <effort>`
 - Cursor: `--model <model>`. Omit effort when the direct CLI does not expose it.
 
@@ -75,4 +75,4 @@ Use a Herdr worktree for a second writer. Do not close panes, tabs, workspaces, 
 
 ## No manager
 
-If neither environment is active, stay in the current compatible agent. If it cannot run the selected model, use the configured fallback and disclose it. Do not launch a terminal manager behind the user's back.
+If neither environment is active, reuse the current session only when it runs the selected model or an explicit role fallback. Otherwise stop and report the missing executor. Disclose every substitution, and never let the author's session replace an independent reviewer. Do not launch a terminal manager behind the user's back.

@@ -15,10 +15,10 @@ Route by task, then choose how to run the selected model. Do not let the current
 4. Read [references/routing.md](references/routing.md) and select the task route.
 5. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source.
 6. Read [references/skill-map.md](references/skill-map.md) and load the matching operational skill when one exists.
-7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md` when it exists. Choose the model assigned to the role, independent of the current agent.
+7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md`. If missing or a broken symlink, report the configuration problem and use `setup-dmnkstack` rather than silently ignoring the assignments. Choose the role by difficulty, then the model and starting effort. Apply the candidate-pool, phase-retention, and explicit fallback rules in `routing.md`.
 8. Load `delegate` when the selected model requires another agent, the user requests another agent, or the route calls for a panel. Then read [references/launchers.md](references/launchers.md).
 9. Inside Conductor, use a new same-workspace session for that delegation. The parent must wait for the child, collect its transcript, verify its evidence, and report the result back.
-10. Execute, verify the changed artifact, and report the evidence.
+10. Execute, reassess at phase boundaries, verify the changed artifact, and report the evidence. Append a privacy-safe outcome through `reflect-dmnkstack` so future route changes can use measured results.
 
 Once invoked, keep Dmnkstack active for the thread until the user says to stop. Reclassify unrelated new tasks instead of carrying stale constraints into them.
 

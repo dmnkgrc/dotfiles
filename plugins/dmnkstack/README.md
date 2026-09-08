@@ -12,6 +12,21 @@ Use `dmnkstack` as the sticky router, or invoke a workflow directly with `debug`
 
 Inside Conductor, `delegate` starts the selected agent as a new session in the current workspace. The parent waits for it, collects the final transcript, verifies its evidence, and reports the result back. Outside Conductor, the same workflow runs through Herdr in Kitty.
 
+## Routing and checks
+
+Keep `models.md`, `launchers.toml`, and `working-style.md` under `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack`, or symlink that directory to the dotfiles copy. Verify that the link resolves before running setup.
+
+Routing distinguishes mechanical, bounded, uncertain, and consequential work. Model assignments specify starting effort; failed reasoning can escalate it. Model lists are candidate pools, not automatic panels. Every role has an ordered fallback chain that stops when exhausted. Task outcomes go to the private XDG state reflection log, not this repository.
+
+The validator requires Python 3.11+ for the standard-library TOML parser. Use an installed interpreter of that version or newer, for example:
+
+```sh
+python3.12 plugins/dmnkstack/skills/setup-dmnkstack/scripts/test_validate_config.py
+python3.12 plugins/dmnkstack/skills/setup-dmnkstack/scripts/validate_config.py ~/.config/dmnkstack/models.md --pretty
+```
+
+Exit codes are `0` for compatible catalog targets, `1` for unresolved targets, and `2` for configuration errors. Catalog validation does not prove authentication, model execution, model-specific reasoning support, or sufficient independent models for a panel. Check those before launch.
+
 ## Local Conductor setup
 
 Authenticate the Conductor CLI once through the macOS Keychain:

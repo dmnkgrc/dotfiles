@@ -8,7 +8,7 @@ description: Run several independent attempts at the same non-trivial task, judg
 Use independent attempts to explore the design space, then produce one coherent result.
 
 1. State the artifact and three to six concrete grading criteria.
-2. Select runners from the `arena runners` model role. Give every runner the same task and no other candidate's work.
+2. Select two distinct models from the ordered `arena runners` pool by default. Use all four only for an explicit full-panel request or an unresolved consequential disagreement. Fallback duplicates do not count as distinct models; report a blocker if two cannot run. Give every runner the same task and no other candidate's work.
 3. Keep outputs isolated. Use separate worktrees for writers and separate temporary paths for non-code artifacts.
 4. Wait for all viable candidates before judging. Record dropouts.
 5. Use a model from `arena cross-judge pool` for a read-only comparison while the parent reads every candidate.

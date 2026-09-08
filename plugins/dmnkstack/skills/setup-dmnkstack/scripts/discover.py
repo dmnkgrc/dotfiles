@@ -58,10 +58,12 @@ def discover_agents() -> dict[str, Any]:
         agent: dict[str, Any] = {
             "installed": True,
             "executable": resolved,
-            "version": result.get("output", "").splitlines()[0] if result.get("ok") else None,
+            "version": result.get("output", "").splitlines()[0]
+            if result.get("ok")
+            else None,
         }
         if name == "pi":
-            catalog_result = run([resolved, "--offline", "--list-models", "gpt-5.6"])
+            catalog_result = run([resolved, "--offline", "--list-models"])
             models: list[dict[str, str]] = []
             if catalog_result.get("ok"):
                 for line in catalog_result.get("output", "").splitlines()[1:]:
@@ -70,7 +72,9 @@ def discover_agents() -> dict[str, Any]:
                         models.append({"provider": columns[0], "model": columns[1]})
             agent["models"] = models
             if not catalog_result.get("ok"):
-                agent["catalog_error"] = catalog_result.get("output") or catalog_result.get("error")
+                agent["catalog_error"] = catalog_result.get(
+                    "output"
+                ) or catalog_result.get("error")
         agents[name] = agent
     return agents
 
@@ -101,15 +105,15 @@ def discover_conductor() -> dict[str, Any]:
     auth_status = run([resolved, "auth", "status"])
     auth_output = auth_status.get("output", "").lower()
     keychain_ready = bool(
-        auth_status.get("ok")
-        and auth_output
-        and "no keychain entry" not in auth_output
+        auth_status.get("ok") and auth_output and "no keychain entry" not in auth_output
     )
     if credential_source is None and keychain_ready:
         credential_source = "macos-keychain"
 
     local_flag = os.environ.get("CONDUCTOR_IS_LOCAL")
-    local = local_flag == "1" if local_flag is not None else platform.system() == "Darwin"
+    local = (
+        local_flag == "1" if local_flag is not None else platform.system() == "Darwin"
+    )
 
     return {
         "installed": True,
@@ -140,7 +144,9 @@ def discover_herdr() -> dict[str, Any]:
     return {
         "installed": True,
         "active": os.environ.get("HERDR_ENV") == "1",
-        "version": version.get("output", "").splitlines()[0] if version.get("ok") else None,
+        "version": version.get("output", "").splitlines()[0]
+        if version.get("ok")
+        else None,
         "agent_kinds": kinds,
     }
 
@@ -153,7 +159,9 @@ def discover_kitty() -> dict[str, Any]:
     return {
         "installed": True,
         "executable": resolved,
-        "version": version.get("output", "").splitlines()[0] if version.get("ok") else None,
+        "version": version.get("output", "").splitlines()[0]
+        if version.get("ok")
+        else None,
     }
 
 
@@ -171,7 +179,9 @@ def collect() -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Discover Dmnkstack agents and model catalogs")
+    parser = argparse.ArgumentParser(
+        description="Discover Dmnkstack agents and model catalogs"
+    )
     parser.add_argument("--pretty", action="store_true")
     args = parser.parse_args()
     indent = 2 if args.pretty else None
