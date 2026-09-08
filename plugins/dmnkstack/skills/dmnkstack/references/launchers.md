@@ -32,12 +32,12 @@ The parent owns the whole round trip:
 
 1. Give the child a complete contract with scope, repository instructions, selected project skills, write authority, and expected evidence.
 2. Read and retain the session ID returned by `session create`.
-3. Poll `conductor --json session status <session-id>` until the session reaches a terminal state.
+3. Poll status and collect the completion artifact using [the delivery contract](delivery.md). An idle session can still own background work.
 4. Fetch the transcript with `conductor --json session message <session-id> --limit 100`, following pagination when required.
 5. Extract the child's final `RESULT`, `EVIDENCE`, `CHANGES`, `GAPS`, and `NEXT` sections.
 6. Verify claimed artifacts and evidence, then report the useful result in the parent session with the agent, model, and session ID.
 
-The child does not push a message into the parent session. The parent must collect and report it. Preserve the child session for inspection.
+Parent collection is the default; user-requested callbacks follow [the delivery contract](delivery.md). The parent verifies and reports each task/revision/event once. Preserve the child session for inspection.
 
 If local Keychain auth is absent or `session create` reports a missing credential, stop and report that prerequisite without retrying or switching managers.
 

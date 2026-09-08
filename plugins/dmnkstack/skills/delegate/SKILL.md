@@ -16,7 +16,10 @@ Before starting another agent, write a complete prompt containing:
 - the selected model role and why it was selected;
 - whether the child is read-only or is the sole writer;
 - authority limits inherited from the user;
-- the evidence or artifacts required for acceptance.
+- the evidence or artifacts required for acceptance;
+- explicit workspace, sender session, recipient session, task, and revision IDs;
+- assigned phase, next owner, completion state, and each owned background job;
+- delivery mode from [the delivery contract](../dmnkstack/references/delivery.md).
 
 Require the child's final response to use this compact protocol:
 
@@ -61,12 +64,12 @@ conductor --json session create \
 
 If local auth is absent, ask the user to run `conductor auth login`. If session creation reports that no credential is available, stop and report the missing prerequisite. Do not retry, expose a credential, store it in Dmnkstack config, or fall back to Herdr while inside Conductor.
 
-6. Poll `conductor --json session status <session-id>` at reasonable intervals until it reports a terminal state. Keep the user informed during a long wait.
+6. Poll status at reasonable intervals and collect the authoritative artifact. Idle alone does not prove completion; require the assigned phase and every owned background job to have an explicit terminal state or acknowledged transfer. Report transitions and findings while meeting runtime commentary requirements.
 7. Read `conductor --json session message <session-id> --limit 100`. Follow pagination or `--after` when needed and extract the latest complete assistant result.
 8. Inspect any claimed files, diff, commands, or external evidence yourself. Treat the child transcript as evidence to verify, not as an automatically trusted answer.
 9. Report the child agent, model, session ID, result, evidence, changes, and gaps in the parent session. Summarize the useful result instead of dumping the raw transcript.
 
-The child does not call back into the parent. The parent always waits, pulls the transcript, verifies it, and reports it back. Preserve the child session so the user can inspect it unless the user asks to close it.
+Parent collection is the default. User-requested callbacks use the same delivery contract and event identity. The parent verifies the authoritative artifact and reports the result once. Preserve the child session so the user can inspect it unless the user asks to close it.
 
 ## Control writes
 
