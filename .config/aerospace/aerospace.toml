@@ -1,6 +1,7 @@
 config-version = 2
-start-at-login = true
-after-startup-command = ['exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --watch >> ~/Library/Logs/aerospace-adaptive.log 2>&1']
+start-at-login = false
+# Automatic rearrangement stays off until tested outside the terminal running Pi.
+after-startup-command = []
 
 # Keep the single-window containers that define the two ultrawide columns.
 enable-normalization-flatten-containers = false
@@ -29,7 +30,9 @@ alt-tab = 'workspace-back-and-forth'
 alt-b = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus browser'
 alt-t = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus terminal'
 alt-c = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus conductor'
-alt-w = 'workspace W'
+alt-m = 'exec-and-forget /usr/bin/open -b com.deezer.deezer-desktop'
+alt-w = 'exec-and-forget /usr/bin/open -b com.tdesktop.Telegram'
+alt-0 = 'workspace W'
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'

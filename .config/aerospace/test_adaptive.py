@@ -1,4 +1,8 @@
+import subprocess
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
 import adaptive
 
@@ -66,6 +70,22 @@ class AdaptiveTest(unittest.TestCase):
                                   commands)
                 self.assertIn(f"move-workspace-to-monitor --workspace T {right}", commands)
                 self.assertEqual(commands[-1], "focus --window-id 4")
+
+    def test_apply_preserves_an_empty_workspace(self):
+        empty = subprocess.CalledProcessError(1, "list-windows", output="", stderr="No focused window")
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.object(adaptive, "STATE", Path(directory)):
+                with patch.object(adaptive, "aerospace", side_effect=["3", empty, ""]) as run:
+                    adaptive.apply([display(1, "Built-in Retina Display", 1512, 982)], [])
+        self.assertEqual(run.call_args.args[0], "eval")
+        self.assertTrue(run.call_args.args[1].endswith("workspace 3"))
+
+    def test_staging_workspace_is_not_reserved(self):
+        current = [window(1, "net.imput.helium", "B")]
+        commands = adaptive.layout_commands("wide", 1, 1, current, 1)
+        destinations = [c.split()[-1] for c in commands if c.startswith("move-node-to-workspace")]
+        self.assertIn("adaptive-staging", destinations)
+        self.assertFalse(any(name.startswith("_") for name in destinations))
 
     def test_empty_and_one_sided_workspaces(self):
         for current in [[], [window(1, "net.imput.helium", "B")],

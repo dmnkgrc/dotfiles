@@ -147,7 +147,7 @@ def apply(displays, current):
     try:
         focused = json.loads(aerospace("list-windows", "--focused", "--json"))
     except subprocess.CalledProcessError as error:
-        if error.stdout.strip() != "[]":
+        if error.returncode != 1:
             raise
         focused = []
     focused_id = focused[0]["window-id"] if focused else None
@@ -199,6 +199,9 @@ def watch():
                     reset.unlink(missing_ok=True)
                 last_error = None
             except (subprocess.SubprocessError, ValueError, IndexError, OSError) as error:
+                if subprocess.run(["/usr/bin/pgrep", "-x", "AeroSpace"],
+                                  capture_output=True).returncode == 1:
+                    return
                 message = getattr(error, "stderr", None) or str(error)
                 if message != last_error:
                     print(message, flush=True)
