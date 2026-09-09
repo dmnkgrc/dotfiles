@@ -79,6 +79,6 @@ Parallel read-only sessions may share the workspace. Independent writers need se
 
 ## Delegate outside Conductor
 
-When `HERDR_ENV=1`, use Herdr in Kitty according to Dmnkstack's launcher reference. Start the selected agent, wait for a settled result, read its output, verify it, and report it through the same protocol.
+When `HERDR_ENV=1`, use the current host's Herdr CLI according to [Dmnkstack's launcher reference](../dmnkstack/references/launchers.md), including inside a VM. Create a sibling pane for closely related work or a new tab for an independent task. Preserve the inherited VM/session context, assigned directory and user focus. Resolve models and authentication on that host. Start the selected agent in the returned new pane, collect its result, verify it, and report it through the same protocol. Do not silently substitute a hidden subagent runner or launch on the laptop.
 
 When neither manager is active, reuse the current session only if its actual model matches the selected target or an explicit `fallback ROLE` target. Otherwise stop and report the unavailable executor. Follow Dmnkstack's ordered fallback chains and disclose substitutions. Never substitute the author's session for an independent reviewer or count duplicate fallback models as cross-model coverage. Do not start a terminal or session manager without the user's knowledge.

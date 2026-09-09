@@ -16,7 +16,7 @@ TERMINAL = {
     "com.googlecode.iterm2",
 }
 CONDUCTOR = {"com.conductor.app"}
-DEVELOPMENT = TERMINAL | CONDUCTOR | {"dev.zed.Zed"}
+DEVELOPMENT = TERMINAL | CONDUCTOR | {"dev.zed.Zed", "com.openai.codex"}
 OWNED = {"B", "T", "adaptive-staging"}
 STATE = Path.home() / ".local/state/aerospace"
 ULTRAWIDE_RATIO = 2.2
@@ -96,6 +96,20 @@ def managed(all_windows):
     )
 
 
+def floating_work_commands(mode, all_windows):
+    target = "B" if mode == "wide" else "T"
+    commands = []
+    for window in all_windows:
+        if (window["app-bundle-id"] == "com.tinyspeck.slackmacgap"
+                and window["window-layout"] == "floating"
+                and window["workspace"] in OWNED
+                and window["workspace"] != target):
+            window_id = window["window-id"]
+            move = f"move-node-to-workspace --window-id {window_id} {target}"
+            commands.append(f"test %{{window-id}} = {window_id} && {move} --focus-follows-window || {move}")
+    return commands
+
+
 def layout_commands(mode, left_monitor, right_monitor, current, focused):
     left = [w["window-id"] for w in current if w["app-bundle-id"] in BROWSER]
     right = [w["window-id"] for w in current if w["app-bundle-id"] in DEVELOPMENT]
@@ -109,22 +123,20 @@ def layout_commands(mode, left_monitor, right_monitor, current, focused):
     if mode == "wide":
         for window in left + right:
             commands.append(f"move-node-to-workspace --window-id {window} adaptive-staging")
-        commands.append("layout --workspace B --root h_tiles")
-        for group in (left, right):
-            if group:
-                commands.append(f"move-node-to-workspace --window-id {group[0]} B")
-                commands.append(f"focus --window-id {group[0]}")
-        for group in (left, right):
-            if not group:
-                continue
-            anchor = group[0]
-            commands.extend([
-                f"split --window-id {anchor} vertical",
-                f"layout --window-id {anchor} v_accordion",
-                f"focus --window-id {anchor}",
-            ])
-            for window in group[1:]:
-                commands.append(f"move-node-to-workspace --window-id {window} B")
+        layout = "h_tiles" if left and right else "v_accordion"
+        commands.append(f"layout --workspace B --root {layout}")
+        for window in left + right:
+            commands.append(f"move-node-to-workspace --window-id {window} B")
+        if left and right:
+            for group in (left, right):
+                anchor = group[0]
+                commands.extend([
+                    f"split --window-id {anchor} vertical",
+                    f"layout --window-id {anchor} v_accordion",
+                ])
+                # Workspace moves append at the root; move into the adjacent stack.
+                for window in group[1:]:
+                    commands.append(f"move --window-id {window} --boundaries-action fail left")
         commands.append("balance-sizes --workspace B")
     else:
         for workspace, group in (("B", left), ("T", right)):
@@ -147,7 +159,7 @@ def apply(displays, current):
     try:
         focused = json.loads(aerospace("list-windows", "--focused", "--json"))
     except subprocess.CalledProcessError as error:
-        if error.returncode != 1:
+        if (error.stderr or "").strip() != "No window is focused":
             raise
         focused = []
     focused_id = focused[0]["window-id"] if focused else None
@@ -187,16 +199,24 @@ def watch():
         while True:
             try:
                 displays = monitors()
-                current = managed(windows())
+                all_windows = windows()
+                current = managed(all_windows)
                 signature = (displays, [(w["window-id"], w["app-bundle-id"]) for w in current])
                 reset = STATE / "reset"
                 if signature != previous or reset.exists():
                     if displays != previous_displays or reset.exists():
                         sized = screen_sizes(displays)
-                    apply(sized, current)
+                    try:
+                        apply(sized, current)
+                    except subprocess.SubprocessError as error:
+                        print("Layout failed; watcher stopped to avoid repeated resizing.", flush=True)
+                        print(getattr(error, "stderr", None) or str(error), flush=True)
+                        return
                     previous = signature
                     previous_displays = displays
                     reset.unlink(missing_ok=True)
+                for command in floating_work_commands(profile(sized)[0], all_windows):
+                    aerospace("eval", command)
                 last_error = None
             except (subprocess.SubprocessError, ValueError, IndexError, OSError) as error:
                 if subprocess.run(["/usr/bin/pgrep", "-x", "AeroSpace"],

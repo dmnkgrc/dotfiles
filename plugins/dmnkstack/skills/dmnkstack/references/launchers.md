@@ -43,26 +43,42 @@ If local Keychain auth is absent or `session create` reports a missing credentia
 
 Do not create a new workspace for a read-only specialist. One delegated writer may use the current workspace while the parent stops editing. Use separate workspaces only for independent writers.
 
-## Herdr in Kitty
+## Herdr on the current host
 
-Kitty hosts Herdr. It is not an agent launcher itself.
+Use Herdr when `HERDR_ENV=1` and Conductor is not active. This includes native agent panes inside VMs, regardless of which terminal hosts the laptop client. Before controlling panes, run `herdr --skill` and follow the installed instructions because its CLI is the authority.
 
-Use Herdr only when `HERDR_ENV=1`. Before controlling panes, run `herdr --skill` and follow the installed instructions because its CLI is the authority.
+Inside a VM, launch children with that VM's `herdr` CLI and inherited session/socket context. Discover models, executables and authentication on the VM, not the laptop. Do not substitute a hidden subagent runner, background agent process, laptop terminal or new SSH connection for a requested Herdr child. Missing prerequisites require an explicit fallback from the model routes or a reported blocker, not a silent change of host or runner.
 
-The normal flow is:
+### Choose a pane or tab by task relationship
 
-1. Split the current pane without moving focus and preserve the current directory.
-2. Read the returned pane ID.
-3. Start the resolved agent in that pane.
-4. Submit a complete prompt and wait for a settled state.
-5. Read the agent output and keep the parent responsible for the final result.
+- Closely related work, such as reviewing the current diff or investigating the same failure: create a sibling pane in the current tab. Inspect layout first; split wide panes right and tall or narrow panes down.
+- Independent deliverable, longer parallel investigation or separate task stream: create a new tab in the current workspace. Label it with the task.
+- A second concurrent writer: use a separate worktree before choosing its pane or tab. A new terminal does not isolate files. Do not create another VM or server session just to separate tasks.
+
+Preserve the current directory unless the user assigned another location. Keep focus unchanged. Inspect the installed command help before creation:
 
 ```sh
+herdr pane layout --pane "$HERDR_PANE_ID"
 herdr pane split --current --direction right --cwd "$PWD" --no-focus
-herdr agent start <name> --kind <kind> --pane <pane-id> -- <native-agent-args>
+```
+
+For an independent task, use a tab instead of that split:
+
+```sh
+herdr tab create --workspace "$HERDR_WORKSPACE_ID" --cwd "$PWD" --label <task-label> --no-focus
+```
+
+Read the returned pane ID from `.result.pane.pane_id` for a split or `.result.root_pane.pane_id` for a new tab. Then start the selected agent in that new pane:
+
+```sh
+herdr agent start <name> --kind <kind> --pane <returned-pane-id> -- <native-agent-args>
 herdr agent prompt <name> <task> --wait --timeout 120000
 herdr agent read <name> --source recent-unwrapped --lines 120
 ```
+
+Do not launch a child in the parent's pane or type into an existing agent. Discover IDs from the same server; IDs and agent names can collide across VMs. Selecting another machine in the laptop sidebar does not change the caller's domain.
+
+The parent collects the child's artifact and output, verifies the evidence and reports the result. A stalled wait is not proof that the prompt was never delivered; inspect the agent before retrying. For shared app/browser validation, name one stack and browser owner. Other agents must not race service restarts or close that owner's browser.
 
 Native model arguments:
 

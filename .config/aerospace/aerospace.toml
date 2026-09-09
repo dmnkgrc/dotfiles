@@ -1,7 +1,6 @@
 config-version = 2
-start-at-login = false
-# Automatic rearrangement stays off until tested outside the terminal running Pi.
-after-startup-command = []
+start-at-login = true
+after-startup-command = ['exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --watch >> ~/Library/Logs/aerospace-adaptive.log 2>&1']
 
 # Keep the single-window containers that define the two ultrawide columns.
 enable-normalization-flatten-containers = false
@@ -25,7 +24,6 @@ alt-h = 'focus left'
 alt-j = 'focus down --boundaries-action wrap-around-the-workspace'
 alt-k = 'focus up --boundaries-action wrap-around-the-workspace'
 alt-l = 'focus right'
-alt-tab = 'workspace-back-and-forth'
 
 alt-b = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus browser'
 alt-t = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus terminal'
@@ -51,6 +49,14 @@ f = ['layout floating tiling', 'mode main']
 r = ['exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --reset', 'mode main']
 
 [[on-window-detected]]
+if = 'test %{app-bundle-id} = com.apple.finder || test %{app-bundle-id} = com.tdesktop.Telegram || test %{app-bundle-id} = net.whatsapp.WhatsApp || test %{app-bundle-id} = com.apple.systempreferences || test %{app-bundle-id} = com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.tinyspeck.slackmacgap'
+run = ['layout floating', 'move-node-to-workspace --focus-follows-window T']
+
+[[on-window-detected]]
 if = 'test %{window-layout} = floating'
 run = 'true'
 
@@ -59,7 +65,7 @@ if = 'test %{app-bundle-id} = net.imput.helium'
 run = 'move-node-to-workspace --focus-follows-window B'
 
 [[on-window-detected]]
-if = 'test %{app-bundle-id} = net.kovidgoyal.kitty || test %{app-bundle-id} = com.mitchellh.ghostty || test %{app-bundle-id} = com.apple.Terminal || test %{app-bundle-id} = com.googlecode.iterm2 || test %{app-bundle-id} = com.conductor.app || test %{app-bundle-id} = dev.zed.Zed'
+if = 'test %{app-bundle-id} = net.kovidgoyal.kitty || test %{app-bundle-id} = com.mitchellh.ghostty || test %{app-bundle-id} = com.apple.Terminal || test %{app-bundle-id} = com.googlecode.iterm2 || test %{app-bundle-id} = com.conductor.app || test %{app-bundle-id} = dev.zed.Zed || test %{app-bundle-id} = com.openai.codex'
 run = 'move-node-to-workspace --focus-follows-window T'
 
 [[on-window-detected]]

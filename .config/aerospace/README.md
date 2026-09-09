@@ -4,25 +4,29 @@ Config: `~/.config/aerospace/aerospace.toml`
 
 ## Current status
 
-AeroSpace 0.21.3-Beta is installed. Laptop-sized accordion stacks and the original shortcuts were loaded. The new Deezer, Telegram, and Option+0 shortcuts are saved but need a config reload. The adaptive watcher is not running. The saved config disables startup automation and login startup because live layout tests repeatedly interrupted Pi while resizing its terminal. The cause of the Pi crashes has not been established.
+AeroSpace 0.21.3-Beta and the adaptive watcher are running. Login startup and automatic display switching are enabled. All shortcuts below are loaded; Option+Tab is released.
 
-The laptop terminal was measured at the full usable width, 1512 points. Six file-only tests, Python compilation, and whitespace checks pass. No Python linter or formatter was available. The config passed AeroSpace's dry-run validator. Ultrawide geometry and physical monitor hot-plug transitions remain unverified. Do not enable the watcher until you can test without an active Pi session in a managed terminal.
+Verified on the Dell U3425WE at 3440×1440: both Helium windows have x=0 and width=1720; Conductor and Kitty both have x=1720 and width=1720. Each column uses a vertical accordion stack. The laptop terminal was previously measured at the full usable width, 1512 points. Eleven file-only tests, Python compilation, and the config dry-run pass. ChatGPT's routing is covered by those tests; its window was no longer open at the final live check. No Python linter or formatter was available. Physical two-monitor placement and unplug/replug transitions still need testing.
+
+Earlier simulated layout tests interrupted Pi while resizing its terminal. The cause of those crashes has not been established. Avoid simulated ultrawide layouts on the laptop.
 
 ## Intended automatic behavior
 
-- Laptop or one ordinary display: browser windows use B, terminal/editor/Conductor use T, other normal windows use W. Each stack shows one full-size window at a time.
-- Ultrawide: B contains two equal-width columns. Helium windows stack on the left. Kitty, Ghostty, Terminal, iTerm2, Zed, and Conductor stack on the right. Extra windows do not add columns. Other apps use full-size W.
+- Laptop or one ordinary display: browser windows use B, terminal/editor/Conductor/ChatGPT use T, other normal windows use W. Each stack shows one full-size window at a time.
+- Ultrawide: B contains two equal-width columns. Helium windows stack on the left. Kitty, Ghostty, Terminal, iTerm2, Zed, Conductor, and ChatGPT stack on the right. Extra windows do not add columns. Other apps use full-size W.
 - Two external monitors: B goes to the leftmost external display, T to the rightmost. Each window fills its display. An open laptop is not counted as one of these two external displays.
 - One ordinary external monitor plus the laptop: B and T use the leftmost and rightmost displays according to macOS display arrangement.
 - One ultrawide plus the laptop: the two columns use the ultrawide.
 
-Dialogs and other windows AeroSpace classifies as floating stay floating. Full-size means maximized within the usable desktop, not native macOS fullscreen Spaces. If only one column has windows, it fills the screen until the other group has a window.
+Slack floats on the terminal/Conductor workspace: B on the ultrawide, T on the laptop or dual displays. Its size is preserved, and moving it does not rebuild the tiled stacks. On the ultrawide it belongs to the shared workspace, not a particular column; position it wherever useful. Its current floating size was verified unchanged at 1312×977.
+
+Finder, Telegram, WhatsApp, System Settings, and Activity Monitor float by default without forced workspace assignment or size rules. AeroSpace may restore a previously remembered floating size when an existing tiled window is converted. Dialogs and other windows AeroSpace classifies as floating also stay floating. Full-size means maximized within the usable desktop, not native macOS fullscreen Spaces. If only one column has windows, it fills the screen until the other group has a window.
 
 The helper checks every two seconds. Newly opened windows can briefly appear on B or T before regrouping. Ultrawide detection uses an aspect ratio of at least 2.2. Change `ULTRAWIDE_RATIO` in `adaptive.py` if needed. A resolution-only change on the same display requires a reset.
 
 ## Shortcuts
 
-`Alt` means the Mac Option key. Command shortcuts inside apps are unchanged.
+`Alt` means the Mac Option key. Command shortcuts inside apps are unchanged. Option+Tab is not bound by AeroSpace.
 
 | Shortcut | Action |
 | --- | --- |
@@ -36,7 +40,6 @@ The helper checks every two seconds. Newly opened windows can briefly appear on 
 | Option+0 | Other apps on W |
 | Option+1 / 2 / 3 | Scratch workspaces |
 | Option+Shift+1 / 2 / 3 / w | Move the window there and follow it |
-| Option+Tab | Previous workspace |
 | Option+f | Toggle AeroSpace fullscreen |
 | Option+Shift+f | Toggle floating |
 | Option+Shift+semicolon, then Escape | Reload config |
@@ -54,22 +57,21 @@ cd ~/.config/aerospace
 /usr/bin/python3 -m py_compile adaptive.py test_adaptive.py
 ```
 
-After leaving Pi, start the helper from a separate terminal only when ready for windows to move:
+The helper starts automatically with AeroSpace. If it has stopped, restart it from a separate terminal when ready for windows to move:
 
 ```sh
 /usr/bin/python3 ~/.config/aerospace/adaptive.py --watch
 ```
 
-Stop this foreground helper with Control+C. Test the laptop, connect the ultrawide, open an extra browser and terminal window, then test the two-display setup. Confirm 50/50 widths, stack switching, and that unrelated apps stay full-size. A normal app's minimum width can prevent a requested split on a small display, so do not simulate an ultrawide on the laptop.
+A file lock prevents duplicate watchers. Stop a foreground helper with Control+C. To stop the existing background watcher:
 
-Once those checks pass, replace the two startup settings in `aerospace.toml` with:
-
-```toml
-start-at-login = true
-after-startup-command = ['exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --watch >> ~/Library/Logs/aerospace-adaptive.log 2>&1']
+```sh
+pkill -f '[a]daptive.py --watch'
 ```
 
-Reload the config and restart AeroSpace outside Pi. Reloading alone does not run the startup callback. A file lock prevents duplicate watchers. The watcher exits if AeroSpace is no longer running.
+The watcher also exits when AeroSpace quits, or if a layout command fails, rather than repeatedly resizing windows after an error. Startup output goes to `~/Library/Logs/aerospace-adaptive.log`. The last successfully applied display profile is in `~/.local/state/aerospace/profile.json`.
+
+For remaining hardware checks, leave Pi first, then disconnect/reconnect displays and test the two-monitor setup. Confirm the expected placement, stack switching, and full-size unrelated apps. Reloading the config alone does not run the startup callback.
 
 ## Undo
 

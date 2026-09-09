@@ -2,8 +2,8 @@
   {
     "plugin_id": "cortea-factory",
     "name": "cortea-factory",
-    "version": "1.0.0",
-    "min_herdr_version": "0.8.0",
+    "version": "1.1.0",
+    "min_herdr_version": "0.9.0",
     "description": "Opt-in personal Cortea feature VMs with local provider agents and VM-only work.",
     "manifest_path": "/Users/dominikgarciabertapelle/.local/share/cortea-factory/herdr/herdr-plugin.toml",
     "plugin_root": "/Users/dominikgarciabertapelle/.local/share/cortea-factory/herdr",
@@ -109,7 +109,7 @@
     "panes": [
       {
         "id": "claude",
-        "title": "Cortea Claude (local provider, VM tools)",
+        "title": "Cortea local Claude launcher (VM tools)",
         "placement": "tab",
         "command": [
           "python3",
@@ -120,7 +120,7 @@
       },
       {
         "id": "codex",
-        "title": "Cortea Codex (local provider, VM tools)",
+        "title": "Cortea local Codex launcher (VM tools)",
         "placement": "tab",
         "command": [
           "python3",
@@ -131,7 +131,7 @@
       },
       {
         "id": "pi",
-        "title": "Cortea Pi (local provider, VM tools)",
+        "title": "Cortea local Pi launcher (VM tools)",
         "placement": "tab",
         "command": [
           "python3",

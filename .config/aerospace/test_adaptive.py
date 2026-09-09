@@ -38,6 +38,35 @@ class AdaptiveTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             adaptive.profile([])
 
+    def test_floating_apps_bypass_workspace_assignment(self):
+        config = Path(__file__).with_name("aerospace.toml").read_text()
+        first_rule = config.split("[[on-window-detected]]")[1]
+        for app in ["com.apple.finder", "com.tdesktop.Telegram", "net.whatsapp.WhatsApp",
+                    "com.apple.systempreferences", "com.apple.ActivityMonitor"]:
+            self.assertIn(f"test %{{app-bundle-id}} = {app}", first_rule)
+        self.assertIn("run = 'layout floating'", first_rule)
+        self.assertNotIn("move-node-to-workspace", first_rule)
+        self.assertNotIn("check-further-callbacks = true", first_rule)
+
+    def test_slack_floats_on_the_development_workspace(self):
+        config = Path(__file__).with_name("aerospace.toml").read_text()
+        rule = next(r for r in config.split("[[on-window-detected]]")
+                    if "com.tinyspeck.slackmacgap" in r)
+        self.assertIn("run = ['layout floating', 'move-node-to-workspace --focus-follows-window T']", rule)
+        for mode, source, target in [("wide", "T", "B"), ("single", "B", "T"), ("dual", "B", "T")]:
+            with self.subTest(mode=mode):
+                slack = window(6, "com.tinyspeck.slackmacgap", source, "floating")
+                self.assertEqual(adaptive.managed([slack]), [])
+                command, = adaptive.floating_work_commands(mode, [slack])
+                move = f"move-node-to-workspace --window-id 6 {target}"
+                self.assertEqual(command, f"test %{{window-id}} = 6 && {move} --focus-follows-window || {move}")
+                slack["workspace"] = target
+                self.assertEqual(adaptive.floating_work_commands(mode, [slack]), [])
+                slack["workspace"] = "1"
+                self.assertEqual(adaptive.floating_work_commands(mode, [slack]), [])
+                other = window(7, "com.apple.finder", source, "floating")
+                self.assertEqual(adaptive.floating_work_commands(mode, [other]), [])
+
     def test_only_manage_assigned_tiled_windows(self):
         browser = window(1, "net.imput.helium", "B")
         recovery = window(2, "com.conductor.app", "adaptive-staging")
@@ -52,6 +81,7 @@ class AdaptiveTest(unittest.TestCase):
             window(2, "net.imput.helium", "B"),
             window(3, "net.kovidgoyal.kitty", "T"),
             window(4, "com.conductor.app", "T"),
+            window(5, "com.openai.codex", "T"),
         ]
         wide = adaptive.layout_commands("wide", 1, 1, current, 4)
         self.assertIn("layout --workspace B --root h_tiles", wide)
@@ -65,20 +95,65 @@ class AdaptiveTest(unittest.TestCase):
                 commands = adaptive.layout_commands(mode, left, right, current, 4)
                 self.assertFalse(any("h_tiles" in c or c.startswith("split")
                                      for c in commands))
-                for number, workspace in [(1, "B"), (2, "B"), (3, "T"), (4, "T")]:
+                for number, workspace in [(1, "B"), (2, "B"), (3, "T"), (4, "T"), (5, "T")]:
                     self.assertIn(f"move-node-to-workspace --window-id {number} {workspace}",
                                   commands)
                 self.assertIn(f"move-workspace-to-monitor --workspace T {right}", commands)
                 self.assertEqual(commands[-1], "focus --window-id 4")
 
+    def test_extra_windows_enter_their_column_not_the_root(self):
+        for browsers, development in [(1, 1), (2, 2), (3, 4), (0, 3), (2, 0)]:
+            left = list(range(1, browsers + 1))
+            right = list(range(10, 10 + development))
+            current = [window(i, "net.imput.helium", "B") for i in left]
+            current += [window(i, "com.openai.codex" if i % 2 else "com.conductor.app", "T")
+                        for i in right]
+            commands = adaptive.layout_commands("wide", 1, 1, current, None)
+            root = []
+            for command in commands:
+                words = command.split()
+                if words[0] == "move-node-to-workspace" and words[-1] == "B":
+                    root.append(int(words[2]))
+                elif words[0] == "split":
+                    self.assertGreater(len(root), 1, "A singleton split only changes root orientation")
+                    number = int(words[2])
+                    root[root.index(number)] = [number]
+                elif words[0] == "move":
+                    number = int(words[2])
+                    index = root.index(number)
+                    self.assertGreater(index, 0)
+                    self.assertIsInstance(root[index - 1], list)
+                    root[index - 1].append(root.pop(index))
+            with self.subTest(browsers=browsers, development=development):
+                expected = [left, right] if left and right else left + right
+                self.assertEqual(root, expected)
+
     def test_apply_preserves_an_empty_workspace(self):
-        empty = subprocess.CalledProcessError(1, "list-windows", output="", stderr="No focused window")
+        empty = subprocess.CalledProcessError(2, "list-windows", output="", stderr="No window is focused\n")
         with tempfile.TemporaryDirectory() as directory:
             with patch.object(adaptive, "STATE", Path(directory)):
                 with patch.object(adaptive, "aerospace", side_effect=["3", empty, ""]) as run:
                     adaptive.apply([display(1, "Built-in Retina Display", 1512, 982)], [])
         self.assertEqual(run.call_args.args[0], "eval")
         self.assertTrue(run.call_args.args[1].endswith("workspace 3"))
+
+    def test_unexpected_focus_errors_still_propagate(self):
+        failure = subprocess.CalledProcessError(2, "list-windows", stderr="Connection lost")
+        with patch.object(adaptive, "aerospace", side_effect=["3", failure]) as run:
+            with self.assertRaises(subprocess.CalledProcessError):
+                adaptive.apply([display(1, "Built-in Retina Display", 1512, 982)], [])
+        self.assertEqual(run.call_count, 2)
+
+    def test_failed_layout_does_not_repeat_resizing(self):
+        error = subprocess.CalledProcessError(1, "eval", stderr="Window closed during layout")
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.object(adaptive, "STATE", Path(directory)), \
+                    patch.object(adaptive, "monitors", return_value=[]), \
+                    patch.object(adaptive, "windows", return_value=[]), \
+                    patch.object(adaptive, "screen_sizes", return_value=[]), \
+                    patch.object(adaptive, "apply", side_effect=error) as apply:
+                adaptive.watch()
+                apply.assert_called_once()
 
     def test_staging_workspace_is_not_reserved(self):
         current = [window(1, "net.imput.helium", "B")]
@@ -92,7 +167,8 @@ class AdaptiveTest(unittest.TestCase):
                         [window(2, "com.conductor.app", "T")]]:
             commands = adaptive.layout_commands("wide", 1, 1, current, None)
             self.assertFalse(any("None" in c for c in commands))
-            self.assertEqual(sum(c.startswith("split") for c in commands), len(current))
+            self.assertFalse(any(c.startswith("split") for c in commands))
+            self.assertIn("layout --workspace B --root v_accordion", commands)
 
 
 if __name__ == "__main__":
