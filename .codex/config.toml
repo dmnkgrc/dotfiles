@@ -621,6 +621,18 @@ trust_level = "trusted"
 [projects."/Users/dominikgarciabertapelle/Documents/Codex/2026-09-09/how-can-i-have-a-4"]
 trust_level = "trusted"
 
+[projects."/Users/dominikgarciabertapelle/Documents/Codex/2026-09-09/how-can-i-have-a-5"]
+trust_level = "trusted"
+
+[projects."/Users/dominikgarciabertapelle/Documents/Codex/2026-09-10/how-can-i-have-a"]
+trust_level = "trusted"
+
+[projects."/Users/dominikgarciabertapelle/Documents/Codex/2026-09-10/how-can-i-have-a-2"]
+trust_level = "trusted"
+
+[projects."/Users/dominikgarciabertapelle/Documents/Codex/2026-09-10/how-can-i-have-a-3"]
+trust_level = "trusted"
+
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 

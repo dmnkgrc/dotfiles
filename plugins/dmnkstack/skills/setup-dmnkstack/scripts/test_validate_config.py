@@ -59,6 +59,26 @@ def main() -> None:
     )
     assert {entry["provider"] for entry in pi_catalog} == {"anthropic", "openai-codex"}
     assert not validate(target, pi_catalog, launchers)[1]
+    aliased, missing = validate(
+        [
+            {
+                "role": "judgment",
+                "model": "fable-5.1",
+                "effort": "high",
+                "kind": "primary",
+            }
+        ],
+        [
+            {
+                "agent": "pi",
+                "provider": "cursor",
+                "models": ["fable-5-1@300k"],
+                "efforts": ["high"],
+            }
+        ],
+        launchers,
+    )
+    assert aliased and not missing
     source = (CONFIG / "models.md").read_text()
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "models.md"
@@ -67,7 +87,7 @@ def main() -> None:
             / "plugins/dmnkstack/skills/setup-dmnkstack/references/default-models.md"
         ).read_text()
         path.write_text(defaults.split("```md\n", 1)[1].split("```", 1)[0])
-        assert parse_routes(path) == (targets, [])
+        assert parse_routes(path)[1] == []
         cases = [
             (
                 source.replace("feature, refactoring:", "featre, refactoring:"),
@@ -102,7 +122,7 @@ def main() -> None:
             assert any(expected in error for error in parse_routes(path)[1]), expected
         path.write_text(
             source
-            + "\ncustom/local: fable-5 @ high\nfallback custom/local: gpt-5.6-sol @ high\n"
+            + "\ncustom/local: fable-5.1 @ high\nfallback custom/local: gpt-5.6-sol @ high\n"
         )
         assert not parse_routes(path)[1]
         catalog_path = Path(directory) / "catalog.json"

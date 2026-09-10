@@ -1,5 +1,216 @@
 [
   {
+    "plugin_id": "annotate",
+    "name": "Annotate",
+    "version": "0.4.0",
+    "min_herdr_version": "0.8.0",
+    "description": "Comment on terminal selections and copy annotations as agent context.",
+    "manifest_path": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/annotate-9c299759567c/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/annotate-9c299759567c",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "build": [
+      {
+        "platforms": [
+          "macos",
+          "linux"
+        ],
+        "command": [
+          "bash",
+          "scripts/fetch-herdr-annotate.sh"
+        ]
+      },
+      {
+        "platforms": [
+          "windows"
+        ],
+        "command": [
+          "powershell.exe",
+          "-NoProfile",
+          "-NonInteractive",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "scripts/fetch-herdr-annotate.ps1"
+        ]
+      },
+      {
+        "platforms": [
+          "macos",
+          "linux"
+        ],
+        "command": [
+          "bash",
+          "scripts/fetch-plannotator-tui.sh"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "capture",
+        "title": "Annotate selection",
+        "description": "Open a comment dialog for the current terminal selection.",
+        "contexts": [
+          "pane"
+        ],
+        "command": [
+          "./bin/herdr-annotate.exe",
+          "capture"
+        ]
+      },
+      {
+        "id": "copy-archive",
+        "title": "Copy annotations as context and archive them",
+        "description": "Copy all saved annotations to the clipboard as Markdown, then archive them.",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "./bin/herdr-annotate.exe",
+          "copy-archive"
+        ]
+      },
+      {
+        "id": "copy-context",
+        "title": "Copy annotations as context",
+        "description": "Copy all saved annotations to the clipboard as Markdown.",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "./bin/herdr-annotate.exe",
+          "copy-context"
+        ]
+      },
+      {
+        "id": "last",
+        "title": "Annotate: agent's last message",
+        "description": "Review the focused agent's most recent message in plannotator-tui and send feedback back.",
+        "contexts": [
+          "pane"
+        ],
+        "platforms": [
+          "macos",
+          "linux"
+        ],
+        "command": [
+          "./bin/plannotator-tui.exe",
+          "herdr",
+          "last"
+        ]
+      },
+      {
+        "id": "manage",
+        "title": "Manage annotations",
+        "description": "Browse, copy, archive, restore, and delete annotations.",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "./bin/herdr-annotate.exe",
+          "manage"
+        ]
+      },
+      {
+        "id": "open",
+        "title": "Annotate: open here",
+        "description": "Review the focused pane's folder in plannotator-tui and send feedback to its agent.",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "platforms": [
+          "macos",
+          "linux"
+        ],
+        "command": [
+          "./bin/plannotator-tui.exe",
+          "herdr",
+          "open"
+        ]
+      },
+      {
+        "id": "open-link",
+        "title": "Annotate this file",
+        "description": "Open a Ctrl-clicked Markdown file in plannotator-tui.",
+        "contexts": [
+          "pane"
+        ],
+        "platforms": [
+          "macos",
+          "linux"
+        ],
+        "command": [
+          "./bin/plannotator-tui.exe",
+          "herdr",
+          "open"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "doc",
+        "title": "Annotate",
+        "platforms": [
+          "macos",
+          "linux"
+        ],
+        "placement": "overlay",
+        "command": [
+          "sh",
+          "-c",
+          "exec bash \"$HERDR_PLUGIN_ROOT/scripts/plannotator-tui.sh\" herdr pane"
+        ]
+      },
+      {
+        "id": "editor",
+        "title": "Annotate",
+        "placement": "popup",
+        "width": 88,
+        "height": 24,
+        "command": [
+          "./bin/herdr-annotate.exe",
+          "editor"
+        ]
+      },
+      {
+        "id": "manager",
+        "title": "Annotations",
+        "placement": "popup",
+        "width": 100,
+        "height": 30,
+        "command": [
+          "./bin/herdr-annotate.exe",
+          "manager"
+        ]
+      }
+    ],
+    "link_handlers": [
+      {
+        "id": "markdown-file",
+        "title": "Annotate this file",
+        "pattern": "^file://.*\\.(md|markdown|mdx)$",
+        "action": "open-link",
+        "platforms": [
+          "macos",
+          "linux"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "plannotator",
+      "repo": "herdr-annotate",
+      "resolved_commit": "7c8f5a177b8285dc56efc471ef04f7ab44a2b4b6",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/annotate-9c299759567c",
+      "installed_unix_ms": 1789053266359
+    }
+  },
+  {
     "plugin_id": "cortea-factory",
     "name": "cortea-factory",
     "version": "1.1.0",
@@ -175,6 +386,87 @@
     ],
     "source": {
       "kind": "local"
+    }
+  },
+  {
+    "plugin_id": "exe-dev",
+    "name": "exe.dev",
+    "version": "0.2.0",
+    "min_herdr_version": "0.9.0",
+    "description": "Persistent exe.dev VMs for clean committed Git worktrees.",
+    "manifest_path": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/exe-dev-f1e15234bc2b/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/exe-dev-f1e15234bc2b",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "actions": [
+      {
+        "id": "delete",
+        "title": "Delete worktree VM…",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "command": [
+          "node",
+          "src/action.mjs"
+        ]
+      },
+      {
+        "id": "reconnect",
+        "title": "Reconnect to worktree VM",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "command": [
+          "node",
+          "src/action.mjs"
+        ]
+      },
+      {
+        "id": "start-agent",
+        "title": "Start worktree VM",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "command": [
+          "node",
+          "src/action.mjs"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "confirm",
+        "title": "Confirm exe.dev deletion",
+        "placement": "split",
+        "command": [
+          "node",
+          "src/confirm.mjs"
+        ]
+      },
+      {
+        "id": "provision",
+        "title": "Preparing exe.dev VM",
+        "placement": "split",
+        "command": [
+          "node",
+          "src/provision.mjs"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "dmnkgrc",
+      "repo": "herdr-exe-dev-plugin",
+      "requested_ref": "43de229370dee2be5fa58a0580edb031ea454cbf",
+      "resolved_commit": "43de229370dee2be5fa58a0580edb031ea454cbf",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/exe-dev-f1e15234bc2b",
+      "installed_unix_ms": 1789053555251
     }
   },
   {
@@ -509,6 +801,176 @@
       "resolved_commit": "a9f1d3bcdaa2354e336a5173da85cbe4970c0f2e",
       "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/nathanflurry.jj-workspace-19f0b858b2b4",
       "installed_unix_ms": 1786104090376
+    }
+  },
+  {
+    "plugin_id": "permgps.telegram-agents",
+    "name": "Telegram Agents",
+    "version": "0.10.0",
+    "min_herdr_version": "0.7.5",
+    "description": "One Telegram forum topic per live Herdr agent: status in the topic icon, questions and answers both ways.",
+    "manifest_path": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/permgps.telegram-agents-7b9b0a34d51d/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/permgps.telegram-agents-7b9b0a34d51d",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "build": [
+      {
+        "platforms": [
+          "linux",
+          "macos"
+        ],
+        "command": [
+          "sh",
+          "scripts/install.sh"
+        ]
+      },
+      {
+        "platforms": [
+          "windows"
+        ],
+        "command": [
+          "powershell",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "scripts/install.ps1"
+        ]
+      }
+    ],
+    "startup": [
+      {
+        "command": [
+          "bin/herdr-tg",
+          "startup"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "doctor",
+        "title": "Telegram Agents: doctor",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "doctor"
+        ]
+      },
+      {
+        "id": "logs",
+        "title": "Telegram Agents: logs",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "logs"
+        ]
+      },
+      {
+        "id": "restart",
+        "title": "Telegram Agents: restart",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "restart"
+        ]
+      },
+      {
+        "id": "resync",
+        "title": "Telegram Agents: resync",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "resync"
+        ]
+      },
+      {
+        "id": "send-test",
+        "title": "Telegram Agents: send test message",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "send-test"
+        ]
+      },
+      {
+        "id": "setup",
+        "title": "Telegram Agents: setup",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "setup"
+        ]
+      },
+      {
+        "id": "start",
+        "title": "Telegram Agents: start",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "start"
+        ]
+      },
+      {
+        "id": "status",
+        "title": "Telegram Agents: status",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "status"
+        ]
+      },
+      {
+        "id": "stop",
+        "title": "Telegram Agents: stop",
+        "command": [
+          "bin/herdr-tg",
+          "action",
+          "stop"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "doctor",
+        "title": "Telegram Agents doctor",
+        "placement": "overlay",
+        "command": [
+          "bin/herdr-tg",
+          "doctor-pane"
+        ]
+      },
+      {
+        "id": "logs",
+        "title": "Telegram Agents logs",
+        "placement": "overlay",
+        "command": [
+          "bin/herdr-tg",
+          "logs-pane"
+        ]
+      },
+      {
+        "id": "setup",
+        "title": "Telegram Agents setup",
+        "placement": "popup",
+        "width": "80%",
+        "height": "70%",
+        "command": [
+          "bin/herdr-tg",
+          "setup-pane"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "permgps",
+      "repo": "herdr-telegram-agents",
+      "resolved_commit": "2be7bb8cd38eec2ee4b484d7c39fa250ee4ccc95",
+      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/permgps.telegram-agents-7b9b0a34d51d",
+      "installed_unix_ms": 1789053941121
     }
   },
   {

@@ -16,12 +16,13 @@
     "npm:@victor-software-house/pi-curated-themes@0.2.1",
     "npm:@dietrichgebert/ponytail@4.9.0",
     "npm:pi-zentui@0.20.1",
-    "npm:@llblab/pi-codex-usage"
+    "npm:@llblab/pi-codex-usage",
+    "npm:pi-cursor-sdk"
   ],
   "lastChangelogVersion": "0.85.1",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-6-astra",
-  "defaultThinkingLevel": "medium",
+  "defaultProvider": "cursor",
+  "defaultModel": "grok-4.6",
+  "defaultThinkingLevel": "high",
   "enabledModels": [
     "openai-codex/gpt-5.4-mini:low",
     "openai-codex/gpt-5.6-sol:high",

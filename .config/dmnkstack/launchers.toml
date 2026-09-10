@@ -25,12 +25,20 @@ models = ["gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5", "gpt-5.4"]
 executors = ["codex", "pi"]
 
 [families.anthropic]
-models = ["fable-5", "opus-5-1m", "opus-4-8", "sonnet-5-1m", "sonnet-4-6", "haiku-4-5"]
+models = ["fable-5.1", "fable-5", "opus-5-1m", "opus-4-8", "sonnet-5-1m", "sonnet-4-6", "haiku-4-5"]
 executors = ["claude", "pi"]
 
 [families.cursor]
 models = ["grok-4.6", "grok-4.5", "composer-2.5"]
 executors = ["cursor", "pi"]
+
+[aliases."fable-5.1"]
+claude = "fable-5.1"
+pi = "fable-5-1@300k"
+
+[aliases."opus-5-1m"]
+claude = "opus-5-1m"
+pi = "opus-5@1m"
 
 [agents.codex]
 kind = "codex"

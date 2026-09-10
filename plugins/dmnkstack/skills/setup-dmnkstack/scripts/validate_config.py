@@ -111,6 +111,12 @@ def catalog_from_discovery(discovery: dict[str, Any]) -> list[dict[str, Any]]:
     return catalog
 
 
+def native_names(model: str, agent: str, launchers: dict[str, Any]) -> set[str]:
+    mapped = launchers.get("aliases", {}).get(model, {})
+    native = mapped.get(agent) if isinstance(mapped, dict) else None
+    return {model, native} if native else {model}
+
+
 def validate(
     targets: list[dict[str, str]],
     catalog: list[dict[str, Any]],
@@ -128,7 +134,8 @@ def validate(
         matches = [
             entry
             for entry in catalog
-            if target["model"] in entry.get("models", [])
+            if native_names(target["model"], entry.get("agent", ""), launchers)
+            & set(entry.get("models", []))
             and entry.get("agent") in allowed
             and entry.get("agent") in launchers.get("agents", {})
             and (entry.get("agent") != "pi" or entry.get("provider"))

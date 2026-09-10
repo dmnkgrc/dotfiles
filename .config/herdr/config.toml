@@ -6,6 +6,24 @@ default_shell = "/usr/local/bin/fish"
 [keys]
 prefix = "ctrl+a"
 
+[[keys.command]]
+key = "prefix+alt+e"
+type = "plugin_action"
+command = "exe-dev.start-agent"
+description = "Start worktree VM"
+
+[[keys.command]]
+key = "prefix+alt+r"
+type = "plugin_action"
+command = "exe-dev.reconnect"
+description = "Reconnect to worktree VM"
+
+[[keys.command]]
+key = "prefix+alt+d"
+type = "plugin_action"
+command = "exe-dev.delete"
+description = "Delete worktree VM"
+
 [theme]
 name = "vesper"
 
@@ -19,3 +37,41 @@ agent_panel_sort = "spaces"
 [experimental]
 allow_nested = true
 kitty_graphics = true
+
+# Terminal annotations
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "annotate.capture"
+description = "annotate text"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "plugin_action"
+command = "annotate.copy-context"
+description = "copy annotations as context"
+
+[[keys.command]]
+key = "prefix+alt+a"
+type = "plugin_action"
+command = "annotate.copy-archive"
+description = "copy annotations as context and archive them"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "annotate.manage"
+description = "manage annotations"
+
+# Document review (plannotator-tui)
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "annotate.open"
+description = "review documents in this folder"
+
+[[keys.command]]
+key = "prefix+shift+o"
+type = "plugin_action"
+command = "annotate.last"
+description = "review the agent's last reply"
