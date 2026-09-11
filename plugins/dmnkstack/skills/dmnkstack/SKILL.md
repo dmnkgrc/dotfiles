@@ -13,7 +13,7 @@ Route by task, then choose how to run the selected model. Do not let the current
 2. Read active repository instructions and the available skill catalog. Use the most specific matching project skill before a generic playbook.
 3. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/working-style.md` when it exists. Otherwise read [references/working-style.md](references/working-style.md).
 4. Read [references/routing.md](references/routing.md) and select the task route.
-5. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source.
+5. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source. If Executor MCP is connected, fetch those sources through it before a host-only Linear, Figma, or Notion connector.
 6. Read [references/skill-map.md](references/skill-map.md) and load the matching operational skill when one exists.
 7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md`. If missing or a broken symlink, report the configuration problem and use `setup-dmnkstack` rather than silently ignoring the assignments. Choose the role by difficulty, then the model and starting effort. Apply the candidate-pool, phase-retention, and explicit fallback rules in `routing.md`.
 8. Load `delegate` when the selected model requires another agent, the user requests another agent, or the route calls for a panel. Then read [references/launchers.md](references/launchers.md).
@@ -28,6 +28,7 @@ Once invoked, keep Dmnkstack active for the thread until the user says to stop. 
 - Do not commit, push, open a pull request, post a review, or modify an external system unless the user requested it.
 - Default to one agent. Delegate when the chosen model is unavailable in the current agent, the user requests another agent or parallel work, or an independent read-only judgment materially improves the result.
 - Keep one writer per worktree. The parent owns the final decision and diff.
+- Prefer Executor MCP (`executor` or `cortea` from executor.sh) for Linear, Figma, and other catalog tools when that server is connected. That MCP is not the agent executor in launchers.md.
 
 ## Load details only when needed
 

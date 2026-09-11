@@ -7,7 +7,7 @@ description: Turn a Figma design, node URL, screenshot, or visual specification 
 
 Use the design as evidence and the repository design system as the implementation language.
 
-1. Load the installed Figma skill before calling Figma tools. Fetch the exact node, screenshot, variables, component metadata, and assets required by the request.
+1. Load any repository Figma skill before fetching. Some repos spell out how to read nodes, map components, or implement from Figma. Follow that skill. Fetch the exact node, screenshot, variables, component metadata, and assets through Executor MCP when it is connected. Use a host Figma MCP or CLI only if Executor is missing or cannot do it.
 2. Read repository UI instructions and the most specific design-system or frontend skill.
 3. Inspect adjacent production components before choosing the implementation shape.
 4. Map Figma components, variables, spacing, typography, color, assets, states, and responsive behavior to existing project components and tokens.
