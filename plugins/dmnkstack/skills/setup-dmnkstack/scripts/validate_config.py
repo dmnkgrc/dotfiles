@@ -92,7 +92,9 @@ def parse_routes(path: Path) -> tuple[list[dict[str, str]], list[str]]:
     return targets, errors
 
 
-def catalog_from_discovery(discovery: dict[str, Any]) -> list[dict[str, Any]]:
+def catalog_from_discovery(
+    discovery: dict[str, Any], launchers: dict[str, Any] | None = None
+) -> list[dict[str, Any]]:
     catalog = [
         {**agent, "manager": "conductor"}
         for agent in discovery.get("conductor", {}).get("agents", [])
@@ -108,7 +110,26 @@ def catalog_from_discovery(discovery: dict[str, Any]) -> list[dict[str, Any]]:
                     "efforts": sorted(EFFORTS),
                 }
             )
+    if discovery.get("agents", {}).get("claude", {}).get("installed"):
+        names: list[str] = []
+        for logical, mapped in (launchers or {}).get("aliases", {}).items():
+            if isinstance(mapped, dict) and mapped.get("claude"):
+                names.extend([logical, mapped["claude"]])
+        if names:
+            catalog.append(
+                {
+                    "agent": "claude",
+                    "manager": "local",
+                    "models": names,
+                    "efforts": sorted(EFFORTS),
+                }
+            )
     return catalog
+
+
+def family_models(launchers: dict[str, Any], family: str) -> set[str]:
+    models = launchers.get("families", {}).get(family, {}).get("models", [])
+    return set(models) if isinstance(models, list) else set()
 
 
 def native_names(model: str, agent: str, launchers: dict[str, Any]) -> set[str]:
@@ -121,9 +142,16 @@ def validate(
     targets: list[dict[str, str]],
     catalog: list[dict[str, Any]],
     launchers: dict[str, Any],
+    cursor_usage: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     resolved: list[dict[str, Any]] = []
     unresolved: list[dict[str, Any]] = []
+    anthropic = family_models(launchers, "anthropic")
+    api_remaining = (
+        cursor_usage.get("api_remaining")
+        if isinstance(cursor_usage, dict) and cursor_usage.get("available")
+        else None
+    )
     for target in targets:
         allowed = {
             executor
@@ -131,6 +159,8 @@ def validate(
             if target["model"] in family.get("models", [])
             for executor in family.get("executors", [])
         }
+        if target["model"] in anthropic and "pi" in allowed and api_remaining is False:
+            allowed.discard("pi")
         matches = [
             entry
             for entry in catalog
@@ -196,8 +226,11 @@ def main() -> int:
         )
         catalog = discovery.get("agents", [])
         if not isinstance(catalog, list):
-            catalog = catalog_from_discovery(discovery)
-        resolved, unresolved = validate(targets, catalog, launchers)
+            catalog = catalog_from_discovery(discovery, launchers)
+        cursor_usage = discovery.get("cursor_usage")
+        if not isinstance(cursor_usage, dict):
+            cursor_usage = None
+        resolved, unresolved = validate(targets, catalog, launchers, cursor_usage)
     except (OSError, ValueError, TypeError, AttributeError) as error:
         print(json.dumps({"valid": False, "errors": [str(error)]}))
         return 2
@@ -208,6 +241,7 @@ def main() -> int:
         "session_create_ready": discovery.get("conductor", {}).get(
             "session_create_ready", False
         ),
+        "cursor_usage": cursor_usage,
         "readiness_note": "Catalog compatibility only; authentication, active manager, and model execution need launch-time checks.",
         "target_count": len(targets),
         "distinct_models": sorted({target["model"] for target in targets}),

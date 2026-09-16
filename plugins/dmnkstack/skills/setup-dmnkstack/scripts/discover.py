@@ -165,6 +165,97 @@ def discover_kitty() -> dict[str, Any]:
     }
 
 
+def cursor_access_tokens() -> list[str]:
+    tokens: list[str] = []
+    if platform.system() == "Darwin":
+        result = run(
+            [
+                "security",
+                "find-generic-password",
+                "-s",
+                "cursor-access-token",
+                "-a",
+                "cursor-user",
+                "-w",
+            ]
+        )
+        if result.get("ok"):
+            token = (result.get("output") or "").splitlines()
+            if token and token[0].strip():
+                tokens.append(token[0].strip())
+    env = os.environ.get("CURSOR_API_KEY", "").strip()
+    if env and env not in tokens:
+        tokens.append(env)
+    return tokens
+
+
+def fetch_cursor_period_usage(token: str) -> dict[str, Any] | None:
+    curl = shutil.which("curl")
+    if not curl:
+        return None
+    try:
+        completed = subprocess.run(
+            [
+                curl,
+                "-sS",
+                "-f",
+                "-X",
+                "POST",
+                "https://api2.cursor.sh/aiserver.v1.DashboardService/GetCurrentPeriodUsage",
+                "-H",
+                f"Authorization: Bearer {token}",
+                "-H",
+                "Content-Type: application/json",
+                "-H",
+                "Connect-Protocol-Version: 1",
+                "--data",
+                "{}",
+                "--max-time",
+                "8",
+            ],
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if completed.returncode != 0:
+        return None
+    try:
+        payload = json.loads(completed.stdout)
+    except json.JSONDecodeError:
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def summarize_cursor_usage(payload: dict[str, Any]) -> dict[str, Any]:
+    plan = payload.get("planUsage")
+    plan = plan if isinstance(plan, dict) else {}
+    api = plan.get("apiPercentUsed")
+    auto = plan.get("autoPercentUsed")
+    return {
+        "available": True,
+        "api_remaining": api < 100 if isinstance(api, (int, float)) else None,
+        "auto_remaining": auto < 100 if isinstance(auto, (int, float)) else None,
+        "api_percent_used": api,
+        "auto_percent_used": auto,
+        "display_message": payload.get("namedModelSelectedDisplayMessage")
+        or payload.get("displayMessage"),
+    }
+
+
+def discover_cursor_usage() -> dict[str, Any]:
+    tokens = cursor_access_tokens()
+    if not tokens:
+        return {"available": False, "error": "no-token"}
+    for token in tokens:
+        payload = fetch_cursor_period_usage(token)
+        if payload:
+            return summarize_cursor_usage(payload)
+    return {"available": False, "error": "fetch-failed"}
+
+
 def collect() -> dict[str, Any]:
     return {
         "environment": {
@@ -175,6 +266,7 @@ def collect() -> dict[str, Any]:
         "conductor": discover_conductor(),
         "herdr": discover_herdr(),
         "kitty": discover_kitty(),
+        "cursor_usage": discover_cursor_usage(),
     }
 
 

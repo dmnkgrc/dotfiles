@@ -87,7 +87,9 @@ Native model arguments:
 - Claude: `--model <model> --effort <effort>`
 - Cursor: `--model <model>`. Omit effort when the direct CLI does not expose it.
 
-Rewrite the logical name from `models.md` through `[aliases.<name>]` in `launchers.toml` before those flags. Use the chosen executor's slug (`claude` → `fable-5.1`, `pi` → `fable-5-1@300k`). Missing key: pass the logical name. Current-session reuse matches the logical name or that executor's alias. Conductor and Herdr take the rewritten slug, not a second route table.
+Rewrite the logical name from `models.md` through `[aliases.<name>]` in `launchers.toml` before those flags. Use the chosen executor's slug (`claude` → `fable`, `pi` → `fable-5-1@300k`). Missing key: pass the logical name. Current-session reuse matches the logical name or that executor's alias. Conductor and Herdr take the rewritten slug, not a second route table.
+
+Drop Pi for an Anthropic model unless discovery reports remaining Cursor included API usage (`api_remaining`, from `planUsage.apiPercentUsed` below 100). Auto or Composer remaining does not count. Solo `fable-5.1` / `opus-5` use Claude (`fable` / `opus`) with no context-window suffix. If usage cannot be read, treat Pi as catalog-compatible only.
 
 Use a Herdr worktree for a second writer. Do not close panes, tabs, workspaces, or sessions that Dmnkstack did not create.
 

@@ -6,8 +6,8 @@ from pathlib import Path
 import tomllib
 from unittest.mock import patch
 
-from discover import discover_agents
-from validate_config import ROLES, catalog_from_discovery, parse_routes, validate
+from discover import discover_agents, summarize_cursor_usage
+from validate_config import EFFORTS, ROLES, catalog_from_discovery, parse_routes, validate
 
 
 ROOT = Path(__file__).resolve().parents[5]
@@ -28,8 +28,40 @@ def main() -> None:
         }
         for target in targets
     ]
-    resolved, unresolved = validate(targets, catalog, launchers)
+    catalog.append(
+        {
+            "agent": "claude",
+            "models": sorted({target["model"] for target in targets}),
+            "efforts": sorted(EFFORTS),
+        }
+    )
+    exhausted = {"available": True, "api_remaining": False}
+    remaining = {"available": True, "api_remaining": True}
+    resolved, unresolved = validate(targets, catalog, launchers, exhausted)
     assert len(resolved) == len(targets) and not unresolved
+    general = next(
+        target
+        for target in resolved
+        if target["role"] == "general implementation" and target["kind"] == "primary"
+    )
+    assert {entry["agent"] for entry in general["executors"]} == {"claude"}
+    critics_opus = next(
+        target
+        for target in resolved
+        if target["role"] == "how critics"
+        and target["kind"] == "primary"
+        and target["model"] == "opus-5"
+    )
+    assert "pi" not in {entry["agent"] for entry in critics_opus["executors"]}
+    with_usage, _ = validate(targets, catalog, launchers, remaining)
+    critics_with_usage = next(
+        target
+        for target in with_usage
+        if target["role"] == "how critics"
+        and target["kind"] == "primary"
+        and target["model"] == "opus-5"
+    )
+    assert "pi" in {entry["agent"] for entry in critics_with_usage["executors"]}
     target = [
         {"role": "bug-fix", "model": "gpt-5.6-sol", "effort": "high", "kind": "primary"}
     ]
@@ -59,26 +91,69 @@ def main() -> None:
     )
     assert {entry["provider"] for entry in pi_catalog} == {"anthropic", "openai-codex"}
     assert not validate(target, pi_catalog, launchers)[1]
-    aliased, missing = validate(
-        [
-            {
-                "role": "judgment",
-                "model": "fable-5.1",
-                "effort": "high",
-                "kind": "primary",
-            }
-        ],
-        [
-            {
-                "agent": "pi",
-                "provider": "cursor",
-                "models": ["fable-5-1@300k"],
-                "efforts": ["high"],
-            }
-        ],
+    fable = [
+        {
+            "role": "judgment",
+            "model": "fable-5.1",
+            "effort": "high",
+            "kind": "primary",
+        }
+    ]
+    pi_fable = [
+        {
+            "agent": "pi",
+            "provider": "cursor",
+            "models": ["fable-5-1@300k"],
+            "efforts": ["high"],
+        }
+    ]
+    assert not validate(fable, pi_fable, launchers)[1]
+    assert validate(fable, pi_fable, launchers, exhausted)[1]
+    claude_only, claude_missing = validate(
+        fable,
+        [{"agent": "claude", "models": ["fable"], "efforts": ["high"]}],
         launchers,
+        exhausted,
     )
-    assert aliased and not missing
+    assert claude_only and not claude_missing
+    mixed_catalog = [
+        {
+            "agent": "pi",
+            "provider": "cursor",
+            "models": ["opus-5@300k"],
+            "efforts": ["high"],
+        },
+        {
+            "agent": "pi",
+            "provider": "cursor",
+            "models": ["grok-4.6"],
+            "efforts": ["high"],
+        },
+    ]
+    mixed_targets = [
+        {
+            "role": "how critics",
+            "model": "opus-5",
+            "effort": "high",
+            "kind": "primary",
+        },
+        {
+            "role": "how critics",
+            "model": "grok-4.6",
+            "effort": "high",
+            "kind": "primary",
+        },
+    ]
+    mixed, mixed_missing = validate(mixed_targets, mixed_catalog, launchers, remaining)
+    assert len(mixed) == 2 and not mixed_missing
+    blocked, leftover = validate(mixed_targets, mixed_catalog, launchers, exhausted)
+    assert [target["model"] for target in blocked] == ["grok-4.6"]
+    assert leftover and leftover[0]["model"] == "opus-5"
+    summary = summarize_cursor_usage(
+        {"planUsage": {"apiPercentUsed": 100, "autoPercentUsed": 43}}
+    )
+    assert summary["available"] and summary["api_remaining"] is False
+    assert summary["auto_remaining"] is True
     source = (CONFIG / "models.md").read_text()
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "models.md"
