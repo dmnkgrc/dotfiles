@@ -18,6 +18,7 @@ TERMINAL = {
 CONDUCTOR = {"com.conductor.app"}
 DEVELOPMENT = TERMINAL | CONDUCTOR | {"dev.zed.Zed", "com.openai.codex"}
 OWNED = {"B", "T", "adaptive-staging"}
+OVERLAY = {"com.tdesktop.Telegram", "net.whatsapp.WhatsApp"}
 STATE = Path.home() / ".local/state/aerospace"
 ULTRAWIDE_RATIO = 2.2
 SCREEN_SCRIPT = """
@@ -110,6 +111,24 @@ def floating_work_commands(mode, all_windows):
     return commands
 
 
+def overlay_follow_commands(target, all_windows):
+    return [
+        f"move-node-to-workspace --window-id {window['window-id']} {shlex.quote(target)}"
+        for window in all_windows
+        if (window["app-bundle-id"] in OVERLAY
+            and window["window-layout"] == "floating"
+            and window["workspace"] != target)
+    ]
+
+
+def follow_overlays():
+    target = os.environ.get("AEROSPACE_FOCUSED_WORKSPACE") or aerospace(
+        "list-workspaces", "--focused")
+    commands = overlay_follow_commands(target, windows())
+    if commands:
+        aerospace("eval", " && ".join(commands))
+
+
 def layout_commands(mode, left_monitor, right_monitor, current, focused):
     left = [w["window-id"] for w in current if w["app-bundle-id"] in BROWSER]
     right = [w["window-id"] for w in current if w["app-bundle-id"] in DEVELOPMENT]
@@ -175,7 +194,22 @@ def apply(displays, current):
     print(f"Applied {chosen[0]} layout to {len(current)} windows", flush=True)
 
 
+def summon_overlay(bundle):
+    target = os.environ.get("AEROSPACE_FOCUSED_WORKSPACE") or aerospace(
+        "list-workspaces", "--focused")
+    candidates = [w for w in windows() if w["app-bundle-id"] == bundle]
+    if not candidates:
+        subprocess.run(["/usr/bin/open", "-b", bundle], check=True)
+        return
+    commands = overlay_follow_commands(target, candidates)
+    commands.append(f"focus --window-id {candidates[0]['window-id']}")
+    aerospace("eval", " && ".join(commands))
+
+
 def focus_app(kind):
+    if kind == "telegram":
+        summon_overlay("com.tdesktop.Telegram")
+        return
     apps = {"browser": BROWSER, "terminal": TERMINAL, "conductor": CONDUCTOR}[kind]
     candidates = [w for w in windows() if w["app-bundle-id"] in apps]
     if candidates:
@@ -201,7 +235,8 @@ def watch():
                 displays = monitors()
                 all_windows = windows()
                 current = managed(all_windows)
-                signature = (displays, [(w["window-id"], w["app-bundle-id"]) for w in current])
+                signature = (displays, [(w["window-id"], w["app-bundle-id"], w["workspace"])
+                                        for w in current])
                 reset = STATE / "reset"
                 if signature != previous or reset.exists():
                     if displays != previous_displays or reset.exists():
@@ -209,14 +244,26 @@ def watch():
                     try:
                         apply(sized, current)
                     except subprocess.SubprocessError as error:
-                        print("Layout failed; watcher stopped to avoid repeated resizing.", flush=True)
-                        print(getattr(error, "stderr", None) or str(error), flush=True)
-                        return
-                    previous = signature
-                    previous_displays = displays
-                    reset.unlink(missing_ok=True)
+                        message = getattr(error, "stderr", None) or str(error)
+                        if "Invalid <window-id>" in message:
+                            print("Window disappeared during layout; retrying.", flush=True)
+                            print(message, flush=True)
+                        else:
+                            print("Layout failed; watcher stopped to avoid repeated resizing.", flush=True)
+                            print(message, flush=True)
+                            return
+                    else:
+                        previous = signature
+                        previous_displays = displays
+                        reset.unlink(missing_ok=True)
                 for command in floating_work_commands(profile(sized)[0], all_windows):
                     aerospace("eval", command)
+                overlays = [w for w in all_windows
+                            if w["app-bundle-id"] in OVERLAY and w["window-layout"] == "floating"]
+                if overlays:
+                    target = aerospace("list-workspaces", "--focused")
+                    for command in overlay_follow_commands(target, overlays):
+                        aerospace("eval", command)
                 last_error = None
             except (subprocess.SubprocessError, ValueError, IndexError, OSError) as error:
                 if subprocess.run(["/usr/bin/pgrep", "-x", "AeroSpace"],
@@ -234,10 +281,13 @@ if __name__ == "__main__":
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument("--watch", action="store_true")
     action.add_argument("--reset", action="store_true")
-    action.add_argument("--focus", choices=["browser", "terminal", "conductor"])
+    action.add_argument("--follow-overlays", action="store_true")
+    action.add_argument("--focus", choices=["browser", "terminal", "conductor", "telegram"])
     args = parser.parse_args()
     if args.focus:
         focus_app(args.focus)
+    elif args.follow_overlays:
+        follow_overlays()
     elif args.reset:
         STATE.mkdir(parents=True, exist_ok=True)
         (STATE / "reset").touch()

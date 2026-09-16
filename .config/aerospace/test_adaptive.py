@@ -67,6 +67,21 @@ class AdaptiveTest(unittest.TestCase):
                 other = window(7, "com.apple.finder", source, "floating")
                 self.assertEqual(adaptive.floating_work_commands(mode, [other]), [])
 
+    def test_overlays_follow_the_focused_workspace_without_stealing_focus(self):
+        telegram = window(8, "com.tdesktop.Telegram", "T", "floating")
+        whatsapp = window(9, "net.whatsapp.WhatsApp", "W", "floating")
+        finder = window(10, "com.apple.finder", "T", "floating")
+        slack = window(11, "com.tinyspeck.slackmacgap", "T", "floating")
+        self.assertEqual(
+            adaptive.overlay_follow_commands("B", [telegram, whatsapp, finder, slack]),
+            ["move-node-to-workspace --window-id 8 B",
+             "move-node-to-workspace --window-id 9 B"])
+        telegram["workspace"] = "B"
+        self.assertEqual(adaptive.overlay_follow_commands("B", [telegram, finder]), [])
+        config = Path(__file__).with_name("aerospace.toml").read_text()
+        self.assertIn("--follow-overlays", config)
+        self.assertIn("--focus telegram", config)
+
     def test_only_manage_assigned_tiled_windows(self):
         browser = window(1, "net.imput.helium", "B")
         recovery = window(2, "com.conductor.app", "adaptive-staging")
@@ -128,6 +143,22 @@ class AdaptiveTest(unittest.TestCase):
                 expected = [left, right] if left and right else left + right
                 self.assertEqual(root, expected)
 
+    def test_summon_overlay_moves_then_focuses(self):
+        telegram = window(8, "com.tdesktop.Telegram", "T", "floating")
+        with patch.object(adaptive, "windows", return_value=[telegram]), \
+                patch.object(adaptive, "aerospace", side_effect=["B", ""]) as run:
+            adaptive.summon_overlay("com.tdesktop.Telegram")
+        self.assertEqual(run.call_args_list[0].args, ("list-workspaces", "--focused"))
+        self.assertEqual(run.call_args.args, (
+            "eval", "move-node-to-workspace --window-id 8 B && focus --window-id 8"))
+
+    def test_summon_overlay_launches_when_missing(self):
+        with patch.object(adaptive, "windows", return_value=[]), \
+                patch.object(adaptive, "aerospace", return_value="B"), \
+                patch.object(adaptive.subprocess, "run") as run:
+            adaptive.summon_overlay("com.tdesktop.Telegram")
+        self.assertEqual(run.call_args.args[0], ["/usr/bin/open", "-b", "com.tdesktop.Telegram"])
+
     def test_apply_preserves_an_empty_workspace(self):
         empty = subprocess.CalledProcessError(2, "list-windows", output="", stderr="No window is focused\n")
         with tempfile.TemporaryDirectory() as directory:
@@ -154,6 +185,47 @@ class AdaptiveTest(unittest.TestCase):
                     patch.object(adaptive, "apply", side_effect=error) as apply:
                 adaptive.watch()
                 apply.assert_called_once()
+
+    def test_stale_window_layout_retries(self):
+        error = subprocess.CalledProcessError(
+            1, "eval", stderr="Invalid <window-id> 76920 passed to --window-id\n")
+        wide = [display(2, "DELL U3425WE", 3440, 1440)]
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.object(adaptive, "STATE", Path(directory)), \
+                    patch.object(adaptive, "monitors", return_value=wide), \
+                    patch.object(adaptive, "windows", return_value=[]), \
+                    patch.object(adaptive, "screen_sizes", return_value=wide), \
+                    patch.object(adaptive, "apply", side_effect=[error, None]) as apply, \
+                    patch.object(adaptive.time, "sleep", side_effect=[None, SystemExit]):
+                try:
+                    adaptive.watch()
+                except SystemExit:
+                    pass
+                self.assertEqual(apply.call_count, 2)
+
+    def test_stranded_staging_windows_trigger_rebuild(self):
+        wide = [display(2, "DELL U3425WE", 3440, 1440)]
+        placed = [
+            window(1, "net.imput.helium", "B"),
+            window(2, "net.kovidgoyal.kitty", "B"),
+        ]
+        stranded = [
+            window(1, "net.imput.helium", "adaptive-staging"),
+            window(2, "net.kovidgoyal.kitty", "B"),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.object(adaptive, "STATE", Path(directory)), \
+                    patch.object(adaptive, "monitors", return_value=wide), \
+                    patch.object(adaptive, "windows", side_effect=[placed, stranded]), \
+                    patch.object(adaptive, "screen_sizes", return_value=wide), \
+                    patch.object(adaptive, "apply") as apply, \
+                    patch.object(adaptive.time, "sleep", side_effect=[None, SystemExit]):
+                try:
+                    adaptive.watch()
+                except SystemExit:
+                    pass
+                self.assertEqual(apply.call_count, 2)
+                self.assertEqual(apply.call_args_list[1].args[1], stranded)
 
     def test_staging_workspace_is_not_reserved(self):
         current = [window(1, "net.imput.helium", "B")]

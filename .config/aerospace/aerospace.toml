@@ -10,6 +10,7 @@ default-root-container-layout = 'accordion'
 default-root-container-orientation = 'vertical'
 persistent-workspaces = ['B', 'T', 'W', '1', '2', '3']
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+exec-on-workspace-change = ['/bin/bash', '-c', '/usr/bin/python3 ~/.config/aerospace/adaptive.py --follow-overlays']
 key-mapping.preset = 'qwerty'
 
 gaps.inner.horizontal = 0
@@ -29,7 +30,7 @@ alt-b = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focu
 alt-t = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus terminal'
 alt-c = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus conductor'
 alt-m = 'exec-and-forget /usr/bin/open -b com.deezer.deezer-desktop'
-alt-w = 'exec-and-forget /usr/bin/open -b com.tdesktop.Telegram'
+alt-w = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus telegram'
 alt-0 = 'workspace W'
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'

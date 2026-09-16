@@ -24,10 +24,13 @@
   "defaultModel": "grok-4.6",
   "defaultThinkingLevel": "high",
   "enabledModels": [
-    "openai-codex/gpt-5.4-mini:low",
-    "openai-codex/gpt-5.6-sol:high",
-    "openai-codex/gpt-5.6-terra:xhigh",
-    "openai-codex/gpt-6-astra"
+    "openai-codex/gpt-5.6-sol",
+    "openai-codex/gpt-5.6-terra",
+    "openai-codex/gpt-6-astra",
+    "cursor/grok-4.6",
+    "openai-codex/gpt-5.6-luna",
+    "cursor/opus-5@300k",
+    "cursor/fable-5-1@300k"
   ],
   "subagents": {
     "modelScope": {

@@ -20,7 +20,7 @@ Earlier simulated layout tests interrupted Pi while resizing its terminal. The c
 
 Slack floats on the terminal/Conductor workspace: B on the ultrawide, T on the laptop or dual displays. Its size is preserved, and moving it does not rebuild the tiled stacks. On the ultrawide it belongs to the shared workspace, not a particular column; position it wherever useful. Its current floating size was verified unchanged at 1312×977.
 
-Finder, Telegram, WhatsApp, System Settings, and Activity Monitor float by default without forced workspace assignment or size rules. AeroSpace may restore a previously remembered floating size when an existing tiled window is converted. Dialogs and other windows AeroSpace classifies as floating also stay floating. Full-size means maximized within the usable desktop, not native macOS fullscreen Spaces. If only one column has windows, it fills the screen until the other group has a window.
+Finder, System Settings, and Activity Monitor float by default without forced workspace assignment or size rules. Telegram and WhatsApp float and follow the focused workspace, so focusing them does not switch away from B or T. AeroSpace may restore a previously remembered floating size when an existing tiled window is converted. Dialogs and other windows AeroSpace classifies as floating also stay floating. Full-size means maximized within the usable desktop, not native macOS fullscreen Spaces. If only one column has windows, it fills the screen until the other group has a window.
 
 The helper checks every two seconds. Newly opened windows can briefly appear on B or T before regrouping. Ultrawide detection uses an aspect ratio of at least 2.2. Change `ULTRAWIDE_RATIO` in `adaptive.py` if needed. A resolution-only change on the same display requires a reset.
 
@@ -36,7 +36,7 @@ The helper checks every two seconds. Newly opened windows can briefly appear on 
 | Option+t | Focus a terminal, or launch Kitty |
 | Option+c | Focus Conductor, or launch it |
 | Option+m | Activate Deezer, or launch it |
-| Option+w | Activate Telegram, or launch it |
+| Option+w | Summon Telegram onto the current workspace, or launch it |
 | Option+0 | Other apps on W |
 | Option+1 / 2 / 3 | Scratch workspaces |
 | Option+Shift+1 / 2 / 3 / w | Move the window there and follow it |

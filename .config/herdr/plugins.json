@@ -463,10 +463,9 @@
       "kind": "github",
       "owner": "dmnkgrc",
       "repo": "herdr-exe-dev-plugin",
-      "requested_ref": "43de229370dee2be5fa58a0580edb031ea454cbf",
-      "resolved_commit": "43de229370dee2be5fa58a0580edb031ea454cbf",
+      "resolved_commit": "b2145f1f3527bdce6fc5bbe1c36681bfab97a752",
       "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/exe-dev-f1e15234bc2b",
-      "installed_unix_ms": 1789053555251
+      "installed_unix_ms": 1789387019626
     }
   },
   {
