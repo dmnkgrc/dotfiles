@@ -394,8 +394,8 @@
     "version": "0.2.0",
     "min_herdr_version": "0.9.0",
     "description": "Persistent exe.dev VMs for clean committed Git worktrees.",
-    "manifest_path": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/exe-dev-f1e15234bc2b/herdr-plugin.toml",
-    "plugin_root": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/exe-dev-f1e15234bc2b",
+    "manifest_path": "/Users/dominikgarciabertapelle/code/herdr-exe-dev-plugin/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/code/herdr-exe-dev-plugin",
     "enabled": true,
     "platforms": [
       "linux",
@@ -443,7 +443,7 @@
       {
         "id": "confirm",
         "title": "Confirm exe.dev deletion",
-        "placement": "split",
+        "placement": "overlay",
         "command": [
           "node",
           "src/confirm.mjs"
@@ -460,12 +460,7 @@
       }
     ],
     "source": {
-      "kind": "github",
-      "owner": "dmnkgrc",
-      "repo": "herdr-exe-dev-plugin",
-      "resolved_commit": "b2145f1f3527bdce6fc5bbe1c36681bfab97a752",
-      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/exe-dev-f1e15234bc2b",
-      "installed_unix_ms": 1789387019626
+      "kind": "local"
     }
   },
   {

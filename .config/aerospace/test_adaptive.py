@@ -42,7 +42,8 @@ class AdaptiveTest(unittest.TestCase):
         config = Path(__file__).with_name("aerospace.toml").read_text()
         first_rule = config.split("[[on-window-detected]]")[1]
         for app in ["com.apple.finder", "com.tdesktop.Telegram", "net.whatsapp.WhatsApp",
-                    "com.apple.systempreferences", "com.apple.ActivityMonitor"]:
+                    "com.deezer.deezer-desktop", "com.apple.systempreferences",
+                    "com.apple.ActivityMonitor"]:
             self.assertIn(f"test %{{app-bundle-id}} = {app}", first_rule)
         self.assertIn("run = 'layout floating'", first_rule)
         self.assertNotIn("move-node-to-workspace", first_rule)
@@ -71,16 +72,32 @@ class AdaptiveTest(unittest.TestCase):
         telegram = window(8, "com.tdesktop.Telegram", "T", "floating")
         whatsapp = window(9, "net.whatsapp.WhatsApp", "W", "floating")
         finder = window(10, "com.apple.finder", "T", "floating")
+        deezer = window(12, "com.deezer.deezer-desktop", "W", "floating")
         slack = window(11, "com.tinyspeck.slackmacgap", "T", "floating")
         self.assertEqual(
-            adaptive.overlay_follow_commands("B", [telegram, whatsapp, finder, slack]),
+            adaptive.overlay_follow_commands("B", [telegram, whatsapp, finder, deezer, slack]),
             ["move-node-to-workspace --window-id 8 B",
-             "move-node-to-workspace --window-id 9 B"])
+             "move-node-to-workspace --window-id 9 B",
+             "move-node-to-workspace --window-id 10 B",
+             "move-node-to-workspace --window-id 12 B"])
         telegram["workspace"] = "B"
-        self.assertEqual(adaptive.overlay_follow_commands("B", [telegram, finder]), [])
+        finder["workspace"] = "B"
+        deezer["workspace"] = "B"
+        self.assertEqual(adaptive.overlay_follow_commands("B", [telegram, finder, deezer]), [])
         config = Path(__file__).with_name("aerospace.toml").read_text()
         self.assertIn("--follow-overlays", config)
         self.assertIn("--focus telegram", config)
+        self.assertIn("--focus deezer", config)
+
+    def test_development_apps_route_to_t(self):
+        config = Path(__file__).with_name("aerospace.toml").read_text()
+        rule = next(r for r in config.split("[[on-window-detected]]")
+                    if "com.conductor.app" in r)
+        for app in sorted(adaptive.DEVELOPMENT):
+            self.assertIn(f"test %{{app-bundle-id}} = {app}", rule)
+        self.assertIn("com.t3tools.t3code", adaptive.DEVELOPMENT)
+        self.assertIn("com.openai.chat", adaptive.DEVELOPMENT)
+        self.assertIn("com.openai.codex", adaptive.DEVELOPMENT)
 
     def test_only_manage_assigned_tiled_windows(self):
         browser = window(1, "net.imput.helium", "B")

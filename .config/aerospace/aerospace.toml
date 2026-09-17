@@ -29,7 +29,7 @@ alt-l = 'focus right'
 alt-b = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus browser'
 alt-t = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus terminal'
 alt-c = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus conductor'
-alt-m = 'exec-and-forget /usr/bin/open -b com.deezer.deezer-desktop'
+alt-m = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus deezer'
 alt-w = 'exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --focus telegram'
 alt-0 = 'workspace W'
 alt-1 = 'workspace 1'
@@ -50,7 +50,7 @@ f = ['layout floating tiling', 'mode main']
 r = ['exec-and-forget /usr/bin/python3 ~/.config/aerospace/adaptive.py --reset', 'mode main']
 
 [[on-window-detected]]
-if = 'test %{app-bundle-id} = com.apple.finder || test %{app-bundle-id} = com.tdesktop.Telegram || test %{app-bundle-id} = net.whatsapp.WhatsApp || test %{app-bundle-id} = com.apple.systempreferences || test %{app-bundle-id} = com.apple.ActivityMonitor'
+if = 'test %{app-bundle-id} = com.apple.finder || test %{app-bundle-id} = com.tdesktop.Telegram || test %{app-bundle-id} = net.whatsapp.WhatsApp || test %{app-bundle-id} = com.deezer.deezer-desktop || test %{app-bundle-id} = com.apple.systempreferences || test %{app-bundle-id} = com.apple.ActivityMonitor'
 run = 'layout floating'
 
 [[on-window-detected]]
@@ -66,7 +66,7 @@ if = 'test %{app-bundle-id} = net.imput.helium'
 run = 'move-node-to-workspace --focus-follows-window B'
 
 [[on-window-detected]]
-if = 'test %{app-bundle-id} = net.kovidgoyal.kitty || test %{app-bundle-id} = com.mitchellh.ghostty || test %{app-bundle-id} = com.apple.Terminal || test %{app-bundle-id} = com.googlecode.iterm2 || test %{app-bundle-id} = com.conductor.app || test %{app-bundle-id} = dev.zed.Zed || test %{app-bundle-id} = com.openai.codex'
+if = 'test %{app-bundle-id} = net.kovidgoyal.kitty || test %{app-bundle-id} = com.mitchellh.ghostty || test %{app-bundle-id} = com.apple.Terminal || test %{app-bundle-id} = com.googlecode.iterm2 || test %{app-bundle-id} = com.conductor.app || test %{app-bundle-id} = dev.zed.Zed || test %{app-bundle-id} = com.openai.codex || test %{app-bundle-id} = com.openai.chat || test %{app-bundle-id} = com.t3tools.t3code'
 run = 'move-node-to-workspace --focus-follows-window T'
 
 [[on-window-detected]]

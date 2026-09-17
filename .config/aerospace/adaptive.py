@@ -16,9 +16,19 @@ TERMINAL = {
     "com.googlecode.iterm2",
 }
 CONDUCTOR = {"com.conductor.app"}
-DEVELOPMENT = TERMINAL | CONDUCTOR | {"dev.zed.Zed", "com.openai.codex"}
+DEVELOPMENT = TERMINAL | CONDUCTOR | {
+    "dev.zed.Zed",
+    "com.openai.codex",
+    "com.openai.chat",
+    "com.t3tools.t3code",
+}
 OWNED = {"B", "T", "adaptive-staging"}
-OVERLAY = {"com.tdesktop.Telegram", "net.whatsapp.WhatsApp"}
+OVERLAY = {
+    "com.tdesktop.Telegram",
+    "net.whatsapp.WhatsApp",
+    "com.apple.finder",
+    "com.deezer.deezer-desktop",
+}
 STATE = Path.home() / ".local/state/aerospace"
 ULTRAWIDE_RATIO = 2.2
 SCREEN_SCRIPT = """
@@ -207,8 +217,12 @@ def summon_overlay(bundle):
 
 
 def focus_app(kind):
-    if kind == "telegram":
-        summon_overlay("com.tdesktop.Telegram")
+    overlays = {
+        "telegram": "com.tdesktop.Telegram",
+        "deezer": "com.deezer.deezer-desktop",
+    }
+    if kind in overlays:
+        summon_overlay(overlays[kind])
         return
     apps = {"browser": BROWSER, "terminal": TERMINAL, "conductor": CONDUCTOR}[kind]
     candidates = [w for w in windows() if w["app-bundle-id"] in apps]
@@ -282,7 +296,7 @@ if __name__ == "__main__":
     action.add_argument("--watch", action="store_true")
     action.add_argument("--reset", action="store_true")
     action.add_argument("--follow-overlays", action="store_true")
-    action.add_argument("--focus", choices=["browser", "terminal", "conductor", "telegram"])
+    action.add_argument("--focus", choices=["browser", "terminal", "conductor", "telegram", "deezer"])
     args = parser.parse_args()
     if args.focus:
         focus_app(args.focus)
