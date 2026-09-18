@@ -1,5 +1,19 @@
 # Routing
 
+## TypeSafe semantic routing
+
+Run `scripts/route.py` through Fish for every Dmnkstack task. TypeSafe Jev selects only the semantic task route, matching installed skill, and best model from the deterministically eligible configured candidates. The router may rerank close skill candidates using their detailed installed instructions. It sends the task, conversation routing context, and installed skill metadata to TypeSafe, but its structured output and logs must not retain that content.
+
+TypeSafe never decides conversation correction precedence, authority, commits, pushes, external actions, completion claims, difficulty, effort, model availability, or quota eligibility. Those remain deterministic. Explicitly invoked and mandatory skills still take precedence over semantic suggestions. A TypeSafe or API failure is a stop condition and must be reported as such; never claim a local fallback was TypeSafe-routed.
+
+The model profiles are:
+
+- Grok 4.6: broad features, refactors, repository exploration, mechanics, history, and swarm work.
+- GPT-5.6 Sol: unknown bugs, performance regressions, incidents, environment failures, and iterative evidence-driven repair.
+- Opus 5: bounded implementation and architecture across APIs, types, ownership, and module boundaries.
+- GPT-5.6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.
+- Fable 5.1: judgment, complex or high-stakes prose, synthesis, tradeoffs, and unusual hardest tasks. A migration interface supporting old and new callers may route here; routine pull request descriptions should prefer Luna.
+
 ## Precedence
 
 Apply constraints in this order:
@@ -70,9 +84,13 @@ A phase change does not require a new agent. Keep small tasks in one session whe
 
 ## Candidate pools and fallback
 
-Lists in `models.md` are ordered candidate pools. For ordinary review, use one fresh reviewer. For consequential work or a material disputed finding, add a second reviewer from a different model family when available. Explicit multi-model review uses at least two models. Reserve all four for an explicit full-panel request or an unresolved consequential disagreement. Apply the same sizing to `how critics` and design comparisons; an explicit arena still needs at least two attempts.
+Before TypeSafe ranks models, collect and normalize live provider usage. Cursor models such as Grok use DashboardService Auto usage; Pi-hosted Anthropic models use its API usage. Claude uses the CLI `/usage` structured-output path, and Codex uses `codex app-server` JSON-RPC `account/rateLimits/read`. Do not scrape Codex terminal or ANSI output. Preserve explicit launcher and catalog availability checks. Unknown usage does not mean exhausted.
 
-Try the primary pool, then the ordered `fallback ROLE` targets. Check the model, effort, executor, provider when required, manager, and authentication before launch. Never interpret `current` as a model fallback. Reuse the current session only if its actual model meets the selection or the phase-retention rule applies.
+Preserve the configured pool order. Remove unavailable and exhausted primary candidates, then let TypeSafe rank the healthy primary pool. If no healthy primary remains, do the same for the fallback pool. Retain scarce primary or fallback candidates only when no healthy candidate exists in either pool. A candidate with unknown usage remains eligible rather than being falsely marked exhausted. Report normalized usage and any scarcity substitution without prompts, repository content, credentials, or raw provider output.
+
+Lists in `models.md` are candidate pools. TypeSafe ranks the eligible models within the active pool; file order is not a semantic ranking. For ordinary review, use one fresh reviewer. For consequential work or a material disputed finding, add a second reviewer from a different model family when available. Explicit multi-model review uses at least two models. Reserve all four for an explicit full-panel request or an unresolved consequential disagreement. Apply the same sizing to `how critics` and design comparisons; an explicit arena still needs at least two attempts.
+
+Try the primary pool, then the `fallback ROLE` pool. Check the model, effort, executor, provider when required, manager, and authentication before launch. Never interpret `current` as a model fallback. Reuse the current session only if its actual model meets the selection or the phase-retention rule applies.
 
 Fallback must preserve authority, required tools, and independence. Exclude the author's session from review and its model from cross-model review. Deduplicate models after substitution; duplicate fallbacks do not count as independent models. Stop and report reduced coverage if the requested panel cannot be filled. Disclose the requested target, actual model/executor/effort, and reason for any substitution. Missing Conductor authentication remains a stop condition, not permission to switch managers.
 

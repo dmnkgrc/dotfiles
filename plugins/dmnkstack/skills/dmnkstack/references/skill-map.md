@@ -1,6 +1,6 @@
 # Skill map
 
-The main router selects these skills. Users may also invoke any skill directly.
+This is an explanatory map, not the routing inventory. The always-on router discovers currently installed skills from their `SKILL.md` frontmatter and sends those live candidates to TypeSafe; do not restrict selection to this list. Users may also invoke any skill directly.
 
 ## Understand
 

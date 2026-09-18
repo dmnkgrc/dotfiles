@@ -5,17 +5,21 @@ description: Route software work across available project skills, task playbooks
 
 # Dmnkstack
 
-Route by task, then choose how to run the selected model. Do not let the current agent decide the model.
+Route every task through TypeSafe Jev, then choose how to run the selected model. Do not let the current agent replace the router's semantic choices.
 
 ## Start the route
 
-1. Classify the message as a new task, continuation, correction, pause, or resume. A correction has priority over every task route.
-2. Read active repository instructions and the available skill catalog. Use the most specific matching project skill before a generic playbook.
-3. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/working-style.md` when it exists. Otherwise read [references/working-style.md](references/working-style.md).
-4. Read [references/routing.md](references/routing.md) and select the task route.
-5. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source. If Executor MCP is connected, fetch those sources through it before a host-only Linear, Figma, or Notion connector.
-6. Read [references/skill-map.md](references/skill-map.md) and load the matching operational skill when one exists.
-7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md`. If missing or a broken symlink, report the configuration problem and use `setup-dmnkstack` rather than silently ignoring the assignments. Choose the role by difficulty, then the model and starting effort. Apply the candidate-pool, phase-retention, and explicit fallback rules in `routing.md`.
+1. Deterministically classify the message as a new task, continuation, correction, pause, or resume. A correction has priority over every task route.
+2. Run the always-on router before execution, passing the exact current task and the deterministic conversation state. Use `--prior-task` and `--active-route` for continuations or corrections:
+   ```sh
+   fish -lc 'python3 ~/.agents/skills/dmnkstack/scripts/route.py --conversation-state "$argv[1]" "$argv[2]"' -- new 'TASK'
+   ```
+   The Fish invocation supplies `TYPESAFE_API_KEY`. Do not print the command with an expanded key. A nonzero exit or `status: error` means TypeSafe did not route the task: report the explicit failure and stop rather than substituting a local semantic guess.
+3. Read active repository instructions, then load the router-selected installed skill when it is not `none`. An explicitly invoked or mandatory skill remains a deterministic constraint and takes precedence over a semantic suggestion. The router discovers installed skills from current `SKILL.md` frontmatter; [references/skill-map.md](references/skill-map.md) is explanatory, not the selection catalog.
+4. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/working-style.md` when it exists. Otherwise read [references/working-style.md](references/working-style.md).
+5. Read [references/routing.md](references/routing.md) and apply its deterministic authority, difficulty, effort, availability, quota, fallback, and phase rules to the structured route.
+6. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source. If Executor MCP is connected, fetch those sources through it before a host-only Linear, Figma, or Notion connector.
+7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md`. If missing or a broken symlink, report the configuration problem and use `setup-dmnkstack` rather than silently ignoring the assignments. Verify the routed model and starting effort against current launcher configuration before launch.
 8. Load `delegate` when the selected model requires another agent, the user requests another agent, or the route calls for a panel. Then read [references/launchers.md](references/launchers.md).
 9. Inside Conductor, use a new same-workspace session for that delegation. The parent must wait for the child, collect its transcript, verify its evidence, and report the result back.
 10. Execute, reassess at phase boundaries, verify the changed artifact, and report the evidence. Append a privacy-safe outcome through `reflect-dmnkstack` so future route changes can use measured results.
