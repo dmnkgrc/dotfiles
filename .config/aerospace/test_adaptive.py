@@ -199,8 +199,10 @@ class AdaptiveTest(unittest.TestCase):
                     patch.object(adaptive, "monitors", return_value=[]), \
                     patch.object(adaptive, "windows", return_value=[]), \
                     patch.object(adaptive, "screen_sizes", return_value=[]), \
-                    patch.object(adaptive, "apply", side_effect=error) as apply:
-                adaptive.watch()
+                    patch.object(adaptive, "apply", side_effect=error) as apply, \
+                    patch.object(adaptive.time, "sleep", side_effect=[None, SystemExit]):
+                with self.assertRaises(SystemExit):
+                    adaptive.watch()
                 apply.assert_called_once()
 
     def test_stale_window_layout_retries(self):

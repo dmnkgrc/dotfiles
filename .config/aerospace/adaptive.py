@@ -259,13 +259,14 @@ def watch():
                         apply(sized, current)
                     except subprocess.SubprocessError as error:
                         message = getattr(error, "stderr", None) or str(error)
+                        print(message, flush=True)
                         if "Invalid <window-id>" in message:
                             print("Window disappeared during layout; retrying.", flush=True)
-                            print(message, flush=True)
                         else:
-                            print("Layout failed; watcher stopped to avoid repeated resizing.", flush=True)
-                            print(message, flush=True)
-                            return
+                            # ponytail: park the failed signature instead of exiting, so a bad
+                            # layout can't resize on a 2s loop and a display change still retries.
+                            print("Layout failed; waiting for the next change.", flush=True)
+                            previous = signature
                     else:
                         previous = signature
                         previous_displays = displays
