@@ -12,9 +12,9 @@ Route every task through TypeSafe Jev, then choose how to run the selected model
 1. Deterministically classify the message as a new task, continuation, correction, pause, or resume. A correction has priority over every task route.
 2. Run the always-on router before execution, passing the exact current task and the deterministic conversation state. Use `--prior-task` and `--active-route` for continuations or corrections:
    ```sh
-   fish -lc 'python3 ~/.agents/skills/dmnkstack/scripts/route.py --conversation-state "$argv[1]" "$argv[2]"' -- new 'TASK'
+   python3 ~/.agents/skills/dmnkstack/scripts/route.py --conversation-state new 'TASK'
    ```
-   The Fish invocation supplies `TYPESAFE_API_KEY`. Do not print the command with an expanded key. A nonzero exit or `status: error` means TypeSafe did not route the task: report the explicit failure and stop rather than substituting a local semantic guess.
+   Run it directly from the current shell; bash, zsh, and fish all work and no `fish -lc` wrapper is needed. `route.py` loads `TYPESAFE_API_KEY` from the process env, then `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/typesafe.env` when present, then a login shell (fish, bash, zsh). Do not print the command with an expanded key. A nonzero exit or `status: error` means TypeSafe did not route the task: report the explicit failure and stop rather than substituting a local semantic guess.
 3. Read active repository instructions, then load the router-selected installed skill when it is not `none`. An explicitly invoked or mandatory skill remains a deterministic constraint and takes precedence over a semantic suggestion. The router discovers installed skills from current `SKILL.md` frontmatter; [references/skill-map.md](references/skill-map.md) is explanatory, not the selection catalog.
 4. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/working-style.md` when it exists. Otherwise read [references/working-style.md](references/working-style.md).
 5. Read [references/routing.md](references/routing.md) and apply its deterministic authority, difficulty, effort, availability, quota, fallback, and phase rules to the structured route.

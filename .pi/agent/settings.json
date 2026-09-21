@@ -19,7 +19,7 @@
     "npm:@llblab/pi-codex-usage",
     "npm:pi-cursor-sdk"
   ],
-  "lastChangelogVersion": "0.85.1",
+  "lastChangelogVersion": "0.86.1",
   "defaultProvider": "cursor",
   "defaultModel": "grok-4.6",
   "defaultThinkingLevel": "high",

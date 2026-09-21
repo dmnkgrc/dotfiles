@@ -2,7 +2,7 @@
 
 ## TypeSafe semantic routing
 
-Run `scripts/route.py` through Fish for every Dmnkstack task. TypeSafe Jev selects only the semantic task route, matching installed skill, and best model from the deterministically eligible configured candidates. The router may rerank close skill candidates using their detailed installed instructions. It sends the task, conversation routing context, and installed skill metadata to TypeSafe, but its structured output and logs must not retain that content.
+Run `scripts/route.py` for every Dmnkstack task from whatever shell is current (bash, zsh, or fish). It loads `TYPESAFE_API_KEY` from the process env, then `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/typesafe.env` when present, then a login shell (fish, bash, zsh); never print the expanded key. TypeSafe Jev selects only the semantic task route, matching installed skill, and best model from the deterministically eligible configured candidates. The router may rerank close skill candidates using their detailed installed instructions. It sends the task, conversation routing context, and installed skill metadata to TypeSafe, but its structured output and logs must not retain that content.
 
 TypeSafe never decides conversation correction precedence, authority, commits, pushes, external actions, completion claims, difficulty, effort, model availability, or quota eligibility. Those remain deterministic. Explicitly invoked and mandatory skills still take precedence over semantic suggestions. A TypeSafe or API failure is a stop condition and must be reported as such; never claim a local fallback was TypeSafe-routed.
 

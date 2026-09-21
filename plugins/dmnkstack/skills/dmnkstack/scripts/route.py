@@ -496,20 +496,31 @@ def effort_for(configured: str, level: str) -> str:
     return "max" if level == "consequential" else configured
 
 
+def read_key(command: list[str]) -> str | None:
+    try:
+        result = subprocess.run(command, capture_output=True, text=True, timeout=5, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return result.stdout.strip() or None
+
+
 def typesafe_key() -> str | None:
     key = os.environ.get("TYPESAFE_API_KEY", "").strip()
     if key:
         return key
-    fish = shutil.which("fish")
-    if not fish:
-        return None
-    try:
-        result = subprocess.run(
-            [fish, "-lc", "printf %s \"$TYPESAFE_API_KEY\""], capture_output=True, text=True, timeout=5, check=False
-        )
-    except (OSError, subprocess.TimeoutExpired):
-        return None
-    return result.stdout.strip() or None
+    env_file = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "dmnkstack" / "typesafe.env"
+    if env_file.is_file():
+        key = read_key(["/bin/sh", "-c", 'set -a; . "$1"; printf %s "$TYPESAFE_API_KEY"', "sh", str(env_file)])
+        if key:
+            return key
+    for name in ("fish", "bash", "zsh"):
+        shell = shutil.which(name)
+        if not shell:
+            continue
+        key = read_key([shell, "-lc", 'printf %s "$TYPESAFE_API_KEY"'])
+        if key:
+            return key
+    return None
 
 
 def typesafe_call(key: str, state: dict[str, Any], questions: dict[str, Any]) -> dict[str, Any]:
@@ -598,7 +609,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("No installed skill frontmatter was found")
     key = typesafe_key()
     if not key:
-        raise RuntimeError("TYPESAFE_API_KEY is unavailable through Fish")
+        raise RuntimeError("TYPESAFE_API_KEY is unavailable")
     skill_criteria = {name: skill["description"] for name, skill in skills.items() if name != "dmnkstack"}
     skill_criteria["none"] = "No installed skill specifically fits this request."
     conversation_state = args.conversation_state or ("continuation" if args.active_route else "new")

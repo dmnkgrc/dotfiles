@@ -8,6 +8,7 @@ Session.vim
 .config/lazygit/state.yml
 .config/nvim/.claude/settings.local.json
 .config/fish/conf.d/secrets.fish
+.config/dmnkstack/typesafe.env
 .config/opencode/.gitignore
 .config/opencode/node_modules/
 .config/opencode/opencode.json.tui-migration.bak

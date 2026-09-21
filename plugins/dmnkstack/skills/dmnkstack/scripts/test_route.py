@@ -1,3 +1,4 @@
+import subprocess
 import tempfile
 from pathlib import Path
 from unittest.mock import patch
@@ -5,7 +6,42 @@ from unittest.mock import patch
 import route
 
 
+def check_typesafe_key() -> None:
+    def no_subprocess(*args, **kwargs):
+        raise AssertionError("typesafe_key must not spawn a shell when the env var is set")
+
+    with patch.dict("os.environ", {"TYPESAFE_API_KEY": "env-value"}), patch("route.subprocess.run", no_subprocess):
+        assert route.typesafe_key() == "env-value"
+
+    with tempfile.TemporaryDirectory() as raw:
+        home = Path(raw)
+        (home / "dmnkstack").mkdir()
+        (home / "dmnkstack" / "typesafe.env").write_text('TYPESAFE_API_KEY="file-value"\n')
+        env = {"XDG_CONFIG_HOME": str(home)}
+        with patch.dict("os.environ", env, clear=True):
+            assert route.typesafe_key() == "file-value"
+
+        # no posix file: fish missing, bash answers
+        shells = {"bash": "/bin/bash"}
+        calls: list[str] = []
+
+        def run(command, **kwargs):
+            calls.append(command[0])
+            return subprocess.CompletedProcess(command, 0, "shell-value", "")
+
+        with patch.dict("os.environ", {"XDG_CONFIG_HOME": str(home / "empty")}, clear=True):
+            with patch("route.shutil.which", side_effect=shells.get), patch("route.subprocess.run", run):
+                assert route.typesafe_key() == "shell-value"
+        assert calls == ["/bin/bash"]
+
+        # total miss
+        with patch.dict("os.environ", {"XDG_CONFIG_HOME": str(home / "empty")}, clear=True):
+            with patch("route.shutil.which", return_value=None):
+                assert route.typesafe_key() is None
+
+
 def main() -> None:
+    check_typesafe_key()
     codex = route.parse_codex_usage(
         {
             "ordinaryUsageAllowed": True,
