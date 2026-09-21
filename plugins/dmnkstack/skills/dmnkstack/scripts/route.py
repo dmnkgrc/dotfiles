@@ -16,6 +16,10 @@ from pathlib import Path
 from typing import Any
 
 
+class RoutingError(RuntimeError):
+    pass
+
+
 ROUTES = {
     "investigation": "Read-only understanding: explain mechanics, trace ownership, recover history, teach a subsystem, or inspect logs and traces.",
     "bug-fix": "A product failure needs diagnosis or repair, including captured bug triage and test-first fixes.",
@@ -98,7 +102,7 @@ def configured_pools(path: Path, role: str) -> dict[str, list[dict[str, str]]]:
     try:
         lines = path.expanduser().read_text().splitlines()
     except OSError as error:
-        raise RuntimeError(f"Model configuration is unavailable: {error.filename}") from None
+        raise RoutingError(f"Model configuration is unavailable: {error.filename}") from None
     pools: dict[str, list[dict[str, str]]] = {"primary": [], "fallback": []}
     for raw_line in lines:
         line = raw_line.strip()
@@ -116,7 +120,7 @@ def configured_pools(path: Path, role: str) -> dict[str, list[dict[str, str]]]:
             if model in MODEL_PROFILES and not any(target["model"] == model for target in pools[kind]):
                 pools[kind].append({"model": model, "effort": effort})
     if not pools["primary"]:
-        raise RuntimeError(f"Model configuration has no TypeSafe candidates for role: {role}")
+        raise RoutingError(f"Model configuration has no TypeSafe candidates for role: {role}")
     return pools
 
 
@@ -496,40 +500,53 @@ def effort_for(configured: str, level: str) -> str:
     return "max" if level == "consequential" else configured
 
 
+def validate_key(value: str) -> str | None:
+    key = value.strip()
+    if any(not 33 <= ord(char) <= 126 for char in key):
+        raise RoutingError("TYPESAFE_API_KEY must be a single printable ASCII token")
+    return key or None
+
+
 def read_key(command: list[str]) -> str | None:
     try:
         result = subprocess.run(command, capture_output=True, text=True, timeout=5, check=False)
     except (OSError, subprocess.TimeoutExpired):
         return None
-    return result.stdout.strip() or None
+    parts = result.stdout.split("\0")
+    if result.returncode != 0 or len(parts) != 3:
+        return None
+    return validate_key(parts[1])
 
 
 def typesafe_key() -> str | None:
-    key = os.environ.get("TYPESAFE_API_KEY", "").strip()
+    key = validate_key(os.environ.get("TYPESAFE_API_KEY", ""))
     if key:
         return key
     env_file = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "dmnkstack" / "typesafe.env"
     if env_file.is_file():
-        key = read_key(["/bin/sh", "-c", 'set -a; . "$1"; printf %s "$TYPESAFE_API_KEY"', "sh", str(env_file)])
+        key = read_key(["/bin/sh", "-c", r'set -a; . "$1" || exit; printf "\0%s\0" "$TYPESAFE_API_KEY"', "sh", str(env_file)])
         if key:
             return key
     for name in ("fish", "bash", "zsh"):
         shell = shutil.which(name)
         if not shell:
             continue
-        key = read_key([shell, "-lc", 'printf %s "$TYPESAFE_API_KEY"'])
+        key = read_key([shell, "-lc", r'printf "\0%s\0" "$TYPESAFE_API_KEY"'])
         if key:
             return key
     return None
 
 
 def typesafe_call(key: str, state: dict[str, Any], questions: dict[str, Any]) -> dict[str, Any]:
+    validated_key = validate_key(key)
+    if not validated_key:
+        raise RoutingError("TYPESAFE_API_KEY is not configured")
     url = os.environ.get("TYPESAFE_BASE_URL", "https://api.typesafe.ai").rstrip("/") + "/v1/systemone"
     body = json.dumps({"state": state, "model": os.environ.get("TYPESAFE_DEFAULT_MODEL", "jev-latest"), "questions": questions}).encode()
     request = urllib.request.Request(
         url,
         data=body,
-        headers={"Authorization": f"Bearer {key}", "Accept": "application/json", "Content-Type": "application/json", "User-Agent": "dmnkstack-router/1"},
+        headers={"Authorization": f"Bearer {validated_key}", "Accept": "application/json", "Content-Type": "application/json", "User-Agent": "dmnkstack-router/1"},
         method="POST",
     )
     for attempt in range(3):
@@ -539,23 +556,23 @@ def typesafe_call(key: str, state: dict[str, Any], questions: dict[str, Any]) ->
             break
         except urllib.error.HTTPError as error:
             if error.code not in {429, 529} or attempt == 2:
-                raise RuntimeError(f"TypeSafe API returned HTTP {error.code}") from None
+                raise RoutingError(f"TypeSafe API returned HTTP {error.code}") from None
             time.sleep(0.5 * 2**attempt)
-        except (OSError, json.JSONDecodeError, UnicodeDecodeError) as error:
-            raise RuntimeError(f"TypeSafe API request failed: {type(error).__name__}") from None
+        except (OSError, ValueError) as error:
+            raise RoutingError(f"TypeSafe API request failed: {type(error).__name__}") from None
     if not isinstance(payload, dict) or not isinstance(payload.get("answers"), dict):
-        raise RuntimeError("TypeSafe API returned an invalid response")
+        raise RoutingError("TypeSafe API returned an invalid response")
     return payload
 
 
 def choice(payload: dict[str, Any], name: str, allowed: set[str]) -> dict[str, Any]:
     answer = payload["answers"].get(name)
     if not isinstance(answer, dict) or answer.get("choice") not in allowed:
-        raise RuntimeError(f"TypeSafe API omitted a valid {name} choice")
+        raise RoutingError(f"TypeSafe API omitted a valid {name} choice")
     probabilities = answer.get("probabilities")
     confidence = answer.get("confidence")
     if not isinstance(probabilities, dict) or not isinstance(confidence, (int, float)):
-        raise RuntimeError(f"TypeSafe API returned an invalid {name} answer")
+        raise RoutingError(f"TypeSafe API returned an invalid {name} answer")
     return {
         "choice": answer["choice"],
         "confidence": float(confidence),
@@ -572,11 +589,11 @@ def usage(payloads: list[dict[str, Any]]) -> dict[str, int]:
     for payload in payloads:
         raw = payload.get("usage")
         if not isinstance(raw, dict):
-            raise RuntimeError("TypeSafe API returned invalid token usage")
+            raise RoutingError("TypeSafe API returned invalid token usage")
         for name in totals:
             value = raw.get(name)
             if not isinstance(value, int):
-                raise RuntimeError("TypeSafe API returned invalid token usage")
+                raise RoutingError("TypeSafe API returned invalid token usage")
             totals[name] += value
     return totals
 
@@ -604,12 +621,17 @@ def default_models_path() -> Path:
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
     started = time.perf_counter()
-    skills = installed_skills(args.skills or default_skill_roots())
-    if not skills:
-        raise RuntimeError("No installed skill frontmatter was found")
     key = typesafe_key()
     if not key:
-        raise RuntimeError("TYPESAFE_API_KEY is unavailable")
+        return {
+            "status": "local",
+            "typesafe": {"calls": 0},
+            "reason": "TYPESAFE_API_KEY is not configured",
+            "next_step": "Choose the route, installed skill, and configured model locally using references/routing.md",
+        }
+    skills = installed_skills(args.skills or default_skill_roots())
+    if not skills:
+        raise RoutingError("No installed skill frontmatter was found")
     skill_criteria = {name: skill["description"] for name, skill in skills.items() if name != "dmnkstack"}
     skill_criteria["none"] = "No installed skill specifically fits this request."
     conversation_state = args.conversation_state or ("continuation" if args.active_route else "new")
@@ -647,7 +669,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     )
     eligible = [target["model"] for target in eligible_targets]
     if not eligible:
-        raise RuntimeError("No configured model is available after deterministic availability and quota checks")
+        raise RoutingError("No configured model is available after deterministic availability and quota checks")
     questions = {
         "model": {"type": "choice", "instructions": "Choose the best configured model for this task and route from only these deterministically eligible candidates. Select by the detailed capability profiles. Availability and quota eligibility have already been decided and must not be inferred.", "criteria": {name: MODEL_PROFILES[name] for name in eligible}}
     }
@@ -683,7 +705,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Route every Dmnkstack task through TypeSafe Jev")
+    parser = argparse.ArgumentParser(description="Route through TypeSafe Jev when configured; otherwise hand off to local routing")
     parser.add_argument("task")
     parser.add_argument("--prior-task")
     parser.add_argument("--active-route", choices=sorted(ROUTES))
@@ -694,8 +716,11 @@ def main() -> int:
     try:
         print(json.dumps(run(args), sort_keys=True))
         return 0
-    except RuntimeError as error:
+    except RoutingError as error:
         print(json.dumps({"status": "error", "routed": False, "error": str(error)}, sort_keys=True))
+        return 2
+    except Exception as error:
+        print(json.dumps({"status": "error", "routed": False, "error": f"Router failed: {type(error).__name__}"}, sort_keys=True))
         return 2
 
 

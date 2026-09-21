@@ -1,5 +1,8 @@
+import io
+import json
 import subprocess
 import tempfile
+from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -27,7 +30,7 @@ def check_typesafe_key() -> None:
 
         def run(command, **kwargs):
             calls.append(command[0])
-            return subprocess.CompletedProcess(command, 0, "shell-value", "")
+            return subprocess.CompletedProcess(command, 0, "Using Node v24.0.0\n\0shell-value\0", "")
 
         with patch.dict("os.environ", {"XDG_CONFIG_HOME": str(home / "empty")}, clear=True):
             with patch("route.shutil.which", side_effect=shells.get), patch("route.subprocess.run", run):
@@ -40,8 +43,73 @@ def check_typesafe_key() -> None:
                 assert route.typesafe_key() is None
 
 
+def check_credential_safety() -> None:
+    command = ["/bin/sh", "-c", r'printf "Using Node v24.0.0\n\0%s\0Shell goodbye\n" "synthetic-key"']
+    assert route.read_key(command) == "synthetic-key"
+    assert route.read_key(["/bin/sh", "-c", 'printf "startup banner only"']) is None
+    assert route.read_key(["/bin/sh", "-c", r'printf "\0\0"']) is None
+    assert route.read_key(["/bin/sh", "-c", r'printf "\0synthetic-key\0"; exit 1']) is None
+
+    for key in ("synthetic-key\nextra", "synthetic-key\rextra", "synthetic key", "synthetic-\u00e9"):
+        with patch.dict("os.environ", {"TYPESAFE_API_KEY": key}), patch("route.urllib.request.urlopen") as request:
+            try:
+                route.typesafe_call(route.typesafe_key(), {}, {})
+            except RuntimeError as error:
+                assert "synthetic" not in str(error)
+            else:
+                raise AssertionError("Malformed credentials must fail before HTTP")
+            request.assert_not_called()
+
+    with patch("route.urllib.request.urlopen", side_effect=ValueError("synthetic-secret")):
+        try:
+            route.typesafe_call("synthetic-key", {}, {})
+        except RuntimeError as error:
+            assert str(error) == "TypeSafe API request failed: ValueError"
+        else:
+            raise AssertionError("HTTP failures must be sanitized")
+
+    for error in (ValueError("synthetic-secret"), RuntimeError("synthetic-secret")):
+        output = io.StringIO()
+        with patch("route.run", side_effect=error), patch("sys.argv", ["route.py", "private task"]):
+            with redirect_stdout(output):
+                assert route.main() == 2
+        assert json.loads(output.getvalue())["status"] == "error"
+        assert "synthetic-secret" not in output.getvalue()
+        assert "private task" not in output.getvalue()
+
+
+def check_optional_typesafe() -> None:
+    output = io.StringIO()
+    with patch("route.typesafe_key", return_value=None), patch("route.installed_skills") as skills:
+        with patch("route.typesafe_call") as api, patch("route.ThreadPoolExecutor") as executor:
+            with patch("sys.argv", ["route.py", "private task"]), redirect_stdout(output):
+                assert route.main() == 0
+            result = json.loads(output.getvalue())
+            assert result["status"] == "local"
+            assert result["typesafe"]["calls"] == 0
+            assert result["reason"] == "TYPESAFE_API_KEY is not configured"
+            assert "private task" not in output.getvalue()
+            skills.assert_not_called()
+            api.assert_not_called()
+            executor.assert_not_called()
+
+    output = io.StringIO()
+    with patch("route.typesafe_key", return_value="configured-key"):
+        with patch("route.installed_skills", return_value={"verify": {"description": "Verify work"}}):
+            with patch("route.ThreadPoolExecutor"), patch("route.typesafe_call", side_effect=route.RoutingError("TypeSafe API returned HTTP 401")) as api:
+                with patch("sys.argv", ["route.py", "Verify work"]), redirect_stdout(output):
+                    assert route.main() == 2
+                assert api.call_args.args[0] == "configured-key"
+                result = json.loads(output.getvalue())
+                assert result["status"] == "error"
+                assert result["error"] == "TypeSafe API returned HTTP 401"
+                assert "configured-key" not in output.getvalue()
+
+
 def main() -> None:
+    check_credential_safety()
     check_typesafe_key()
+    check_optional_typesafe()
     codex = route.parse_codex_usage(
         {
             "ordinaryUsageAllowed": True,

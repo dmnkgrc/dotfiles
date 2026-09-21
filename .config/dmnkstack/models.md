@@ -2,9 +2,9 @@
 
 # Format: role[, role]: model @ effort[, model @ effort].
 # Logical names only. Executor slugs are [aliases] in launchers.toml.
-# Multiple targets are a TypeSafe-ranked candidate pool, not an automatic fan-out.
+# Multiple targets are a candidate pool ranked by TypeSafe when configured, otherwise locally; not an automatic fan-out.
 # Efforts are starting points; routing.md defines escalation.
-# fallback ROLE[, ROLE]: replacement candidate pool ranked by TypeSafe after primary eligibility fails.
+# fallback ROLE[, ROLE]: replacement candidate pool ranked the same way after primary eligibility fails.
 # Custom roles must use the prefix custom/.
 
 feature, refactoring: grok-4.6 @ high

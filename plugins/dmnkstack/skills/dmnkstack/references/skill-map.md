@@ -1,6 +1,6 @@
 # Skill map
 
-This is an explanatory map, not the routing inventory. The always-on router discovers currently installed skills from their `SKILL.md` frontmatter and sends those live candidates to TypeSafe; do not restrict selection to this list. Users may also invoke any skill directly.
+This is an explanatory map, not the routing inventory. Routing uses currently installed skills' `SKILL.md` frontmatter, through TypeSafe when a key is configured or local selection otherwise. Do not restrict selection to this list. Users may also invoke any skill directly.
 
 ## Understand
 
@@ -32,6 +32,7 @@ This is an explanatory map, not the routing inventory. The always-on router disc
 
 - `show-me-your-work` keeps a compact decision trail.
 - `deliver` commits, pushes, and opens or updates a pull request when authorized.
+- `before-and-after` attaches screenshots and recordings to PRs; `deliver` uses it for visual changes.
 - `reflect-dmnkstack` records durable lessons without leaking project facts.
 - `automate-me` learns working preferences from local conversation history.
 - `setup-dmnkstack` discovers and validates agents, models, and launchers.
