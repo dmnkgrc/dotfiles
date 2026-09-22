@@ -41,7 +41,7 @@ ROUTES = {
 }
 
 MODEL_PROFILES = {
-    "grok-4.6": "Best for broad or uncertain feature implementation, behavior-preserving refactors, exploring unfamiliar repositories, tracing mechanics and history, and swarm work. Do not prefer for known mechanical edits, focused unknown bug diagnosis, or judgment-heavy final review.",
+    "grok-4.7": "Best for broad or uncertain feature implementation, behavior-preserving refactors, exploring unfamiliar repositories, tracing mechanics and history, and swarm work. Do not prefer for known mechanical edits, focused unknown bug diagnosis, or judgment-heavy final review.",
     "gpt-5.6-sol": "Best for evidence-driven diagnosis and repair of unknown failures, performance regressions, incidents, flaky behavior, environment failures, and iterative optimization. Prefer when the task starts with a symptom and needs hypotheses and reproduction.",
     "opus-5": "Best for bounded implementation with clear acceptance criteria and local verification, plus architecture involving APIs, types, state ownership, or module boundaries.",
     "gpt-5.6-luna": "Best for deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts. Do not use for uncertain, consequential, architectural, or judgment-heavy work.",
@@ -49,7 +49,7 @@ MODEL_PROFILES = {
 }
 
 MODEL_EXECUTORS = {
-    "grok-4.6": ("cursor", "pi"),
+    "grok-4.7": ("cursor", "pi"),
     "gpt-5.6-sol": ("codex", "pi"),
     "opus-5": ("claude", "pi"),
     "gpt-5.6-luna": ("codex", "pi"),
@@ -57,6 +57,7 @@ MODEL_EXECUTORS = {
 }
 
 MODEL_ALIASES = {
+    "grok-4.7": {"grok-4.7", "grok-4.7@256k"},
     "opus-5": {"opus-5", "opus", "opus-5@300k"},
     "fable-5.1": {"fable-5.1", "fable", "fable-5-1@300k"},
 }
@@ -375,7 +376,7 @@ def normalize_models(sources: dict[str, dict[str, Any]], catalog: set[str]) -> d
         provider_sources = []
         if model.startswith("gpt-") and ("codex" in usable or "pi" in usable):
             provider_sources.append(sources["codex"])
-        if model == "grok-4.6" and ("cursor" in usable or "pi" in usable):
+        if model == "grok-4.7" and ("cursor" in usable or "pi" in usable):
             provider_sources.append(select_usage_window(sources["cursor"], "auto"))
         if model in {"opus-5", "fable-5.1"}:
             if "claude" in usable:

@@ -19,15 +19,15 @@
     "npm:@llblab/pi-codex-usage",
     "npm:pi-cursor-sdk"
   ],
-  "lastChangelogVersion": "0.86.1",
+  "lastChangelogVersion": "0.87.0",
   "defaultProvider": "cursor",
-  "defaultModel": "grok-4.6",
+  "defaultModel": "grok-4.7@256k",
   "defaultThinkingLevel": "high",
   "enabledModels": [
     "openai-codex/gpt-5.6-sol",
     "openai-codex/gpt-5.6-terra",
     "openai-codex/gpt-6-astra",
-    "cursor/grok-4.6",
+    "cursor/grok-4.7@256k",
     "openai-codex/gpt-5.6-luna",
     "cursor/opus-5@300k",
     "cursor/fable-5-1@300k"

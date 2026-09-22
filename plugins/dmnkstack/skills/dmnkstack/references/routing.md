@@ -10,7 +10,7 @@ TypeSafe never decides conversation correction precedence, authority, commits, p
 
 The model profiles are:
 
-- Grok 4.6: broad features, refactors, repository exploration, mechanics, history, and swarm work.
+- Grok 4.7: broad features, refactors, repository exploration, mechanics, history, and swarm work.
 - GPT-5.6 Sol: unknown bugs, performance regressions, incidents, environment failures, and iterative evidence-driven repair.
 - Opus 5: bounded implementation and architecture across APIs, types, ownership, and module boundaries.
 - GPT-5.6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.

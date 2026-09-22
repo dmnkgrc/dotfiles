@@ -126,7 +126,7 @@ def main() -> None:
         {
             "agent": "pi",
             "provider": "cursor",
-            "models": ["grok-4.6"],
+            "models": ["grok-4.7"],
             "efforts": ["high"],
         },
     ]
@@ -139,7 +139,7 @@ def main() -> None:
         },
         {
             "role": "how critics",
-            "model": "grok-4.6",
+            "model": "grok-4.7",
             "effort": "high",
             "kind": "primary",
         },
@@ -147,7 +147,7 @@ def main() -> None:
     mixed, mixed_missing = validate(mixed_targets, mixed_catalog, launchers, remaining)
     assert len(mixed) == 2 and not mixed_missing
     blocked, leftover = validate(mixed_targets, mixed_catalog, launchers, exhausted)
-    assert [target["model"] for target in blocked] == ["grok-4.6"]
+    assert [target["model"] for target in blocked] == ["grok-4.7"]
     assert leftover and leftover[0]["model"] == "opus-5"
     summary = summarize_cursor_usage(
         {"planUsage": {"apiPercentUsed": 100, "autoPercentUsed": 43}}
@@ -168,7 +168,7 @@ def main() -> None:
                 source.replace("feature, refactoring:", "featre, refactoring:"),
                 "unknown role",
             ),
-            (source + "\nfeature: grok-4.6 @ high\n", "duplicate primary"),
+            (source + "\nfeature: grok-4.7 @ high\n", "duplicate primary"),
             (
                 source.replace("general implementation:", "custom/local:"),
                 "missing role",

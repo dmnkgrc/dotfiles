@@ -234,7 +234,7 @@ def main() -> None:
     general = route.configured_pools(config, "general implementation")
     assert general["primary"] == [{"model": "opus-5", "effort": "medium"}]
     assert general["fallback"] == [
-        {"model": "grok-4.6", "effort": "high"},
+        {"model": "grok-4.7", "effort": "high"},
         {"model": "gpt-5.6-sol", "effort": "high"},
         {"model": "fable-5.1", "effort": "high"},
         {"model": "gpt-5.6-luna", "effort": "max"},
@@ -247,7 +247,7 @@ def main() -> None:
     mechanical = route.configured_pools(config, "fast mechanical work")
     assert mechanical["primary"] == [{"model": "gpt-5.6-luna", "effort": "low"}]
     assert mechanical["fallback"] == [
-        {"model": "grok-4.6", "effort": "low"},
+        {"model": "grok-4.7", "effort": "low"},
         {"model": "opus-5", "effort": "high"},
         {"model": "gpt-5.6-sol", "effort": "high"},
         {"model": "fable-5.1", "effort": "high"},
@@ -261,9 +261,9 @@ def main() -> None:
     with patch("route.shutil.which", side_effect=lambda name: f"/{name}"):
         models = route.normalize_models(sources, {"fable-5-1@300k", "opus-5@300k"})
     assert models["gpt-5.6-sol"]["available"]
-    assert models["grok-4.6"]["available"]
-    assert models["grok-4.6"]["usage_known"] is True
-    assert models["grok-4.6"]["remaining_percent"] == 50.5
+    assert models["grok-4.7"]["available"]
+    assert models["grok-4.7"]["usage_known"] is True
+    assert models["grok-4.7"]["remaining_percent"] == 50.5
     cursor_sources = models["opus-5"]["sources"]
     assert any(source.get("window") == "api" and not source["available"] for source in cursor_sources)
     print("TypeSafe routing parser and policy checks passed")

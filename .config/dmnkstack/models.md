@@ -7,7 +7,7 @@
 # fallback ROLE[, ROLE]: replacement candidate pool ranked the same way after primary eligibility fails.
 # Custom roles must use the prefix custom/.
 
-feature, refactoring: grok-4.6 @ high
+feature, refactoring: grok-4.7 @ high
 bug-fix, perf-issue, hillclimb: gpt-5.6-sol @ high
 general implementation: opus-5 @ medium
 fast mechanical work: gpt-5.6-luna @ low
@@ -15,27 +15,27 @@ judgment: fable-5.1 @ high
 prose: gpt-5.6-luna @ low, fable-5.1 @ high
 hardest tasks: fable-5.1 @ max
 
-how explorer: grok-4.6 @ high
-how explainer: grok-4.6 @ high
-how critics: opus-5 @ high, grok-4.6 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
-why investigators: grok-4.6 @ high
-why synthesizer: grok-4.6 @ high
+how explorer: grok-4.7 @ high
+how explainer: grok-4.7 @ high
+how critics: opus-5 @ high, grok-4.7 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
+why investigators: grok-4.7 @ high
+why synthesizer: grok-4.7 @ high
 
 reflect tooling: gpt-5.6-sol @ high
 reflect judgment, divergent, synthesizer: gpt-5.6-sol @ high
 
-arena runners: gpt-5.6-sol @ high, grok-4.6 @ high, opus-5 @ high, fable-5.1 @ high
-arena cross-judge pool: opus-5 @ high, grok-4.6 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
-swarm workers: grok-4.6 @ high
-architect runners: opus-5 @ high, grok-4.6 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
-interrogate reviewers: opus-5 @ high, grok-4.6 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
+arena runners: gpt-5.6-sol @ high, grok-4.7 @ high, opus-5 @ high, fable-5.1 @ high
+arena cross-judge pool: opus-5 @ high, grok-4.7 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
+swarm workers: grok-4.7 @ high
+architect runners: opus-5 @ high, grok-4.7 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
+interrogate reviewers: opus-5 @ high, grok-4.7 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
 
 fallback feature, refactoring, swarm workers: opus-5 @ high, gpt-5.6-sol @ high, fable-5.1 @ high, gpt-5.6-luna @ max
 fallback how explorer, how explainer, why investigators, why synthesizer: gpt-5.6-luna @ max, opus-5 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
-fallback bug-fix, perf-issue, hillclimb, reflect tooling, reflect judgment, divergent, synthesizer: opus-5 @ high, fable-5.1 @ high, grok-4.6 @ high, gpt-5.6-luna @ max
-fallback general implementation: grok-4.6 @ high, gpt-5.6-sol @ high, fable-5.1 @ high, gpt-5.6-luna @ max
-fallback fast mechanical work: grok-4.6 @ low, opus-5 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
-fallback judgment: opus-5 @ high, gpt-5.6-sol @ high, grok-4.6 @ high, gpt-5.6-luna @ max
-fallback prose: opus-5 @ high, gpt-5.6-sol @ high, grok-4.6 @ high
-fallback hardest tasks: opus-5 @ high, gpt-5.6-sol @ max, grok-4.6 @ high, gpt-5.6-luna @ max
-fallback how critics, arena runners, arena cross-judge pool, architect runners, interrogate reviewers: grok-4.6 @ high, gpt-5.6-luna @ max
+fallback bug-fix, perf-issue, hillclimb, reflect tooling, reflect judgment, divergent, synthesizer: opus-5 @ high, fable-5.1 @ high, grok-4.7 @ high, gpt-5.6-luna @ max
+fallback general implementation: grok-4.7 @ high, gpt-5.6-sol @ high, fable-5.1 @ high, gpt-5.6-luna @ max
+fallback fast mechanical work: grok-4.7 @ low, opus-5 @ high, gpt-5.6-sol @ high, fable-5.1 @ high
+fallback judgment: opus-5 @ high, gpt-5.6-sol @ high, grok-4.7 @ high, gpt-5.6-luna @ max
+fallback prose: opus-5 @ high, gpt-5.6-sol @ high, grok-4.7 @ high
+fallback hardest tasks: opus-5 @ high, gpt-5.6-sol @ max, grok-4.7 @ high, gpt-5.6-luna @ max
+fallback how critics, arena runners, arena cross-judge pool, architect runners, interrogate reviewers: grok-4.7 @ high, gpt-5.6-luna @ max

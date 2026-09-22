@@ -30,8 +30,11 @@ executors = ["claude", "pi"]
 # Pi only while Cursor included API usage remains (apiPercentUsed < 100).
 
 [families.cursor]
-models = ["grok-4.6", "grok-4.5", "composer-2.5"]
+models = ["grok-4.7", "grok-4.5", "composer-2.5"]
 executors = ["cursor", "pi"]
+
+[aliases."grok-4.7"]
+pi = "grok-4.7@256k"
 
 [aliases."fable-5.1"]
 claude = "fable"
