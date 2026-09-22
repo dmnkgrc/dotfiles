@@ -2,7 +2,7 @@
 
 Copy the complete map below into `models.md`. Lists are ordered candidate pools, not automatic panels. Efforts are starting points; Dmnkstack's routing policy chooses difficulty and escalation separately. Preserve custom roles with a `custom/` prefix and an explicit fallback. Exhausted chains stop rather than falling back to the current model.
 
-Claude Code aliases are `fable` and `opus` with no context-window suffix. Pi uses `fable-5-1@300k`, `opus-5@300k`, and `grok-4.7@256k` only while Cursor included API usage remains (`planUsage.apiPercentUsed` below 100). Auto or Composer remaining does not count.
+Claude Code aliases are `fable` and `opus` with no context-window suffix. Conductor's cursor id for Grok is `grok-4.7`, with effort passed separately. Pi uses `fable-5-1@300k`, `opus-5@300k`, and `grok-4.7@256k` only while Cursor included API usage remains (`planUsage.apiPercentUsed` below 100). The Cursor CLI id is `grok-4.7-<effort>`. Auto or Composer remaining does not count.
 
 ```md
 feature, refactoring: grok-4.7 @ high

@@ -28,6 +28,8 @@ conductor --json session create \
   --message-file <prompt-file>
 ```
 
+`--model` is the executor alias from `launchers.toml`. For Grok that is `--agent cursor --model grok-4.7`, with `--effort` kept separate (`high`, `medium`, `low`, `xhigh`). Pi's slug is `grok-4.7@256k`. The Cursor CLI id is `grok-4.7-<effort>`.
+
 The parent owns the whole round trip:
 
 1. Give the child a complete contract with scope, repository instructions, selected project skills, write authority, and expected evidence.
@@ -85,9 +87,9 @@ Native model arguments:
 - Codex: `-m <model> -c model_reasoning_effort=\"<effort>\"`
 - Pi: `--provider <catalog-provider> --model <model> --thinking <effort>`. Preserve the provider from discovery; do not assume every model uses OpenAI Codex.
 - Claude: `--model <model> --effort <effort>`
-- Cursor: `--model <model>`. Omit effort when the direct CLI does not expose it.
+- Cursor CLI: `--model grok-4.7-<effort>` (`grok-4.7-high`). `cursor-agent` has no effort flag.
 
-Rewrite the logical name from `models.md` through `[aliases.<name>]` in `launchers.toml` before those flags. Use the chosen executor's slug (`claude` → `fable`, `pi` → `fable-5-1@300k`). Missing key: pass the logical name. Current-session reuse matches the logical name or that executor's alias. Conductor and Herdr take the rewritten slug, not a second route table.
+Rewrite the logical name from `models.md` through `[aliases.<name>.<executor>]` in `launchers.toml` before those flags. `cursor` for `grok-4.7` is `grok-4.7`. `pi` is `grok-4.7@256k`. `claude` for `fable-5.1` is `fable`. Missing key: pass the logical name. Current-session reuse matches the logical name or that executor's alias. Conductor `session create` uses the `cursor` slug plus `--effort`. Herdr's `cursor-agent` uses `grok-4.7-<effort>`.
 
 Drop Pi for an Anthropic model unless discovery reports remaining Cursor included API usage (`api_remaining`, from `planUsage.apiPercentUsed` below 100). Auto or Composer remaining does not count. Solo `fable-5.1` / `opus-5` use Claude (`fable` / `opus`) with no context-window suffix. If usage cannot be read, treat Pi as catalog-compatible only.
 

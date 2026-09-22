@@ -62,6 +62,8 @@ conductor --json session create \
   --message-file <prompt-file>
 ```
 
+Grok's Conductor model is `grok-4.7` with `--effort` separate. Pi uses `grok-4.7@256k`. `cursor-agent` uses `grok-4.7-<effort>`.
+
 If local auth is absent, ask the user to run `conductor auth login`. If session creation reports that no credential is available, stop and report the missing prerequisite. Do not retry, expose a credential, store it in Dmnkstack config, or fall back to Herdr while inside Conductor.
 
 6. Poll status at reasonable intervals and collect the authoritative artifact. Idle alone does not prove completion; require the assigned phase and every owned background job to have an explicit terminal state or acknowledged transfer. Report transitions and findings while meeting runtime commentary requirements.

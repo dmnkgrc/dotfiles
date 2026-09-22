@@ -34,6 +34,8 @@ models = ["grok-4.7", "grok-4.5", "composer-2.5"]
 executors = ["cursor", "pi"]
 
 [aliases."grok-4.7"]
+# Conductor --model. cursor-agent has no effort flag: grok-4.7-<effort>.
+cursor = "grok-4.7"
 pi = "grok-4.7@256k"
 
 [aliases."fable-5.1"]
