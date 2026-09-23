@@ -42,23 +42,23 @@ ROUTES = {
 
 MODEL_PROFILES = {
     "grok-4.7": "Best for broad or uncertain feature implementation, behavior-preserving refactors, exploring unfamiliar repositories, tracing mechanics and history, and swarm work. Do not prefer for known mechanical edits, focused unknown bug diagnosis, or judgment-heavy final review.",
-    "gpt-5.6-sol": "Best for evidence-driven diagnosis and repair of unknown failures, performance regressions, incidents, flaky behavior, environment failures, and iterative optimization. Prefer when the task starts with a symptom and needs hypotheses and reproduction.",
-    "opus-5": "Best for bounded implementation with clear acceptance criteria and local verification, plus architecture involving APIs, types, state ownership, or module boundaries.",
-    "gpt-5.6-luna": "Best for deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts. Do not use for uncertain, consequential, architectural, or judgment-heavy work.",
-    "fable-5.1": "Best for judgment-heavy review, complex or high-stakes prose, synthesis, tradeoffs, and the hardest unusual tasks. A migration interface supporting old and new callers may use this model when its judgment advantage matters. Do not prefer for routine pull request descriptions.",
+    "gpt-6-sol": "Best for evidence-driven diagnosis and repair of unknown failures, performance regressions, incidents, flaky behavior, environment failures, and iterative optimization. Prefer when the task starts with a symptom and needs hypotheses and reproduction.",
+    "opus-5.5": "Best for bounded implementation with clear acceptance criteria and local verification, architecture involving APIs, types, state ownership, or module boundaries, and unusual hardest tasks.",
+    "gpt-6-luna": "Best for deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts. Do not use for uncertain, consequential, architectural, or judgment-heavy work.",
+    "fable-5.1": "Best for judgment-heavy review, complex or high-stakes prose, synthesis, and tradeoffs. Do not prefer for routine pull request descriptions or for the hardest implementation tasks.",
 }
 
 MODEL_EXECUTORS = {
-    "grok-4.7": ("cursor", "pi"),
-    "gpt-5.6-sol": ("codex", "pi"),
-    "opus-5": ("claude", "pi"),
-    "gpt-5.6-luna": ("codex", "pi"),
+    "grok-4.7": ("pi",),
+    "gpt-6-sol": ("pi",),
+    "opus-5.5": ("claude", "pi"),
+    "gpt-6-luna": ("pi",),
     "fable-5.1": ("claude", "pi"),
 }
 
 MODEL_ALIASES = {
     "grok-4.7": {"grok-4.7", "grok-4.7@256k"},
-    "opus-5": {"opus-5", "opus", "opus-5@300k"},
+    "opus-5.5": {"opus-5.5", "claude-opus-5-5", "opus-5.5@300k"},
     "fable-5.1": {"fable-5.1", "fable", "fable-5-1@300k"},
 }
 
@@ -374,11 +374,13 @@ def normalize_models(sources: dict[str, dict[str, Any]], catalog: set[str]) -> d
         pi_supports = bool(aliases & catalog)
         usable = [executor for executor in executors if installed[executor] and (executor != "pi" or pi_supports)]
         provider_sources = []
-        if model.startswith("gpt-") and ("codex" in usable or "pi" in usable):
+        if model.startswith("gpt-") and "codex" in usable:
             provider_sources.append(sources["codex"])
+        elif model.startswith("gpt-") and "pi" in usable:
+            provider_sources.append(unknown_usage("codex", "executor-not-used"))
         if model == "grok-4.7" and ("cursor" in usable or "pi" in usable):
             provider_sources.append(select_usage_window(sources["cursor"], "auto"))
-        if model in {"opus-5", "fable-5.1"}:
+        if model in {"opus-5.5", "fable-5.1"}:
             if "claude" in usable:
                 claude = sources["claude"]
                 if model == "fable-5.1":
@@ -643,7 +645,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         state["active_route"] = args.active_route
     with ThreadPoolExecutor(max_workers=4) as executor:
         quota_futures = {
-            "codex": executor.submit(codex_usage),
             "claude": executor.submit(claude_usage),
             "cursor": executor.submit(cursor_usage),
         }

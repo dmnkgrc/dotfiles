@@ -232,24 +232,24 @@ def main() -> None:
         raise AssertionError("malformed TypeSafe answers must fail explicitly")
     config = Path(__file__).resolve().parents[5] / ".config/dmnkstack/models.md"
     general = route.configured_pools(config, "general implementation")
-    assert general["primary"] == [{"model": "opus-5", "effort": "medium"}]
+    assert general["primary"] == [{"model": "opus-5.5", "effort": "medium"}]
     assert general["fallback"] == [
         {"model": "grok-4.7", "effort": "high"},
-        {"model": "gpt-5.6-sol", "effort": "high"},
+        {"model": "gpt-6-sol", "effort": "high"},
         {"model": "fable-5.1", "effort": "high"},
-        {"model": "gpt-5.6-luna", "effort": "max"},
+        {"model": "gpt-6-luna", "effort": "max"},
     ]
     prose = route.configured_pools(config, "prose")
     assert prose["primary"] == [
-        {"model": "gpt-5.6-luna", "effort": "low"},
+        {"model": "gpt-6-luna", "effort": "low"},
         {"model": "fable-5.1", "effort": "high"},
     ]
     mechanical = route.configured_pools(config, "fast mechanical work")
-    assert mechanical["primary"] == [{"model": "gpt-5.6-luna", "effort": "low"}]
+    assert mechanical["primary"] == [{"model": "gpt-6-luna", "effort": "low"}]
     assert mechanical["fallback"] == [
         {"model": "grok-4.7", "effort": "low"},
-        {"model": "opus-5", "effort": "high"},
-        {"model": "gpt-5.6-sol", "effort": "high"},
+        {"model": "opus-5.5", "effort": "high"},
+        {"model": "gpt-6-sol", "effort": "high"},
         {"model": "fable-5.1", "effort": "high"},
     ]
 
@@ -259,12 +259,18 @@ def main() -> None:
         "cursor": cursor,
     }
     with patch("route.shutil.which", side_effect=lambda name: f"/{name}"):
-        models = route.normalize_models(sources, {"fable-5-1@300k", "opus-5@300k"})
-    assert models["gpt-5.6-sol"]["available"]
+        models = route.normalize_models(
+            sources,
+            {"fable-5-1@300k", "opus-5.5@300k", "grok-4.7@256k", "gpt-6-sol", "gpt-6-luna"},
+        )
+    assert models["gpt-6-sol"]["executors"] == ["pi"]
+    assert models["gpt-6-luna"]["executors"] == ["pi"]
+    assert models["grok-4.7"]["executors"] == ["pi"]
+    assert models["gpt-6-sol"]["available"]
     assert models["grok-4.7"]["available"]
     assert models["grok-4.7"]["usage_known"] is True
     assert models["grok-4.7"]["remaining_percent"] == 50.5
-    cursor_sources = models["opus-5"]["sources"]
+    cursor_sources = models["opus-5.5"]["sources"]
     assert any(source.get("window") == "api" and not source["available"] for source in cursor_sources)
     print("TypeSafe routing parser and policy checks passed")
 

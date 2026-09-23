@@ -11,10 +11,10 @@ TypeSafe never decides conversation correction precedence, authority, commits, p
 The model profiles are:
 
 - Grok 4.7: broad features, refactors, repository exploration, mechanics, history, and swarm work.
-- GPT-5.6 Sol: unknown bugs, performance regressions, incidents, environment failures, and iterative evidence-driven repair.
-- Opus 5: bounded implementation and architecture across APIs, types, ownership, and module boundaries.
-- GPT-5.6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.
-- Fable 5.1: judgment, complex or high-stakes prose, synthesis, tradeoffs, and unusual hardest tasks. A migration interface supporting old and new callers may route here; routine pull request descriptions should prefer Luna.
+- GPT-6 Sol: unknown bugs, performance regressions, incidents, environment failures, and iterative evidence-driven repair.
+- Opus 5.5: bounded implementation, architecture across APIs, types, ownership, and module boundaries, and unusual hardest tasks.
+- GPT-6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.
+- Fable 5.1: judgment, complex or high-stakes prose, synthesis, and tradeoffs. Routine pull request descriptions should prefer Luna. Hardest implementation tasks should prefer Opus 5.5.
 
 ## Precedence
 
@@ -86,7 +86,7 @@ A phase change does not require a new agent. Keep small tasks in one session whe
 
 ## Candidate pools and fallback
 
-Before selecting a model in either mode, collect and normalize live provider usage. Cursor models such as Grok use DashboardService Auto usage; Pi-hosted Anthropic models use its API usage. Claude uses the CLI `/usage` structured-output path, and Codex uses `codex app-server` JSON-RPC `account/rateLimits/read`. Do not scrape Codex terminal or ANSI output. Preserve explicit launcher and catalog availability checks. Unknown usage does not mean exhausted.
+Before selecting a model in either mode, collect and normalize live provider usage. Grok on Pi uses DashboardService Auto usage; Pi-hosted Anthropic models use its API usage. Claude uses the CLI `/usage` structured-output path. OpenAI Codex models launch only through Pi and do not query the Codex CLI. Preserve explicit launcher and catalog availability checks. Unknown usage does not mean exhausted.
 
 Preserve the configured pool order. Remove unavailable and exhausted primary candidates, then rank the healthy primary pool using TypeSafe when configured or local judgment otherwise. If no healthy primary remains, do the same for the fallback pool. Retain scarce primary or fallback candidates only when no healthy candidate exists in either pool. A candidate with unknown usage remains eligible rather than being falsely marked exhausted. Report normalized usage and any scarcity substitution without prompts, repository content, credentials, or raw provider output.
 

@@ -28,7 +28,7 @@ Preserve custom roles and unknown settings unless the user asks to replace them.
 
 1. Present the full role-to-model map in the Pstack-style `role: model @ effort` format.
 2. Resolve each distinct model against the discovered catalog.
-3. Map model families to compatible executors. Map OpenAI Codex models to both Codex and Pi. Map Anthropic to Claude, and keep Pi only while Cursor included API usage remains. Auto or Composer remaining does not count.
+3. Map model families to compatible executors. OpenAI Codex and Grok models use Pi only. Do not select the Codex CLI or Cursor CLI. Map Anthropic to Claude, and keep Pi only while Cursor included API usage remains. Auto or Composer remaining does not count.
 4. Prefer the current session only when its actual model matches the selected target. Otherwise use Conductor when its workspace variable is set, then Herdr when its environment variable equals `1`.
 5. Treat Conductor as ready for delegation only when discovery reports `session_create_ready`. On a local Mac, ask the user to run `conductor auth login` when Keychain auth is absent. Otherwise ask for the environment's workspace token or `CONDUCTOR_API_KEY`.
 6. Set ordered `fallback ROLE` targets for every role and set launcher `selection.fallback` to `role-chain-or-stop`. Lists on primary roles are candidate pools. Validate model, effort, executor, and Pi provider together, without combining capabilities from different executors. Preserve independence when selecting reviewer fallbacks. Never claim a model is available when discovery did not prove it.

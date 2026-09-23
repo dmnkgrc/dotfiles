@@ -45,12 +45,19 @@ def main() -> None:
         if target["role"] == "general implementation" and target["kind"] == "primary"
     )
     assert {entry["agent"] for entry in general["executors"]} == {"claude"}
+    for role in ("bug-fix", "feature", "fast mechanical work"):
+        routed = next(
+            target
+            for target in resolved
+            if target["role"] == role and target["kind"] == "primary"
+        )
+        assert {entry["agent"] for entry in routed["executors"]} == {"pi"}
     critics_opus = next(
         target
         for target in resolved
         if target["role"] == "how critics"
         and target["kind"] == "primary"
-        and target["model"] == "opus-5"
+        and target["model"] == "opus-5.5"
     )
     assert "pi" not in {entry["agent"] for entry in critics_opus["executors"]}
     with_usage, _ = validate(targets, catalog, launchers, remaining)
@@ -59,7 +66,7 @@ def main() -> None:
         for target in with_usage
         if target["role"] == "how critics"
         and target["kind"] == "primary"
-        and target["model"] == "opus-5"
+        and target["model"] == "opus-5.5"
     )
     assert "pi" in {entry["agent"] for entry in critics_with_usage["executors"]}
     target = [
@@ -179,15 +186,15 @@ def main() -> None:
                 ),
                 "missing fallback",
             ),
-            (source.replace("gpt-5.6-luna @ low", "current @ low"), "invalid target"),
+            (source.replace("gpt-6-luna @ low", "current @ low"), "invalid target"),
             (
-                source.replace("gpt-5.6-luna @ low", "gpt-5.6-luna @ turbo"),
+                source.replace("gpt-6-luna @ low", "gpt-6-luna @ turbo"),
                 "invalid target",
             ),
-            (source.replace("gpt-5.6-luna @ low", "gpt-5.6-luna"), "needs an effort"),
+            (source.replace("gpt-6-luna @ low", "gpt-6-luna"), "needs an effort"),
             (
                 source.replace(
-                    "gpt-5.6-luna @ low", "gpt-5.6-luna @ low, gpt-5.6-luna @ high"
+                    "gpt-6-luna @ low", "gpt-6-luna @ low, gpt-6-luna @ high"
                 ),
                 "duplicate model",
             ),
@@ -197,7 +204,7 @@ def main() -> None:
             assert any(expected in error for error in parse_routes(path)[1]), expected
         path.write_text(
             source
-            + "\ncustom/local: fable-5.1 @ high\nfallback custom/local: gpt-5.6-sol @ high\n"
+            + "\ncustom/local: fable-5.1 @ high\nfallback custom/local: gpt-6-sol @ high\n"
         )
         assert not parse_routes(path)[1]
         catalog_path = Path(directory) / "catalog.json"
