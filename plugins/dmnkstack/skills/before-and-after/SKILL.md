@@ -9,6 +9,14 @@ Use `agent-browser` to create the screenshots or recordings. This skill only own
 
 In Dmnkstack, replace `skill/scripts/format.mjs` in the examples with the absolute path to this skill's `scripts/format.mjs`. Run the formatter and `gh` from the target repository, not the skill directory.
 
+## Outcome
+
+Write the block onto the pull request with `gh pr create` or `gh pr edit`, `--body-file`, and `--attach`. Do that before you reply.
+
+Do not paste the formatted markdown, image tables, or capture files into the chat. A chat preview leaves the PR unchanged.
+
+Done only when `gh pr view --json body` shows `https://github.com/user-attachments/assets/` URLs inside `<!-- before-and-after:start/end -->` and that block has no local `./captures/` paths.
+
 ## Set up missing prerequisites
 
 Set up missing tools before capture or upload instead of stopping at a missing-command check. Reuse working installations and the host's existing package manager; do not add these tools to the target project's dependencies.
@@ -62,6 +70,8 @@ The padding may be transparent or use the capture tool's default canvas. Never a
 Use raw `agent-browser eval` for this DOM-only adjustment; do not add an image-processing dependency to this skill. Confirm the resulting files have equal pixel dimensions before publishing.
 
 ## Format
+
+These commands write an intermediate file for Publish. Do not print that file or its images in the reply.
 
 Pass one `--before` and `--after` pair for each comparison. Repeat `--label` to identify multiple pairs:
 
