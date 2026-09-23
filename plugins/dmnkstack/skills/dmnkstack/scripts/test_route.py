@@ -272,6 +272,30 @@ def main() -> None:
     assert models["grok-4.7"]["remaining_percent"] == 50.5
     cursor_sources = models["opus-5.5"]["sources"]
     assert any(source.get("window") == "api" and not source["available"] for source in cursor_sources)
+
+    with tempfile.TemporaryDirectory() as raw:
+        home = Path(raw)
+        agent = home / ".pi/agent"
+        agent.mkdir(parents=True)
+        (agent / "settings.json").write_text(
+            json.dumps(
+                {
+                    "defaultProvider": "cursor",
+                    "defaultModel": "grok-4.7@256k",
+                    "enabledModels": ["openai-codex/gpt-6-sol", "cursor/opus-5.5@300k"],
+                }
+            )
+        )
+
+        def refuse_pi(*args, **kwargs):
+            raise AssertionError("exe VM must not run pi --list-models")
+
+        with (
+            patch("route.exe_vm", return_value=True),
+            patch("route.Path.home", return_value=home),
+            patch("route.subprocess.run", refuse_pi),
+        ):
+            assert route.pi_models() == {"grok-4.7@256k", "gpt-6-sol", "opus-5.5@300k"}
     print("TypeSafe routing parser and policy checks passed")
 
 

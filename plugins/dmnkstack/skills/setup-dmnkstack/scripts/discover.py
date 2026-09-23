@@ -38,6 +38,37 @@ def run(command: list[str], timeout: int = 8) -> dict[str, Any]:
     }
 
 
+def configured_pi_models() -> list[dict[str, str]]:
+    path = Path.home() / ".pi/agent/settings.json"
+    try:
+        settings = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return []
+    default_provider = settings.get("defaultProvider")
+    names: list[str] = []
+    default_model = settings.get("defaultModel")
+    if isinstance(default_model, str):
+        names.append(default_model)
+    enabled = settings.get("enabledModels")
+    if isinstance(enabled, list):
+        names.extend(item for item in enabled if isinstance(item, str))
+    entries: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for name in names:
+        if "/" in name:
+            provider, model = name.split("/", 1)
+        elif isinstance(default_provider, str) and default_provider:
+            provider, model = default_provider, name
+        else:
+            continue
+        key = (provider, model)
+        if not model or key in seen:
+            continue
+        seen.add(key)
+        entries.append({"provider": provider, "model": model})
+    return entries
+
+
 def executable(name: str, fallback: str | None = None) -> str | None:
     resolved = shutil.which(name)
     if resolved:
@@ -62,7 +93,9 @@ def discover_agents() -> dict[str, Any]:
             if result.get("ok")
             else None,
         }
-        if name == "pi":
+        if name == "pi" and Path("/home/exedev").is_dir():
+            agent["models"] = configured_pi_models()
+        elif name == "pi":
             catalog_result = run([resolved, "--offline", "--list-models"])
             models: list[dict[str, str]] = []
             if catalog_result.get("ok"):

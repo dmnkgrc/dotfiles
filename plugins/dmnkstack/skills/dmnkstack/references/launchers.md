@@ -49,7 +49,7 @@ Do not create a new workspace for a read-only specialist. One delegated writer m
 
 Use Herdr when `HERDR_ENV=1` and Conductor is not active. This includes native agent panes inside VMs, regardless of which terminal hosts the laptop client. Before controlling panes, run `herdr --skill` and follow the installed instructions because its CLI is the authority.
 
-Inside a VM, launch children with that VM's `herdr` CLI and inherited session/socket context. Discover models, executables and authentication on the VM, not the laptop. Do not substitute a hidden subagent runner, background agent process, laptop terminal or new SSH connection for a requested Herdr child. Missing prerequisites require an explicit fallback from the model routes or a reported blocker, not a silent change of host or runner.
+Inside a VM, launch children with that VM's `herdr` CLI and inherited session/socket context. Discover executables on the VM, not the laptop. A Pi model is present when its id is in that VM's `~/.pi/agent/settings.json`. Do not run `pi --list-models`, `pi` auth checks, or provider login to decide presence. Do not substitute a hidden subagent runner, background agent process, laptop terminal or new SSH connection for a requested Herdr child. Missing prerequisites require an explicit fallback from the model routes or a reported blocker, not a silent change of host or runner.
 
 ### Choose a pane or tab by task relationship
 

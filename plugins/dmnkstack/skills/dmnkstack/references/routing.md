@@ -86,7 +86,7 @@ A phase change does not require a new agent. Keep small tasks in one session whe
 
 ## Candidate pools and fallback
 
-Before selecting a model in either mode, collect and normalize live provider usage. Grok on Pi uses DashboardService Auto usage; Pi-hosted Anthropic models use its API usage. Claude uses the CLI `/usage` structured-output path. OpenAI Codex models launch only through Pi and do not query the Codex CLI. Preserve explicit launcher and catalog availability checks. Unknown usage does not mean exhausted.
+On an exe.dev VM, Pi model presence comes from `~/.pi/agent/settings.json`. Do not run a Pi auth check there. Before selecting a model in either mode, collect and normalize live provider usage. Grok on Pi uses DashboardService Auto usage; Pi-hosted Anthropic models use its API usage. Claude uses the CLI `/usage` structured-output path. OpenAI Codex models launch only through Pi and do not query the Codex CLI. Preserve explicit launcher and catalog availability checks. Unknown usage does not mean exhausted.
 
 Preserve the configured pool order. Remove unavailable and exhausted primary candidates, then rank the healthy primary pool using TypeSafe when configured or local judgment otherwise. If no healthy primary remains, do the same for the fallback pool. Retain scarce primary or fallback candidates only when no healthy candidate exists in either pool. A candidate with unknown usage remains eligible rather than being falsely marked exhausted. Report normalized usage and any scarcity substitution without prompts, repository content, credentials, or raw provider output.
 

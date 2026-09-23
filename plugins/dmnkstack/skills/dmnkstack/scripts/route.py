@@ -343,7 +343,29 @@ def cursor_usage() -> dict[str, Any]:
     return unknown_usage("cursor", "query-failed")
 
 
+def exe_vm() -> bool:
+    return Path("/home/exedev").is_dir()
+
+
+def configured_pi_models() -> set[str]:
+    path = Path.home() / ".pi/agent/settings.json"
+    try:
+        settings = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return set()
+    names: list[str] = []
+    default = settings.get("defaultModel")
+    if isinstance(default, str):
+        names.append(default)
+    enabled = settings.get("enabledModels")
+    if isinstance(enabled, list):
+        names.extend(item for item in enabled if isinstance(item, str))
+    return {name.split("/", 1)[-1] for name in names if name}
+
+
 def pi_models() -> set[str]:
+    if exe_vm():
+        return configured_pi_models()
     executable = shutil.which("pi")
     if not executable:
         return set()
