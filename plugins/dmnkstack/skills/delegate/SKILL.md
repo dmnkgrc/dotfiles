@@ -17,6 +17,7 @@ Before starting another agent, write a complete prompt containing:
 - whether the child is read-only or is the sole writer;
 - authority limits inherited from the user;
 - the evidence or artifacts required for acceptance;
+- the code hygiene rules the child must follow: a comment is allowed only for a non-obvious constraint or a deliberate workaround, stays at one or two lines, and never restates the code, the test name, or the change description;
 - explicit workspace, sender session, recipient session, task, and revision IDs;
 - assigned phase, next owner, completion state, and each owned background job;
 - delivery mode from [the delivery contract](../dmnkstack/references/delivery.md).
@@ -68,7 +69,7 @@ If local auth is absent, ask the user to run `conductor auth login`. If session 
 
 6. Poll status at reasonable intervals and collect the authoritative artifact. Idle alone does not prove completion; require the assigned phase and every owned background job to have an explicit terminal state or acknowledged transfer. Report transitions and findings while meeting runtime commentary requirements.
 7. Read `conductor --json session message <session-id> --limit 100`. Follow pagination or `--after` when needed and extract the latest complete assistant result.
-8. Inspect any claimed files, diff, commands, or external evidence yourself. Treat the child transcript as evidence to verify, not as an automatically trusted answer.
+8. Inspect any claimed files, diff, commands, or external evidence yourself. Treat the child transcript as evidence to verify, not as an automatically trusted answer. Read the diff for comment volume as well as behavior: count the added comment lines and send back any comment that restates the code, the test name, or the change description before accepting the revision.
 9. Report the child agent, model, session ID, result, evidence, changes, and gaps in the parent session. Summarize the useful result instead of dumping the raw transcript.
 
 Parent collection is the default. User-requested callbacks use the same delivery contract and event identity. The parent verifies the authoritative artifact and reports the result once. Preserve the child session so the user can inspect it unless the user asks to close it.
