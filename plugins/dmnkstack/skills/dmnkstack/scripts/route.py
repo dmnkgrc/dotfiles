@@ -383,11 +383,33 @@ def pi_models() -> set[str]:
     return models
 
 
-def normalize_models(sources: dict[str, dict[str, Any]], catalog: set[str]) -> dict[str, dict[str, Any]]:
+def conductor_agents() -> set[str]:
+    """Agents Conductor can start in this workspace; a local executor binary is not required there."""
+    if not os.environ.get("CONDUCTOR_WORKSPACE_ID"):
+        return set()
+    executable = shutil.which("conductor")
+    if not executable:
+        return set()
+    try:
+        result = subprocess.run([executable, "--json", "model"], capture_output=True, text=True, timeout=15, check=False)
+        payload = json.loads(result.stdout or "{}")
+    except (OSError, subprocess.TimeoutExpired, json.JSONDecodeError):
+        return set()
+    return {
+        agent.get("agent")
+        for agent in payload.get("agents", [])
+        if isinstance(agent, dict) and agent.get("agent") and agent.get("models")
+    }
+
+
+def normalize_models(
+    sources: dict[str, dict[str, Any]], catalog: set[str], conductor: set[str] | None = None
+) -> dict[str, dict[str, Any]]:
+    launchable = conductor_agents() if conductor is None else conductor
     installed = {
-        "codex": shutil.which("codex") is not None,
-        "cursor": shutil.which("cursor-agent") is not None,
-        "claude": shutil.which("claude") is not None,
+        "codex": shutil.which("codex") is not None or "codex" in launchable,
+        "cursor": shutil.which("cursor-agent") is not None or "cursor" in launchable,
+        "claude": shutil.which("claude") is not None or "claude" in launchable,
         "pi": bool(catalog),
     }
     normalized = {}
