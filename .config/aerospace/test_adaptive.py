@@ -43,7 +43,7 @@ class AdaptiveTest(unittest.TestCase):
         first_rule = config.split("[[on-window-detected]]")[1]
         for app in ["com.apple.finder", "com.tdesktop.Telegram", "net.whatsapp.WhatsApp",
                     "com.deezer.deezer-desktop", "com.apple.systempreferences",
-                    "com.apple.ActivityMonitor"]:
+                    "com.apple.ActivityMonitor", "com.anysphere.sand"]:
             self.assertIn(f"test %{{app-bundle-id}} = {app}", first_rule)
         self.assertIn("run = 'layout floating'", first_rule)
         self.assertNotIn("move-node-to-workspace", first_rule)
@@ -73,17 +73,20 @@ class AdaptiveTest(unittest.TestCase):
         whatsapp = window(9, "net.whatsapp.WhatsApp", "W", "floating")
         finder = window(10, "com.apple.finder", "T", "floating")
         deezer = window(12, "com.deezer.deezer-desktop", "W", "floating")
+        grok = window(13, "com.anysphere.sand", "W", "floating")
         slack = window(11, "com.tinyspeck.slackmacgap", "T", "floating")
         self.assertEqual(
-            adaptive.overlay_follow_commands("B", [telegram, whatsapp, finder, deezer, slack]),
+            adaptive.overlay_follow_commands("B", [telegram, whatsapp, finder, deezer, grok, slack]),
             ["move-node-to-workspace --window-id 8 B",
              "move-node-to-workspace --window-id 9 B",
              "move-node-to-workspace --window-id 10 B",
-             "move-node-to-workspace --window-id 12 B"])
+             "move-node-to-workspace --window-id 12 B",
+             "move-node-to-workspace --window-id 13 B"])
         telegram["workspace"] = "B"
         finder["workspace"] = "B"
         deezer["workspace"] = "B"
-        self.assertEqual(adaptive.overlay_follow_commands("B", [telegram, finder, deezer]), [])
+        grok["workspace"] = "B"
+        self.assertEqual(adaptive.overlay_follow_commands("B", [telegram, finder, deezer, grok]), [])
         config = Path(__file__).with_name("aerospace.toml").read_text()
         self.assertIn("--follow-overlays", config)
         self.assertIn("--focus telegram", config)

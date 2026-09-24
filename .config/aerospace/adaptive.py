@@ -21,6 +21,7 @@ DEVELOPMENT = TERMINAL | CONDUCTOR | {
     "com.openai.codex",
     "com.openai.chat",
     "com.t3tools.t3code",
+    "com.figma.Desktop",
 }
 OWNED = {"B", "T", "adaptive-staging"}
 OVERLAY = {
@@ -28,6 +29,7 @@ OVERLAY = {
     "net.whatsapp.WhatsApp",
     "com.apple.finder",
     "com.deezer.deezer-desktop",
+    "com.anysphere.sand",
 }
 STATE = Path.home() / ".local/state/aerospace"
 ULTRAWIDE_RATIO = 2.2
