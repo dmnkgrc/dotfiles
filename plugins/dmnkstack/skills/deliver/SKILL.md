@@ -10,7 +10,7 @@ Publish only the actions the user authorized.
 1. Confirm the repository, branch, base branch, remote, and working tree.
 2. Separate task changes from unrelated user edits.
 3. Run the verification required by the changed artifact. Use `verify` when the completion claim needs a realistic behavior check. For pull requests, capture visual evidence as described below.
-4. Review the final diff for scope, generated artifacts, secrets, attribution, and accidental project-specific content.
+4. Review the final diff for scope, generated artifacts, secrets, attribution, comment volume, and accidental project-specific content. Remove comments that restate the code or a test name; keep only those that record a non-obvious constraint or a deliberate workaround, at one or two lines each.
 5. Commit without bypassing hooks or adding an agent co-author.
 6. Push the intended branch without rewriting shared history.
 7. Create or update the pull request against the requested base. State the behavior change and exact checks run. Use `before-and-after` to attach captured evidence.

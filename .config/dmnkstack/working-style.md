@@ -14,7 +14,7 @@
 - Follow the repository's prescribed search tools. Prefer FFF when it is available.
 - Route external evidence by source. Use designs and specifications for intent, runtime captures for observed behavior, and independent verification for completion.
 - Do not add speculative abstractions, compatibility layers, configuration, or fallback behavior.
-- Do not add comments unless they explain a confusing constraint or deliberate workaround.
+- Do not add comments unless they explain a confusing constraint or deliberate workaround. Keep them to one or two lines. This applies to delegated diffs as much as to your own.
 - In TypeScript, avoid `any`, type assertions, and non-null assertions. Narrow or model the type instead.
 - Preserve unrelated edits and work around a dirty tree.
 
@@ -32,3 +32,4 @@
 - Use one coding owner per worktree. Parallel agents in the same worktree stay read-only.
 - Choose models by task role. Do not choose a model because of the parent agent.
 - Keep the parent responsible for the final decision, diff, and evidence.
+- Before accepting a child's revision, count its added comment lines and reject comments that restate the code or the test name. A review round that checks behavior only is incomplete.
