@@ -262,11 +262,20 @@ def main() -> None:
         models = route.normalize_models(
             sources,
             {"fable-5-1@300k", "opus-5.5@300k", "grok-4.7@256k", "gpt-6-sol", "gpt-6-luna"},
+            conductor=set(),
         )
     assert models["gpt-6-sol"]["executors"] == ["pi"]
     assert models["gpt-6-luna"]["executors"] == ["pi"]
     assert models["grok-4.7"]["executors"] == ["pi"]
     assert models["gpt-6-sol"]["available"]
+
+    # Inside Conductor an executor is launchable from its agent catalog even without a local binary.
+    with patch("route.shutil.which", return_value=None):
+        catalog_only = route.normalize_models(sources, set(), conductor={"claude"})
+        no_catalog = route.normalize_models(sources, set(), conductor=set())
+    assert catalog_only["opus-5.5"]["available"] and catalog_only["opus-5.5"]["executors"] == ["claude"]
+    assert catalog_only["fable-5.1"]["executors"] == ["claude"]
+    assert not no_catalog["opus-5.5"]["available"] and no_catalog["opus-5.5"]["executors"] == []
     assert models["grok-4.7"]["available"]
     assert models["grok-4.7"]["usage_known"] is True
     assert models["grok-4.7"]["remaining_percent"] == 50.5
