@@ -205,7 +205,7 @@ def main() -> None:
             assert any(expected in error for error in parse_routes(path)[1]), expected
         path.write_text(
             source
-            + "\ncustom/local: fable-5.1 @ high\nfallback custom/local: gpt-6-sol @ high\n"
+            + "\ncustom/local: opus-5.5 @ high\nfallback custom/local: gpt-6-sol @ high\n"
         )
         assert not parse_routes(path)[1]
         catalog_path = Path(directory) / "catalog.json"

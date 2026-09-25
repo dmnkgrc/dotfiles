@@ -40,9 +40,8 @@ ROUTES = {
 }
 
 MODEL_PROFILES = {
-    "opus-5.5": "Feature implementation, behavior-preserving refactors and performance work, large migrations, repository exploration and explanation, and the hardest long-horizon coding and terminal tasks.",
-    "fable-5.1": "Root-cause debugging of unknown, rare, or long-standing failures, code review, judgment on ambiguous work, API and architecture tradeoffs, and high-stakes prose.",
-    "gpt-6-astra": "Frontend and web UI implementation, computer use, scientific or terminal-heavy work, clarifying ambiguous scope, and recall across very large inputs.",
+    "opus-5.5": "Feature implementation, behavior-preserving refactors and performance work, root-cause debugging, code review, large migrations, repository exploration and explanation, and the hardest long-horizon coding and terminal tasks.",
+    "gpt-6-astra": "Frontend and web UI implementation, computer use, scientific or terminal-heavy work, judgment on ambiguous scope and architecture tradeoffs, and recall across very large inputs.",
     "gpt-6-sol": "Cost-efficient implementation with clear acceptance criteria, high-volume agent loops, parallel swarm slices, and routine tooling work.",
     "gpt-6-luna": "Deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts.",
     "grok-4.7": "Low-cost bounded coding tasks when the frontier models are unavailable.",
@@ -54,13 +53,11 @@ MODEL_EXECUTORS = {
     "gpt-6-astra": ("pi",),
     "opus-5.5": ("claude", "pi"),
     "gpt-6-luna": ("pi",),
-    "fable-5.1": ("claude", "pi"),
 }
 
 MODEL_ALIASES = {
     "grok-4.7": {"grok-4.7", "grok-4.7@256k"},
     "opus-5.5": {"opus-5.5", "claude-opus-5-5", "opus-5.5@300k"},
-    "fable-5.1": {"fable-5.1", "fable", "fable-5-1@300k"},
 }
 
 
@@ -334,14 +331,9 @@ def normalize_models(
             provider_sources.append(unknown_usage("codex", "not-queried"))
         if model == "grok-4.7" and "pi" in usable:
             provider_sources.append(select_usage_window(sources["cursor"], "auto"))
-        if model in {"opus-5.5", "fable-5.1"}:
+        if model == "opus-5.5":
             if "claude" in usable:
-                claude = sources["claude"]
-                if model == "fable-5.1":
-                    fable = next((window for window in claude.get("windows", []) if window["name"] == "week (fable)"), None)
-                    if fable:
-                        claude = {**claude, "known": True, "available": fable["remaining_percent"] > 0, "remaining_percent": fable["remaining_percent"]}
-                provider_sources.append(claude)
+                provider_sources.append(sources["claude"])
             if "pi" in usable:
                 provider_sources.append(select_usage_window(sources["cursor"], "api"))
         known_remaining = [source["remaining_percent"] for source in provider_sources if source.get("known") and isinstance(source.get("remaining_percent"), (int, float)) and source.get("available") is not False]

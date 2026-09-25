@@ -12,9 +12,8 @@ The model profiles are:
 
 Profiles follow vendor model cards and independent benchmarks (Artificial Analysis, Terminal-Bench 4.0, CursorBench 4.0, FrontierCode, Code Arena WebDev) as of September 2026:
 
-- Opus 5.5: feature implementation, behavior-preserving refactors and performance work, large migrations, repository exploration, and the hardest long-horizon coding and terminal tasks.
-- Fable 5.1: root-cause debugging of unknown or rare failures, code review, judgment on ambiguous work, architecture tradeoffs, and high-stakes prose.
-- GPT-6 Astra: frontend and web UI, computer use, clarifying ambiguous scope, and very large inputs. Slow to first token.
+- Opus 5.5: feature implementation, behavior-preserving refactors and performance work, root-cause debugging, code review, large migrations, repository exploration, and the hardest long-horizon coding and terminal tasks.
+- GPT-6 Astra: frontend and web UI, computer use, judgment on ambiguous scope and architecture tradeoffs, and very large inputs. Slow to first token.
 - GPT-6 Sol: cost-efficient bounded implementation, high-volume agent loops, and swarm slices.
 - GPT-6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.
 - Grok 4.7: low-cost fallback for bounded coding when frontier models are unavailable.
