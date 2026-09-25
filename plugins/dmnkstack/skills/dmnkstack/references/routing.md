@@ -10,11 +10,14 @@ TypeSafe never decides conversation correction precedence, authority, commits, p
 
 The model profiles are:
 
-- Grok 4.7: broad features, refactors, repository exploration, mechanics, history, and swarm work.
-- GPT-6 Sol: unknown bugs, performance regressions, incidents, environment failures, and iterative evidence-driven repair.
-- Opus 5.5: bounded implementation, architecture across APIs, types, ownership, and module boundaries, and unusual hardest tasks.
+Profiles follow vendor model cards and independent benchmarks (Artificial Analysis, Terminal-Bench 4.0, CursorBench 4.0, FrontierCode, Code Arena WebDev) as of September 2026:
+
+- Opus 5.5: feature implementation, behavior-preserving refactors and performance work, large migrations, repository exploration, and the hardest long-horizon coding and terminal tasks.
+- Fable 5.1: root-cause debugging of unknown or rare failures, code review, judgment on ambiguous work, architecture tradeoffs, and high-stakes prose.
+- GPT-6 Astra: frontend and web UI, computer use, clarifying ambiguous scope, and very large inputs. Slow to first token.
+- GPT-6 Sol: cost-efficient bounded implementation, high-volume agent loops, and swarm slices.
 - GPT-6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.
-- Fable 5.1: judgment, complex or high-stakes prose, synthesis, and tradeoffs. Routine pull request descriptions should prefer Luna. Hardest implementation tasks should prefer Opus 5.5.
+- Grok 4.7: low-cost fallback for bounded coding when frontier models are unavailable.
 
 ## Precedence
 
@@ -50,10 +53,10 @@ Project skills own domain rules. Dmnkstack owns task classification, model choic
 | Write the failing regression first | bug-fix | `tdd` | bug-fix |
 | Assess hidden downstream risk | review | `blast-radius` | judgment |
 | Settle types, interfaces, or ownership | design | `architect` | architect runners |
-| Implement a Figma or visual specification | UI | `design-handoff` | feature |
+| Implement a Figma or visual specification | UI | `design-handoff` | UI |
 | Build new behavior | feature | Dmnkstack playbook | feature or general implementation |
 | Restructure without changing behavior | refactoring | Dmnkstack playbook | refactoring |
-| Change layout, interaction, or visual polish | UI | project UI skill or Dmnkstack playbook | feature |
+| Change layout, interaction, or visual polish | UI | project UI skill or Dmnkstack playbook | UI |
 | Repair lint, types, tests, or CI | check-repair | `debug` | bug-fix or fast mechanical work |
 | Review a diff or pull request | review | Dmnkstack review playbook; `interrogate` for adversarial review | interrogate reviewers |
 | Fix local tools, config, or environment | environment | `debug` | bug-fix |

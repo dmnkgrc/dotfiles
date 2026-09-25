@@ -227,26 +227,26 @@ def main() -> None:
         raise AssertionError("malformed TypeSafe answers must fail explicitly")
     config = Path(__file__).resolve().parents[5] / ".config/dmnkstack/models.md"
     general = route.configured_pools(config, "general implementation")
-    assert general["primary"] == [{"model": "opus-5.5", "effort": "medium"}]
+    assert general["primary"] == [{"model": "gpt-6-sol", "effort": "medium"}]
     assert general["fallback"] == [
+        {"model": "opus-5.5", "effort": "medium"},
         {"model": "grok-4.7", "effort": "high"},
-        {"model": "gpt-6-sol", "effort": "high"},
-        {"model": "fable-5.1", "effort": "high"},
         {"model": "gpt-6-luna", "effort": "max"},
     ]
     prose = route.configured_pools(config, "prose")
     assert prose["primary"] == [
         {"model": "gpt-6-luna", "effort": "low"},
-        {"model": "fable-5.1", "effort": "high"},
+        {"model": "opus-5.5", "effort": "medium"},
     ]
     mechanical = route.configured_pools(config, "fast mechanical work")
     assert mechanical["primary"] == [{"model": "gpt-6-luna", "effort": "low"}]
     assert mechanical["fallback"] == [
+        {"model": "gpt-6-sol", "effort": "low"},
         {"model": "grok-4.7", "effort": "low"},
-        {"model": "opus-5.5", "effort": "high"},
-        {"model": "gpt-6-sol", "effort": "high"},
-        {"model": "fable-5.1", "effort": "high"},
+        {"model": "opus-5.5", "effort": "low"},
     ]
+    assert route.model_role("UI", "bounded") == "UI"
+    assert route.model_role("bug-fix", "bounded") == "bug-fix"
 
     sources = {
         "claude": claude,

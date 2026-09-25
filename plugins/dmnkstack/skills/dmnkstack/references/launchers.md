@@ -28,7 +28,7 @@ conductor --json session create \
   --message-file <prompt-file>
 ```
 
-`--model` is the executor alias from `launchers.toml`. Grok, Sol, and Luna launch through Pi (`grok-4.7@256k` for Grok). Do not pass `--agent cursor` or `--agent codex`.
+`--model` is the executor alias from `launchers.toml`. Grok, Sol, Luna, and Astra launch through Pi (`grok-4.7@256k` for Grok). Do not pass `--agent cursor` or `--agent codex`.
 
 The parent owns the whole round trip:
 

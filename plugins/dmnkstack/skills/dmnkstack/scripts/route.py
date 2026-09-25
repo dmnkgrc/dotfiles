@@ -40,16 +40,18 @@ ROUTES = {
 }
 
 MODEL_PROFILES = {
-    "grok-4.7": "Broad or open-ended feature implementation, behavior-preserving refactors across many files, exploring unfamiliar repositories, tracing mechanics and history, and parallel swarm slices.",
-    "gpt-6-sol": "Starts from a symptom: diagnosing and repairing unknown failures, performance regressions, incidents, flaky behavior, and environment breakage through hypotheses, reproduction, and iterative evidence.",
-    "opus-5.5": "Bounded implementation with clear acceptance criteria and local verification, architecture of APIs, types, state ownership, and module boundaries, and the hardest unusual multi-part tasks.",
+    "opus-5.5": "Feature implementation, behavior-preserving refactors and performance work, large migrations, repository exploration and explanation, and the hardest long-horizon coding and terminal tasks.",
+    "fable-5.1": "Root-cause debugging of unknown, rare, or long-standing failures, code review, judgment on ambiguous work, API and architecture tradeoffs, and high-stakes prose.",
+    "gpt-6-astra": "Frontend and web UI implementation, computer use, scientific or terminal-heavy work, clarifying ambiguous scope, and recall across very large inputs.",
+    "gpt-6-sol": "Cost-efficient implementation with clear acceptance criteria, high-volume agent loops, parallel swarm slices, and routine tooling work.",
     "gpt-6-luna": "Deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts.",
-    "fable-5.1": "Judgment-heavy review, complex or high-stakes prose, synthesis across sources, and weighing tradeoffs between options.",
+    "grok-4.7": "Low-cost bounded coding tasks when the frontier models are unavailable.",
 }
 
 MODEL_EXECUTORS = {
     "grok-4.7": ("pi",),
     "gpt-6-sol": ("pi",),
+    "gpt-6-astra": ("pi",),
     "opus-5.5": ("claude", "pi"),
     "gpt-6-luna": ("pi",),
     "fable-5.1": ("claude", "pi"),
@@ -422,12 +424,10 @@ def model_role(route: str, level: str) -> str:
     if level == "mechanical":
         return "fast mechanical work"
     if level == "bounded" and route in {
-        "bug-fix",
         "check-repair",
         "environment",
         "feature",
         "refactoring",
-        "UI",
     }:
         return "general implementation"
     return {
@@ -437,7 +437,7 @@ def model_role(route: str, level: str) -> str:
         "design": "architect runners",
         "feature": "feature",
         "refactoring": "refactoring",
-        "UI": "feature",
+        "UI": "UI",
         "check-repair": "bug-fix",
         "review": "interrogate reviewers",
         "environment": "bug-fix",

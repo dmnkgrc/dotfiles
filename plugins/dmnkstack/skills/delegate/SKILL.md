@@ -63,7 +63,7 @@ conductor --json session create \
   --message-file <prompt-file>
 ```
 
-Grok, Sol, and Luna launch through Pi. Pi's Grok model is `grok-4.7@256k`. Do not start the Codex CLI or Cursor CLI.
+Grok, Sol, Luna, and Astra launch through Pi. Pi's Grok model is `grok-4.7@256k`. Do not start the Codex CLI or Cursor CLI.
 
 If local auth is absent, ask the user to run `conductor auth login`. If session creation reports that no credential is available, stop and report the missing prerequisite. Do not retry, expose a credential, store it in Dmnkstack config, or fall back to Herdr while inside Conductor.
 

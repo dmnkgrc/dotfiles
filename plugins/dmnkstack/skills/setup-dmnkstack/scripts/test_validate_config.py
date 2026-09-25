@@ -39,13 +39,14 @@ def main() -> None:
     remaining = {"available": True, "api_remaining": True}
     resolved, unresolved = validate(targets, catalog, launchers, exhausted)
     assert len(resolved) == len(targets) and not unresolved
-    general = next(
-        target
-        for target in resolved
-        if target["role"] == "general implementation" and target["kind"] == "primary"
-    )
-    assert {entry["agent"] for entry in general["executors"]} == {"claude"}
-    for role in ("bug-fix", "feature", "fast mechanical work"):
+    for role in ("feature", "bug-fix"):
+        routed = next(
+            target
+            for target in resolved
+            if target["role"] == role and target["kind"] == "primary"
+        )
+        assert {entry["agent"] for entry in routed["executors"]} == {"claude"}
+    for role in ("general implementation", "swarm workers", "fast mechanical work"):
         routed = next(
             target
             for target in resolved

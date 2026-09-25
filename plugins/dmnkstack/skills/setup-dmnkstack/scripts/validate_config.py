@@ -12,6 +12,7 @@ from discover import collect
 ROLES = {
     "feature",
     "refactoring",
+    "UI",
     "bug-fix",
     "perf-issue",
     "hillclimb",
