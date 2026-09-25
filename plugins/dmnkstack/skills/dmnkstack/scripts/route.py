@@ -5,7 +5,6 @@ from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import re
-import select
 import shutil
 import subprocess
 import sys
@@ -21,8 +20,8 @@ class RoutingError(RuntimeError):
 
 
 ROUTES = {
-    "investigation": "Read-only understanding: explain mechanics, trace ownership, recover history, teach a subsystem, or inspect logs and traces.",
-    "bug-fix": "A product failure needs diagnosis or repair, including captured bug triage and test-first fixes.",
+    "investigation": "Read-only understanding of how the system works when nothing is reported broken: explain mechanics, trace ownership, recover history, or teach a subsystem.",
+    "bug-fix": "A reported failure, error, timeout, crash, flaky behavior, or regression needs its cause found or fixed, including log and trace inspection, captured bug triage, and test-first fixes.",
     "verification": "The work is supposedly complete and needs direct proof against the real artifact.",
     "design": "Decide caller usage, types, interfaces, ownership, architecture, or migration shape before implementation.",
     "feature": "Implement new behavior outside a primarily visual or interaction change.",
@@ -37,15 +36,15 @@ ROUTES = {
     "resume": "Recover prior decisions and repository state before continuing earlier work.",
     "state": "Record a decision trail or resumable checkpoint.",
     "delegation": "The user explicitly wants another model or agent to do the work and report back.",
-    "delivery": "Publish already completed work through git, only when explicitly authorized.",
+    "delivery": "Package already completed work: write the commit message or pull request description, commit, push, or open a pull request.",
 }
 
 MODEL_PROFILES = {
-    "grok-4.7": "Best for broad or uncertain feature implementation, behavior-preserving refactors, exploring unfamiliar repositories, tracing mechanics and history, and swarm work. Do not prefer for known mechanical edits, focused unknown bug diagnosis, or judgment-heavy final review.",
-    "gpt-6-sol": "Best for evidence-driven diagnosis and repair of unknown failures, performance regressions, incidents, flaky behavior, environment failures, and iterative optimization. Prefer when the task starts with a symptom and needs hypotheses and reproduction.",
-    "opus-5.5": "Best for bounded implementation with clear acceptance criteria and local verification, architecture involving APIs, types, state ownership, or module boundaries, and unusual hardest tasks.",
-    "gpt-6-luna": "Best for deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts. Do not use for uncertain, consequential, architectural, or judgment-heavy work.",
-    "fable-5.1": "Best for judgment-heavy review, complex or high-stakes prose, synthesis, and tradeoffs. Do not prefer for routine pull request descriptions or for the hardest implementation tasks.",
+    "grok-4.7": "Broad or open-ended feature implementation, behavior-preserving refactors across many files, exploring unfamiliar repositories, tracing mechanics and history, and parallel swarm slices.",
+    "gpt-6-sol": "Starts from a symptom: diagnosing and repairing unknown failures, performance regressions, incidents, flaky behavior, and environment breakage through hypotheses, reproduction, and iterative evidence.",
+    "opus-5.5": "Bounded implementation with clear acceptance criteria and local verification, architecture of APIs, types, state ownership, and module boundaries, and the hardest unusual multi-part tasks.",
+    "gpt-6-luna": "Deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts.",
+    "fable-5.1": "Judgment-heavy review, complex or high-stakes prose, synthesis across sources, and weighing tradeoffs between options.",
 }
 
 MODEL_EXECUTORS = {
@@ -136,35 +135,6 @@ def remaining_window(name: str, used: Any, **details: Any) -> dict[str, Any] | N
     }
 
 
-def parse_codex_usage(payload: dict[str, Any]) -> dict[str, Any]:
-    rate_limits = payload.get("rateLimits")
-    if not isinstance(rate_limits, dict):
-        return {"source": "codex", "known": False, "windows": []}
-    windows = []
-    for name in ("primary", "secondary"):
-        raw = rate_limits.get(name)
-        if not isinstance(raw, dict):
-            continue
-        window = remaining_window(
-            name,
-            raw.get("usedPercent"),
-            window_minutes=raw.get("windowDurationMins"),
-            resets_at=raw.get("resetsAt"),
-        )
-        if window:
-            windows.append(window)
-    allowed = payload.get("ordinaryUsageAllowed")
-    reached = rate_limits.get("rateLimitReachedType") is not None
-    remaining = min((window["remaining_percent"] for window in windows), default=None)
-    return {
-        "source": "codex",
-        "known": bool(windows) or isinstance(allowed, bool),
-        "available": allowed is not False and not reached and remaining != 0,
-        "remaining_percent": remaining,
-        "windows": windows,
-    }
-
-
 def parse_cursor_usage(payload: dict[str, Any]) -> dict[str, Any]:
     plan = payload.get("planUsage")
     if not isinstance(plan, dict):
@@ -223,64 +193,6 @@ def parse_claude_usage(payload: dict[str, Any]) -> dict[str, Any]:
 
 def unknown_usage(source: str, reason: str) -> dict[str, Any]:
     return {"source": source, "known": False, "available": None, "remaining_percent": None, "windows": [], "reason": reason}
-
-
-def codex_usage() -> dict[str, Any]:
-    executable = shutil.which("codex")
-    if not executable:
-        return unknown_usage("codex", "executor-not-installed")
-    process = None
-    try:
-        process = subprocess.Popen(
-            [executable, "app-server", "--listen", "stdio://"],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            text=True,
-        )
-        if process.stdin is None or process.stdout is None:
-            return unknown_usage("codex", "query-failed")
-
-        def request(message: dict[str, Any], identifier: int) -> dict[str, Any] | None:
-            process.stdin.write(json.dumps(message) + "\n")
-            process.stdin.flush()
-            deadline = time.monotonic() + 8
-            while time.monotonic() < deadline:
-                ready, _, _ = select.select([process.stdout], [], [], deadline - time.monotonic())
-                if not ready:
-                    break
-                line = process.stdout.readline()
-                if not line:
-                    break
-                try:
-                    response = json.loads(line)
-                except (json.JSONDecodeError, UnicodeDecodeError):
-                    continue
-                if not isinstance(response, dict):
-                    continue
-                if response.get("id") == identifier:
-                    return response.get("result") if isinstance(response.get("result"), dict) else None
-            return None
-
-        initialized = request(
-            {"method": "initialize", "id": 1, "params": {"clientInfo": {"name": "dmnkstack", "title": "Dmnkstack", "version": "1"}, "capabilities": {"experimentalApi": False, "requestAttestation": False, "optOutNotificationMethods": []}}},
-            1,
-        )
-        if initialized is None:
-            return unknown_usage("codex", "initialize-failed")
-        process.stdin.write(json.dumps({"method": "initialized"}) + "\n")
-        process.stdin.flush()
-        payload = request({"method": "account/rateLimits/read", "id": 2}, 2)
-        return parse_codex_usage(payload) if payload else unknown_usage("codex", "invalid-response")
-    except (OSError, ValueError, AttributeError, UnicodeDecodeError):
-        return unknown_usage("codex", "query-failed")
-    finally:
-        if process is not None:
-            process.terminate()
-            try:
-                process.wait(timeout=1)
-            except subprocess.TimeoutExpired:
-                process.kill()
 
 
 def claude_usage() -> dict[str, Any]:
@@ -407,8 +319,6 @@ def normalize_models(
 ) -> dict[str, dict[str, Any]]:
     launchable = conductor_agents() if conductor is None else conductor
     installed = {
-        "codex": shutil.which("codex") is not None or "codex" in launchable,
-        "cursor": shutil.which("cursor-agent") is not None or "cursor" in launchable,
         "claude": shutil.which("claude") is not None or "claude" in launchable,
         "pi": bool(catalog),
     }
@@ -418,11 +328,9 @@ def normalize_models(
         pi_supports = bool(aliases & catalog)
         usable = [executor for executor in executors if installed[executor] and (executor != "pi" or pi_supports)]
         provider_sources = []
-        if model.startswith("gpt-") and "codex" in usable:
-            provider_sources.append(sources["codex"])
-        elif model.startswith("gpt-") and "pi" in usable:
-            provider_sources.append(unknown_usage("codex", "executor-not-used"))
-        if model == "grok-4.7" and ("cursor" in usable or "pi" in usable):
+        if model.startswith("gpt-") and "pi" in usable:
+            provider_sources.append(unknown_usage("codex", "not-queried"))
+        if model == "grok-4.7" and "pi" in usable:
             provider_sources.append(select_usage_window(sources["cursor"], "auto"))
         if model in {"opus-5.5", "fable-5.1"}:
             if "claude" in usable:
@@ -716,9 +624,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     eligible = [target["model"] for target in eligible_targets]
     if not eligible:
         raise RoutingError("No configured model is available after deterministic availability and quota checks")
-    questions = {
-        "model": {"type": "choice", "instructions": "Choose the best configured model for this task and route from only these deterministically eligible candidates. Select by the detailed capability profiles. Availability and quota eligibility have already been decided and must not be inferred.", "criteria": {name: MODEL_PROFILES[name] for name in eligible}}
-    }
+    questions: dict[str, Any] = {}
+    if len(eligible) > 1:
+        questions["model"] = {"type": "choice", "instructions": "Which model is the best fit for `task`, given its `route`, `role`, and `difficulty`? Choose only by the capability profiles.", "criteria": {name: MODEL_PROFILES[name] for name in eligible}}
     reranked = False
     probabilities = selected_skill["probabilities"]
     ranked = sorted((name for name in probabilities if name != "none"), key=lambda name: probabilities[name], reverse=True)
@@ -731,14 +639,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         detailed["none"] = "None of these skills specifically fits the request."
         questions["skill"] = {"type": "choice", "instructions": "Rerank these close skill candidates using their detailed instructions. Choose none if all are near-matches.", "criteria": detailed}
         reranked = True
-    second = typesafe_call(key, {"task": args.task, "route": route["choice"]}, questions)
-    model = choice(second, "model", set(eligible))
-    if reranked:
-        selected_skill = choice(second, "skill", set(questions["skill"]["criteria"]))
+    payloads = [first]
+    model = {"choice": eligible[0], "confidence": 1.0, "probabilities": {eligible[0]: 1.0}}
+    if questions:
+        second = typesafe_call(key, {"task": args.task, "route": route["choice"], "role": role, "difficulty": level}, questions)
+        payloads.append(second)
+        if "model" in questions:
+            model = choice(second, "model", set(eligible))
+        if reranked:
+            selected_skill = choice(second, "skill", set(questions["skill"]["criteria"]))
     target = next(target for target in eligible_targets if target["model"] == model["choice"])
     return {
         "status": "routed",
-        "typesafe": {"model": second.get("model") or first.get("model"), "calls": 2, "token_usage": usage([first, second])},
+        "typesafe": {"model": payloads[-1].get("model") or first.get("model"), "calls": len(payloads), "token_usage": usage(payloads)},
         "route": route,
         "skill": {**selected_skill, "reranked": reranked},
         "model": {**model, "effort": effort_for(target["effort"], level)},

@@ -106,40 +106,35 @@ def check_optional_typesafe() -> None:
                 assert "configured-key" not in output.getvalue()
 
 
+def check_single_candidate_skips_model_call() -> None:
+    answer = {"choice": "bug-fix", "confidence": 0.95, "probabilities": {"bug-fix": 0.95}}
+    payload = {"answers": {"route": answer, "skill": {**answer, "choice": "none", "probabilities": {"none": 0.95}}}, "usage": {"input_tokens": 1, "output_tokens": 1}}
+    single = {"primary": [{"model": "gpt-6-sol", "effort": "high"}], "fallback": []}
+    state = {"available": True, "usage_known": False, "remaining_percent": None}
+    output = io.StringIO()
+    with (
+        patch("route.typesafe_key", return_value="configured-key"),
+        patch("route.installed_skills", return_value={"debug": {"description": "Debug", "body": ""}}),
+        patch("route.claude_usage", return_value={}),
+        patch("route.cursor_usage", return_value={}),
+        patch("route.pi_models", return_value=set()),
+        patch("route.normalize_models", return_value={"gpt-6-sol": state}),
+        patch("route.configured_pools", return_value=single),
+        patch("route.typesafe_call", return_value=payload) as api,
+        patch("sys.argv", ["route.py", "Checkout times out intermittently"]),
+        redirect_stdout(output),
+    ):
+        assert route.main() == 0
+    result = json.loads(output.getvalue())
+    assert api.call_count == 1 and result["typesafe"]["calls"] == 1
+    assert result["model"]["choice"] == "gpt-6-sol"
+
+
 def main() -> None:
     check_credential_safety()
     check_typesafe_key()
     check_optional_typesafe()
-    codex = route.parse_codex_usage(
-        {
-            "ordinaryUsageAllowed": True,
-            "rateLimits": {
-                "primary": {
-                    "usedPercent": 69,
-                    "windowDurationMins": 10080,
-                    "resetsAt": 123,
-                },
-                "secondary": None,
-                "rateLimitReachedType": None,
-            },
-        }
-    )
-    assert codex["known"] and codex["available"]
-    assert codex["remaining_percent"] == 31
-    assert len(codex["windows"]) == 1
-    assert codex["windows"][0]["window_minutes"] == 10080
-    exhausted_codex = route.parse_codex_usage(
-        {
-            "ordinaryUsageAllowed": True,
-            "rateLimits": {
-                "primary": {"usedPercent": 100},
-                "secondary": None,
-                "rateLimitReachedType": None,
-            },
-        }
-    )
-    assert exhausted_codex["known"] and not exhausted_codex["available"]
-
+    check_single_candidate_skips_model_call()
     claude = route.parse_claude_usage(
         {
             "local_command": "usage",
@@ -254,7 +249,6 @@ def main() -> None:
     ]
 
     sources = {
-        "codex": codex,
         "claude": claude,
         "cursor": cursor,
     }
