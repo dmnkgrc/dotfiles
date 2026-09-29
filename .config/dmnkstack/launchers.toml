@@ -25,7 +25,7 @@ models = ["gpt-6-astra", "gpt-6-sol", "gpt-6-luna", "gpt-5.6-sol", "gpt-5.6-terr
 executors = ["pi"]
 
 [families.anthropic]
-models = ["fable-5.1", "fable-5", "opus-5.5", "opus-5", "opus-4-8", "sonnet-5-1m", "sonnet-4-6", "haiku-4-5"]
+models = ["fable-5.1", "fable-5", "opus-5.5", "sonnet-5.5", "opus-5", "opus-4-8", "sonnet-5-1m", "sonnet-4-6", "haiku-4-5"]
 executors = ["claude", "pi"]
 # Pi only while Cursor included API usage remains (apiPercentUsed < 100).
 
@@ -43,6 +43,10 @@ pi = "fable-5-1@300k"
 [aliases."opus-5.5"]
 claude = "claude-opus-5-5"
 pi = "opus-5.5@300k"
+
+[aliases."sonnet-5.5"]
+claude = "claude-sonnet-5-5"
+pi = "claude-sonnet-5-5@300k"
 
 [aliases."opus-5"]
 claude = "opus"

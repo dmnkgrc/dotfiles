@@ -41,6 +41,10 @@ ROUTES = {
 
 MODEL_PROFILES = {
     "opus-5.5": "Feature implementation, behavior-preserving refactors and performance work, root-cause debugging, code review, large migrations, repository exploration and explanation, and the hardest long-horizon coding and terminal tasks.",
+    "sonnet-5.5": {
+        "what": "Well-scoped work that lives in the terminal or shell: CLI tools, scripts, build and environment commands, and shell-driven agent tasks with a clear check; also polished long-form prose such as documents and explanations.",
+        "not_for": "Ordinary bounded code changes with clear acceptance criteria that a cheaper model handles, open-ended or ambiguous work, the hardest long-horizon tasks, consequential changes, or routine descriptions assembled from verified facts.",
+    },
     "gpt-6-astra": "Frontend and web UI implementation, computer use, scientific or terminal-heavy work, judgment on ambiguous scope and architecture tradeoffs, and recall across very large inputs.",
     "gpt-6-sol": "Cost-efficient implementation with clear acceptance criteria, high-volume agent loops, parallel swarm slices, and routine tooling work.",
     "gpt-6-luna": "Deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts.",
@@ -52,12 +56,14 @@ MODEL_EXECUTORS = {
     "gpt-6-sol": ("pi",),
     "gpt-6-astra": ("pi",),
     "opus-5.5": ("claude", "pi"),
+    "sonnet-5.5": ("claude", "pi"),
     "gpt-6-luna": ("pi",),
 }
 
 MODEL_ALIASES = {
     "grok-4.7": {"grok-4.7", "grok-4.7@256k"},
     "opus-5.5": {"opus-5.5", "claude-opus-5-5", "opus-5.5@300k"},
+    "sonnet-5.5": {"sonnet-5.5", "claude-sonnet-5-5", "claude-sonnet-5-5@300k"},
 }
 
 
@@ -331,7 +337,7 @@ def normalize_models(
             provider_sources.append(unknown_usage("codex", "not-queried"))
         if model == "grok-4.7" and "pi" in usable:
             provider_sources.append(select_usage_window(sources["cursor"], "auto"))
-        if model == "opus-5.5":
+        if model in {"opus-5.5", "sonnet-5.5"}:
             if "claude" in usable:
                 provider_sources.append(sources["claude"])
             if "pi" in usable:

@@ -11,10 +11,10 @@ feature, refactoring: opus-5.5 @ high
 UI: gpt-6-astra @ high, opus-5.5 @ high
 bug-fix: opus-5.5 @ high, gpt-6-astra @ high
 perf-issue, hillclimb: opus-5.5 @ high
-general implementation: gpt-6-sol @ medium
+general implementation: gpt-6-sol @ medium, sonnet-5.5 @ medium
 fast mechanical work: gpt-6-luna @ low
 judgment: opus-5.5 @ high, gpt-6-astra @ high
-prose: gpt-6-luna @ low, opus-5.5 @ medium
+prose: gpt-6-luna @ low, sonnet-5.5 @ medium
 hardest tasks: opus-5.5 @ max
 
 how explorer: opus-5.5 @ medium

@@ -2,17 +2,17 @@
 
 Copy the complete map below into `models.md`. Lists are ordered candidate pools, not automatic panels. Efforts are starting points; Dmnkstack's routing policy chooses difficulty and escalation separately. Preserve custom roles with a `custom/` prefix and an explicit fallback. Exhausted chains stop rather than falling back to the current model.
 
-The Claude Code alias is `claude-opus-5-5`. Pi uses `opus-5.5@300k` and `grok-4.7@256k`. Anthropic models use Pi only while Cursor included API usage remains (`planUsage.apiPercentUsed` below 100). OpenAI Codex models (Sol, Luna, Astra) and Grok use Pi only. Auto or Composer remaining does not count.
+The Claude Code aliases are `claude-opus-5-5` and `claude-sonnet-5-5`. Pi uses `opus-5.5@300k`, `claude-sonnet-5-5@300k`, and `grok-4.7@256k`; Pi exposes no thinking control for Sonnet 5.5, so prefer Claude Code for it. Anthropic models use Pi only while Cursor included API usage remains (`planUsage.apiPercentUsed` below 100). OpenAI Codex models (Sol, Luna, Astra) and Grok use Pi only. Auto or Composer remaining does not count.
 
 ```md
 feature, refactoring: opus-5.5 @ high
 UI: gpt-6-astra @ high, opus-5.5 @ high
 bug-fix: opus-5.5 @ high, gpt-6-astra @ high
 perf-issue, hillclimb: opus-5.5 @ high
-general implementation: gpt-6-sol @ medium
+general implementation: gpt-6-sol @ medium, sonnet-5.5 @ medium
 fast mechanical work: gpt-6-luna @ low
 judgment: opus-5.5 @ high, gpt-6-astra @ high
-prose: gpt-6-luna @ low, opus-5.5 @ medium
+prose: gpt-6-luna @ low, sonnet-5.5 @ medium
 hardest tasks: opus-5.5 @ max
 
 how explorer: opus-5.5 @ medium

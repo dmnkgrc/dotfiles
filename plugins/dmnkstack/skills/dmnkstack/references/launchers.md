@@ -89,7 +89,7 @@ Native model arguments:
 
 Rewrite the logical name from `models.md` through `[aliases.<name>.<executor>]` in `launchers.toml` before those flags. Pi for `grok-4.7` is `grok-4.7@256k`. `claude` for `fable-5.1` is `fable`. Missing key: pass the logical name. Current-session reuse matches the logical name or that executor's alias.
 
-Drop Pi for an Anthropic model unless discovery reports remaining Cursor included API usage (`api_remaining`, from `planUsage.apiPercentUsed` below 100). Auto or Composer remaining does not count. Solo `fable-5.1` uses Claude `fable`. Solo `opus-5.5` uses Claude `claude-opus-5-5` and Pi `opus-5.5@300k`. If usage cannot be read, treat Pi as catalog-compatible only.
+Drop Pi for an Anthropic model unless discovery reports remaining Cursor included API usage (`api_remaining`, from `planUsage.apiPercentUsed` below 100). Auto or Composer remaining does not count. Solo `fable-5.1` uses Claude `fable`. Solo `opus-5.5` uses Claude `claude-opus-5-5` and Pi `opus-5.5@300k`. Solo `sonnet-5.5` uses Claude `claude-sonnet-5-5` and Pi `claude-sonnet-5-5@300k`; Pi has no thinking control for it, so prefer Claude. If usage cannot be read, treat Pi as catalog-compatible only.
 
 Use a Herdr worktree for a second writer. Do not close panes, tabs, workspaces, or sessions that Dmnkstack did not create.
 

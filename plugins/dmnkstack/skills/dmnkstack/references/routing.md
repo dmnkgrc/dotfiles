@@ -13,6 +13,7 @@ The model profiles are:
 Profiles follow vendor model cards and independent benchmarks (Artificial Analysis, Terminal-Bench 4.0, CursorBench 4.0, FrontierCode, Code Arena WebDev) as of September 2026:
 
 - Opus 5.5: feature implementation, behavior-preserving refactors and performance work, root-cause debugging, code review, large migrations, repository exploration, and the hardest long-horizon coding and terminal tasks.
+- Sonnet 5.5: well-scoped terminal and shell work (CLI tools, scripts, build and environment commands) and polished long-form prose. Not for ordinary bounded code changes Sol handles more cheaply, routine descriptions Luna handles, or open-ended, consequential, or the hardest long-horizon work. It shares Anthropic quota with Opus, so it is no fallback for it.
 - GPT-6 Astra: frontend and web UI, computer use, judgment on ambiguous scope and architecture tradeoffs, and very large inputs. Slow to first token.
 - GPT-6 Sol: cost-efficient bounded implementation, high-volume agent loops, and swarm slices.
 - GPT-6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.

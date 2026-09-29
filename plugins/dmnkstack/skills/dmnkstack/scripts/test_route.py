@@ -130,11 +130,40 @@ def check_single_candidate_skips_model_call() -> None:
     assert result["model"]["choice"] == "gpt-6-sol"
 
 
+def check_sonnet_and_sol_share_model_call() -> None:
+    answer = {"choice": "feature", "confidence": 0.95, "probabilities": {"feature": 0.95}}
+    first = {"answers": {"route": answer, "skill": {**answer, "choice": "none", "probabilities": {"none": 0.95}}}, "usage": {"input_tokens": 1, "output_tokens": 1}}
+    picked = {"choice": "sonnet-5.5", "confidence": 0.8, "probabilities": {"sonnet-5.5": 0.8, "gpt-6-sol": 0.2}}
+    second = {"answers": {"model": picked}, "usage": {"input_tokens": 1, "output_tokens": 1}}
+    pool = {"primary": [{"model": "gpt-6-sol", "effort": "medium"}, {"model": "sonnet-5.5", "effort": "medium"}], "fallback": []}
+    state = {"available": True, "usage_known": False, "remaining_percent": None}
+    output = io.StringIO()
+    with (
+        patch("route.typesafe_key", return_value="configured-key"),
+        patch("route.installed_skills", return_value={"debug": {"description": "Debug", "body": ""}}),
+        patch("route.claude_usage", return_value={}),
+        patch("route.cursor_usage", return_value={}),
+        patch("route.pi_models", return_value=set()),
+        patch("route.normalize_models", return_value={"gpt-6-sol": state, "sonnet-5.5": state}),
+        patch("route.configured_pools", return_value=pool),
+        patch("route.typesafe_call", side_effect=[first, second]) as api,
+        patch("sys.argv", ["route.py", "Add a --dry-run flag to the deploy CLI"]),
+        redirect_stdout(output),
+    ):
+        assert route.main() == 0
+    criteria = api.call_args.args[2]["model"]["criteria"]
+    assert set(criteria) == {"gpt-6-sol", "sonnet-5.5"}
+    assert set(criteria["sonnet-5.5"]) == {"what", "not_for"}
+    result = json.loads(output.getvalue())
+    assert result["model"] == {**picked, "effort": "medium"}
+
+
 def main() -> None:
     check_credential_safety()
     check_typesafe_key()
     check_optional_typesafe()
     check_single_candidate_skips_model_call()
+    check_sonnet_and_sol_share_model_call()
     claude = route.parse_claude_usage(
         {
             "local_command": "usage",
@@ -227,7 +256,10 @@ def main() -> None:
         raise AssertionError("malformed TypeSafe answers must fail explicitly")
     config = Path(__file__).resolve().parents[5] / ".config/dmnkstack/models.md"
     general = route.configured_pools(config, "general implementation")
-    assert general["primary"] == [{"model": "gpt-6-sol", "effort": "medium"}]
+    assert general["primary"] == [
+        {"model": "gpt-6-sol", "effort": "medium"},
+        {"model": "sonnet-5.5", "effort": "medium"},
+    ]
     assert general["fallback"] == [
         {"model": "opus-5.5", "effort": "medium"},
         {"model": "grok-4.7", "effort": "high"},
@@ -236,7 +268,7 @@ def main() -> None:
     prose = route.configured_pools(config, "prose")
     assert prose["primary"] == [
         {"model": "gpt-6-luna", "effort": "low"},
-        {"model": "opus-5.5", "effort": "medium"},
+        {"model": "sonnet-5.5", "effort": "medium"},
     ]
     mechanical = route.configured_pools(config, "fast mechanical work")
     assert mechanical["primary"] == [{"model": "gpt-6-luna", "effort": "low"}]
@@ -255,13 +287,15 @@ def main() -> None:
     with patch("route.shutil.which", side_effect=lambda name: f"/{name}"):
         models = route.normalize_models(
             sources,
-            {"opus-5.5@300k", "grok-4.7@256k", "gpt-6-sol", "gpt-6-luna"},
+            {"opus-5.5@300k", "claude-sonnet-5-5@300k", "grok-4.7@256k", "gpt-6-sol", "gpt-6-luna"},
             conductor=set(),
         )
     assert models["gpt-6-sol"]["executors"] == ["pi"]
     assert models["gpt-6-luna"]["executors"] == ["pi"]
     assert models["grok-4.7"]["executors"] == ["pi"]
     assert models["gpt-6-sol"]["available"]
+    assert models["sonnet-5.5"]["executors"] == ["claude", "pi"]
+    assert models["sonnet-5.5"]["sources"] == models["opus-5.5"]["sources"]
 
     # Inside Conductor an executor is launchable from its agent catalog even without a local binary.
     with patch("route.shutil.which", return_value=None):
