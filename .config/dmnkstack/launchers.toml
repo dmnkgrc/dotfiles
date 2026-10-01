@@ -21,8 +21,8 @@ local_auth = "macos-keychain"
 remote_auth = "environment"
 
 [families.openai_codex]
-models = ["gpt-6-astra", "gpt-6-sol", "gpt-6-luna", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5", "gpt-5.4"]
-executors = ["pi"]
+models = ["gpt-6-astra", "gpt-6.1-sol", "gpt-6-luna", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5", "gpt-5.4"]
+executors = ["codex", "pi"]
 
 [families.anthropic]
 models = ["fable-5.1", "fable-5", "opus-5.5", "sonnet-5.5", "opus-5", "opus-4-8", "sonnet-5-1m", "sonnet-4-6", "haiku-4-5"]
@@ -58,3 +58,7 @@ provider = "catalog"
 
 [agents.claude]
 kind = "claude"
+
+[agents.codex]
+kind = "codex"
+manager = "conductor"

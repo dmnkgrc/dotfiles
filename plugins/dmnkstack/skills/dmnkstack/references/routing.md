@@ -15,7 +15,7 @@ Profiles follow vendor model cards and independent benchmarks (Artificial Analys
 - Opus 5.5: feature implementation, behavior-preserving refactors and performance work, root-cause debugging, code review, large migrations, repository exploration, and the hardest long-horizon coding and terminal tasks.
 - Sonnet 5.5: well-scoped terminal and shell work (CLI tools, scripts, build and environment commands) and polished long-form prose. Not for ordinary bounded code changes Sol handles more cheaply, routine descriptions Luna handles, or open-ended, consequential, or the hardest long-horizon work. It shares Anthropic quota with Opus, so it is no fallback for it.
 - GPT-6 Astra: frontend and web UI, computer use, judgment on ambiguous scope and architecture tradeoffs, and very large inputs. Slow to first token.
-- GPT-6 Sol: cost-efficient bounded implementation, high-volume agent loops, and swarm slices.
+- GPT-6.1 Sol: cost-efficient bounded implementation, high-volume agent loops, and swarm slices.
 - GPT-6 Luna: deterministic mechanical edits with a known check and routine pull request descriptions assembled from verified facts.
 - Grok 4.7: low-cost fallback for bounded coding when frontier models are unavailable.
 
@@ -89,7 +89,7 @@ A phase change does not require a new agent. Keep small tasks in one session whe
 
 ## Candidate pools and fallback
 
-On an exe.dev VM, Pi model presence comes from `~/.pi/agent/settings.json`. Do not run a Pi auth check there. Before selecting a model in either mode, collect and normalize live provider usage. Grok on Pi uses DashboardService Auto usage; Pi-hosted Anthropic models use its API usage. Claude uses the CLI `/usage` structured-output path. OpenAI Codex models launch only through Pi and do not query the Codex CLI. Preserve explicit launcher and catalog availability checks. Unknown usage does not mean exhausted.
+On an exe.dev VM, Pi model presence comes from `~/.pi/agent/settings.json`. Do not run a Pi auth check there. Before selecting a model in either mode, collect and normalize live provider usage. Grok on Pi uses DashboardService Auto usage; Pi-hosted Anthropic models use its API usage. Claude uses the CLI `/usage` structured-output path. When `CONDUCTOR_WORKSPACE_ID` is set, OpenAI models launch through Conductor's `codex` agent only if its catalog lists the selected model. Outside Conductor they launch only through Pi. Never start or query the Codex CLI directly. Preserve explicit launcher and catalog availability checks. Unknown usage does not mean exhausted.
 
 Preserve the configured pool order. Remove unavailable and exhausted primary candidates, then rank the healthy primary pool using TypeSafe when configured or local judgment otherwise. If no healthy primary remains, do the same for the fallback pool. Retain scarce primary or fallback candidates only when no healthy candidate exists in either pool. A candidate with unknown usage remains eligible rather than being falsely marked exhausted. Report normalized usage and any scarcity substitution without prompts, repository content, credentials, or raw provider output.
 

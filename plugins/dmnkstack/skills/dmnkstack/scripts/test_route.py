@@ -109,7 +109,7 @@ def check_optional_typesafe() -> None:
 def check_single_candidate_skips_model_call() -> None:
     answer = {"choice": "bug-fix", "confidence": 0.95, "probabilities": {"bug-fix": 0.95}}
     payload = {"answers": {"route": answer, "skill": {**answer, "choice": "none", "probabilities": {"none": 0.95}}}, "usage": {"input_tokens": 1, "output_tokens": 1}}
-    single = {"primary": [{"model": "gpt-6-sol", "effort": "high"}], "fallback": []}
+    single = {"primary": [{"model": "gpt-6.1-sol", "effort": "high"}], "fallback": []}
     state = {"available": True, "usage_known": False, "remaining_percent": None}
     output = io.StringIO()
     with (
@@ -118,7 +118,7 @@ def check_single_candidate_skips_model_call() -> None:
         patch("route.claude_usage", return_value={}),
         patch("route.cursor_usage", return_value={}),
         patch("route.pi_models", return_value=set()),
-        patch("route.normalize_models", return_value={"gpt-6-sol": state}),
+        patch("route.normalize_models", return_value={"gpt-6.1-sol": state}),
         patch("route.configured_pools", return_value=single),
         patch("route.typesafe_call", return_value=payload) as api,
         patch("sys.argv", ["route.py", "Checkout times out intermittently"]),
@@ -127,15 +127,15 @@ def check_single_candidate_skips_model_call() -> None:
         assert route.main() == 0
     result = json.loads(output.getvalue())
     assert api.call_count == 1 and result["typesafe"]["calls"] == 1
-    assert result["model"]["choice"] == "gpt-6-sol"
+    assert result["model"]["choice"] == "gpt-6.1-sol"
 
 
 def check_sonnet_and_sol_share_model_call() -> None:
     answer = {"choice": "feature", "confidence": 0.95, "probabilities": {"feature": 0.95}}
     first = {"answers": {"route": answer, "skill": {**answer, "choice": "none", "probabilities": {"none": 0.95}}}, "usage": {"input_tokens": 1, "output_tokens": 1}}
-    picked = {"choice": "sonnet-5.5", "confidence": 0.8, "probabilities": {"sonnet-5.5": 0.8, "gpt-6-sol": 0.2}}
+    picked = {"choice": "sonnet-5.5", "confidence": 0.8, "probabilities": {"sonnet-5.5": 0.8, "gpt-6.1-sol": 0.2}}
     second = {"answers": {"model": picked}, "usage": {"input_tokens": 1, "output_tokens": 1}}
-    pool = {"primary": [{"model": "gpt-6-sol", "effort": "medium"}, {"model": "sonnet-5.5", "effort": "medium"}], "fallback": []}
+    pool = {"primary": [{"model": "gpt-6.1-sol", "effort": "medium"}, {"model": "sonnet-5.5", "effort": "medium"}], "fallback": []}
     state = {"available": True, "usage_known": False, "remaining_percent": None}
     output = io.StringIO()
     with (
@@ -144,7 +144,7 @@ def check_sonnet_and_sol_share_model_call() -> None:
         patch("route.claude_usage", return_value={}),
         patch("route.cursor_usage", return_value={}),
         patch("route.pi_models", return_value=set()),
-        patch("route.normalize_models", return_value={"gpt-6-sol": state, "sonnet-5.5": state}),
+        patch("route.normalize_models", return_value={"gpt-6.1-sol": state, "sonnet-5.5": state}),
         patch("route.configured_pools", return_value=pool),
         patch("route.typesafe_call", side_effect=[first, second]) as api,
         patch("sys.argv", ["route.py", "Add a --dry-run flag to the deploy CLI"]),
@@ -152,7 +152,7 @@ def check_sonnet_and_sol_share_model_call() -> None:
     ):
         assert route.main() == 0
     criteria = api.call_args.args[2]["model"]["criteria"]
-    assert set(criteria) == {"gpt-6-sol", "sonnet-5.5"}
+    assert set(criteria) == {"gpt-6.1-sol", "sonnet-5.5"}
     assert set(criteria["sonnet-5.5"]) == {"what", "not_for"}
     result = json.loads(output.getvalue())
     assert result["model"] == {**picked, "effort": "medium"}
@@ -257,7 +257,7 @@ def main() -> None:
     config = Path(__file__).resolve().parents[5] / ".config/dmnkstack/models.md"
     general = route.configured_pools(config, "general implementation")
     assert general["primary"] == [
-        {"model": "gpt-6-sol", "effort": "medium"},
+        {"model": "gpt-6.1-sol", "effort": "medium"},
         {"model": "sonnet-5.5", "effort": "medium"},
     ]
     assert general["fallback"] == [
@@ -273,7 +273,7 @@ def main() -> None:
     mechanical = route.configured_pools(config, "fast mechanical work")
     assert mechanical["primary"] == [{"model": "gpt-6-luna", "effort": "low"}]
     assert mechanical["fallback"] == [
-        {"model": "gpt-6-sol", "effort": "low"},
+        {"model": "gpt-6.1-sol", "effort": "low"},
         {"model": "grok-4.7", "effort": "low"},
         {"model": "opus-5.5", "effort": "low"},
     ]
@@ -284,25 +284,53 @@ def main() -> None:
         "claude": claude,
         "cursor": cursor,
     }
-    with patch("route.shutil.which", side_effect=lambda name: f"/{name}"):
+    with (
+        patch("route.shutil.which", side_effect=lambda name: f"/{name}"),
+        patch.dict(route.os.environ, {"CONDUCTOR_WORKSPACE_ID": ""}),
+    ):
         models = route.normalize_models(
             sources,
-            {"opus-5.5@300k", "claude-sonnet-5-5@300k", "grok-4.7@256k", "gpt-6-sol", "gpt-6-luna"},
-            conductor=set(),
+            {"opus-5.5@300k", "claude-sonnet-5-5@300k", "grok-4.7@256k", "gpt-6.1-sol", "gpt-6-luna"},
+            conductor={},
         )
-    assert models["gpt-6-sol"]["executors"] == ["pi"]
+    assert models["gpt-6.1-sol"]["executors"] == ["pi"]
     assert models["gpt-6-luna"]["executors"] == ["pi"]
     assert models["grok-4.7"]["executors"] == ["pi"]
-    assert models["gpt-6-sol"]["available"]
+    assert models["gpt-6.1-sol"]["available"]
     assert models["sonnet-5.5"]["executors"] == ["claude", "pi"]
     assert models["sonnet-5.5"]["sources"] == models["opus-5.5"]["sources"]
 
     # Inside Conductor an executor is launchable from its agent catalog even without a local binary.
     with patch("route.shutil.which", return_value=None):
-        catalog_only = route.normalize_models(sources, set(), conductor={"claude"})
-        no_catalog = route.normalize_models(sources, set(), conductor=set())
+        catalog_only = route.normalize_models(sources, set(), conductor={"claude": {"opus-5.5"}})
+        no_catalog = route.normalize_models(sources, set(), conductor={})
     assert catalog_only["opus-5.5"]["available"] and catalog_only["opus-5.5"]["executors"] == ["claude"]
     assert not no_catalog["opus-5.5"]["available"] and no_catalog["opus-5.5"]["executors"] == []
+    with (
+        patch("route.shutil.which", return_value=None),
+        patch.dict(route.os.environ, {"CONDUCTOR_WORKSPACE_ID": "test-workspace"}),
+        patch("route.subprocess.run", return_value=subprocess.CompletedProcess(
+            [], 0, json.dumps({"agents": [
+                {"agent": "codex", "models": ["gpt-6.1-sol"]},
+                {"agent": "cursor", "models": ["grok-4.7"]},
+            ]}), "")),
+    ):
+        with patch("route.shutil.which", return_value="/conductor"):
+            conductor_catalog = route.conductor_agents()
+        in_conductor = route.normalize_models(sources, {"gpt-6-luna"}, conductor=conductor_catalog)
+        assert in_conductor["gpt-6.1-sol"]["available"]
+        assert in_conductor["gpt-6.1-sol"]["executors"] == ["codex"]
+        assert not in_conductor["gpt-6-luna"]["available"]
+        assert in_conductor["grok-4.7"]["executors"] == []
+        grok_with_pi = route.normalize_models(sources, {"grok-4.7@256k"}, conductor=conductor_catalog)
+        assert grok_with_pi["grok-4.7"]["executors"] == ["pi"]
+    with (
+        patch("route.shutil.which", return_value=None),
+        patch.dict(route.os.environ, {"CONDUCTOR_WORKSPACE_ID": ""}),
+    ):
+        outside_conductor = route.normalize_models(sources, set(), conductor=conductor_catalog)
+        assert not outside_conductor["gpt-6.1-sol"]["available"]
+        assert outside_conductor["gpt-6.1-sol"]["executors"] == []
     assert models["grok-4.7"]["available"]
     assert models["grok-4.7"]["usage_known"] is True
     assert models["grok-4.7"]["remaining_percent"] == 50.5
@@ -318,7 +346,7 @@ def main() -> None:
                 {
                     "defaultProvider": "cursor",
                     "defaultModel": "grok-4.7@256k",
-                    "enabledModels": ["openai-codex/gpt-6-sol", "cursor/opus-5.5@300k"],
+                    "enabledModels": ["openai-codex/gpt-6.1-sol", "cursor/opus-5.5@300k"],
                 }
             )
         )
@@ -331,7 +359,7 @@ def main() -> None:
             patch("route.Path.home", return_value=home),
             patch("route.subprocess.run", refuse_pi),
         ):
-            assert route.pi_models() == {"grok-4.7@256k", "gpt-6-sol", "opus-5.5@300k"}
+            assert route.pi_models() == {"grok-4.7@256k", "gpt-6.1-sol", "opus-5.5@300k"}
     print("TypeSafe routing parser and policy checks passed")
 
 

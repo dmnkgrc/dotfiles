@@ -19,6 +19,26 @@ def main() -> None:
     assert not errors, errors
     assert {target["role"] for target in targets} == ROLES
     launchers = tomllib.loads((CONFIG / "launchers.toml").read_text())
+    sol = [{"role": "general implementation", "kind": "primary", "model": "gpt-6.1-sol", "effort": "medium"}]
+    conductor_discovery = {
+        "conductor": {"active": True, "agents": [
+            {"agent": "codex", "models": ["gpt-6.1-sol"], "efforts": ["medium"]},
+            {"agent": "cursor", "models": ["grok-4.7"], "efforts": ["high"]},
+        ]},
+    }
+    conductor_catalog = catalog_from_discovery(conductor_discovery, launchers)
+    sol_resolved, sol_missing = validate(sol, conductor_catalog, launchers, inside_conductor=True)
+    assert not sol_missing and sol_resolved[0]["executors"] == [{"agent": "codex", "manager": "conductor"}]
+    assert validate(sol, conductor_catalog, launchers)[1]
+    assert validate(sol, [], launchers)[1]
+    assert validate(sol, [{"agent": "codex", "models": ["gpt-6.1-sol"], "efforts": ["medium"]}], launchers, inside_conductor=True)[1]
+    conductor_discovery["conductor"]["active"] = False
+    assert not catalog_from_discovery(conductor_discovery, launchers)
+    grok = [{"role": "bug-fix", "kind": "primary", "model": "grok-4.7", "effort": "high"}]
+    assert validate(grok, conductor_catalog, launchers, inside_conductor=True)[1]
+    pi_sol = [{"agent": "pi", "provider": "openai-codex", "models": ["gpt-6.1-sol"], "efforts": ["medium"]}]
+    assert not validate(sol, pi_sol, launchers)[1]
+    assert validate(sol, pi_sol, launchers, inside_conductor=True)[1]
     catalog = [
         {
             "agent": "pi",
@@ -205,7 +225,7 @@ def main() -> None:
             assert any(expected in error for error in parse_routes(path)[1]), expected
         path.write_text(
             source
-            + "\ncustom/local: opus-5.5 @ high\nfallback custom/local: gpt-6-sol @ high\n"
+            + "\ncustom/local: opus-5.5 @ high\nfallback custom/local: gpt-6.1-sol @ high\n"
         )
         assert not parse_routes(path)[1]
         catalog_path = Path(directory) / "catalog.json"
