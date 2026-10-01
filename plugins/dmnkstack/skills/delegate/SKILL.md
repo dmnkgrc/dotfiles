@@ -56,14 +56,14 @@ When `CONDUCTOR_WORKSPACE_ID` is set, create a new session in that same workspac
 ```sh
 conductor --json session create \
   --workspace "$CONDUCTOR_WORKSPACE_ID" \
-  --agent <claude|codex|cursor> \
+  --agent <claude|codex> \
   --model <model> \
   --effort <effort> \
   --name <short-task-name> \
   --message-file <prompt-file>
 ```
 
-Grok, Sol, Luna, and Astra launch through Pi. Pi's Grok model is `grok-4.7@256k`. Do not start the Codex CLI or Cursor CLI.
+When `CONDUCTOR_WORKSPACE_ID` is set, Sol, Luna, and Astra launch through Conductor's `codex` agent, using a model listed for that agent. Sol is `gpt-6.1-sol`. Outside Conductor, OpenAI models use Pi only. Grok always uses Pi (`grok-4.7@256k`), never `--agent cursor`. A missing Conductor model requires a role fallback or stop, not substitution of Pi. Do not start the Codex CLI or Cursor CLI.
 
 If local auth is absent, ask the user to run `conductor auth login`. If session creation reports that no credential is available, stop and report the missing prerequisite. Do not retry, expose a credential, store it in Dmnkstack config, or fall back to Herdr while inside Conductor.
 

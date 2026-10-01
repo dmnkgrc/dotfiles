@@ -24,7 +24,7 @@
   "defaultModel": "grok-4.7@256k",
   "defaultThinkingLevel": "high",
   "enabledModels": [
-    "openai-codex/gpt-6-sol",
+    "openai-codex/gpt-6.1-sol",
     "openai-codex/gpt-6-luna",
     "openai-codex/gpt-6-astra",
     "cursor/grok-4.7@256k",
@@ -41,12 +41,12 @@
     },
     "agentOverrides": {
       "delegate": {
-        "model": "openai-codex/gpt-6-sol",
+        "model": "openai-codex/gpt-6.1-sol",
         "thinking": "medium",
         "defaultContext": "fresh"
       },
       "oracle": {
-        "model": "openai-codex/gpt-6-sol",
+        "model": "openai-codex/gpt-6.1-sol",
         "thinking": "high",
         "defaultContext": "fresh"
       },
@@ -56,7 +56,7 @@
         "defaultContext": "fresh"
       },
       "reviewer": {
-        "model": "openai-codex/gpt-6-sol",
+        "model": "openai-codex/gpt-6.1-sol",
         "thinking": "high",
         "defaultContext": "fresh"
       },
@@ -66,7 +66,7 @@
         "defaultContext": "fresh"
       },
       "worker": {
-        "model": "openai-codex/gpt-6-sol",
+        "model": "openai-codex/gpt-6.1-sol",
         "thinking": "high"
       }
     }

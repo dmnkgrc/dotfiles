@@ -99,6 +99,7 @@ def catalog_from_discovery(
     catalog = [
         {**agent, "manager": "conductor"}
         for agent in discovery.get("conductor", {}).get("agents", [])
+        if discovery.get("conductor", {}).get("active")
     ]
     for entry in discovery.get("agents", {}).get("pi", {}).get("models", []):
         if entry.get("provider") and entry.get("model"):
@@ -144,10 +145,12 @@ def validate(
     catalog: list[dict[str, Any]],
     launchers: dict[str, Any],
     cursor_usage: dict[str, Any] | None = None,
+    inside_conductor: bool = False,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     resolved: list[dict[str, Any]] = []
     unresolved: list[dict[str, Any]] = []
     anthropic = family_models(launchers, "anthropic")
+    openai = family_models(launchers, "openai_codex")
     api_remaining = (
         cursor_usage.get("api_remaining")
         if isinstance(cursor_usage, dict) and cursor_usage.get("available")
@@ -160,6 +163,8 @@ def validate(
             if target["model"] in family.get("models", [])
             for executor in family.get("executors", [])
         }
+        if target["model"] in openai:
+            allowed &= {"codex"} if inside_conductor else {"pi"}
         if target["model"] in anthropic and "pi" in allowed and api_remaining is False:
             allowed.discard("pi")
         matches = [
@@ -169,6 +174,10 @@ def validate(
             & set(entry.get("models", []))
             and entry.get("agent") in allowed
             and entry.get("agent") in launchers.get("agents", {})
+            and (
+                entry.get("agent") != "codex"
+                or entry.get("manager") == "conductor"
+            )
             and (entry.get("agent") != "pi" or entry.get("provider"))
             and target["effort"] in entry.get("efforts", [])
         ]
@@ -231,7 +240,13 @@ def main() -> int:
         cursor_usage = discovery.get("cursor_usage")
         if not isinstance(cursor_usage, dict):
             cursor_usage = None
-        resolved, unresolved = validate(targets, catalog, launchers, cursor_usage)
+        resolved, unresolved = validate(
+            targets,
+            catalog,
+            launchers,
+            cursor_usage,
+            inside_conductor=bool(discovery.get("conductor", {}).get("active")),
+        )
     except (OSError, ValueError, TypeError, AttributeError) as error:
         print(json.dumps({"valid": False, "errors": [str(error)]}))
         return 2

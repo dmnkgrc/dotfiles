@@ -46,14 +46,14 @@ MODEL_PROFILES = {
         "not_for": "Ordinary bounded code changes with clear acceptance criteria that a cheaper model handles, open-ended or ambiguous work, the hardest long-horizon tasks, consequential changes, or routine descriptions assembled from verified facts.",
     },
     "gpt-6-astra": "Frontend and web UI implementation, computer use, scientific or terminal-heavy work, judgment on ambiguous scope and architecture tradeoffs, and recall across very large inputs.",
-    "gpt-6-sol": "Cost-efficient implementation with clear acceptance criteria, high-volume agent loops, parallel swarm slices, and routine tooling work.",
+    "gpt-6.1-sol": "Cost-efficient implementation with clear acceptance criteria, high-volume agent loops, parallel swarm slices, and routine tooling work.",
     "gpt-6-luna": "Deterministic mechanical work with a known check: proven renames, formatting, generated updates, obvious one-line changes, version bumps, and routine pull request descriptions assembled from verified facts.",
     "grok-4.7": "Low-cost bounded coding tasks when the frontier models are unavailable.",
 }
 
 MODEL_EXECUTORS = {
     "grok-4.7": ("pi",),
-    "gpt-6-sol": ("pi",),
+    "gpt-6.1-sol": ("pi",),
     "gpt-6-astra": ("pi",),
     "opus-5.5": ("claude", "pi"),
     "sonnet-5.5": ("claude", "pi"),
@@ -300,27 +300,29 @@ def pi_models() -> set[str]:
     return models
 
 
-def conductor_agents() -> set[str]:
+def conductor_agents() -> dict[str, set[str]]:
     """Agents Conductor can start in this workspace; a local executor binary is not required there."""
     if not os.environ.get("CONDUCTOR_WORKSPACE_ID"):
-        return set()
+        return {}
     executable = shutil.which("conductor")
     if not executable:
-        return set()
+        return {}
     try:
         result = subprocess.run([executable, "--json", "model"], capture_output=True, text=True, timeout=15, check=False)
+        if result.returncode != 0:
+            return {}
         payload = json.loads(result.stdout or "{}")
     except (OSError, subprocess.TimeoutExpired, json.JSONDecodeError):
-        return set()
+        return {}
     return {
-        agent.get("agent")
+        agent["agent"]: set(agent["models"])
         for agent in payload.get("agents", [])
         if isinstance(agent, dict) and agent.get("agent") and agent.get("models")
     }
 
 
 def normalize_models(
-    sources: dict[str, dict[str, Any]], catalog: set[str], conductor: set[str] | None = None
+    sources: dict[str, dict[str, Any]], catalog: set[str], conductor: dict[str, set[str]] | None = None
 ) -> dict[str, dict[str, Any]]:
     launchable = conductor_agents() if conductor is None else conductor
     installed = {
@@ -331,9 +333,12 @@ def normalize_models(
     for model, executors in MODEL_EXECUTORS.items():
         aliases = MODEL_ALIASES.get(model, {model})
         pi_supports = bool(aliases & catalog)
-        usable = [executor for executor in executors if installed[executor] and (executor != "pi" or pi_supports)]
+        if model.startswith("gpt-") and os.environ.get("CONDUCTOR_WORKSPACE_ID"):
+            usable = ["codex"] if aliases & launchable.get("codex", set()) else []
+        else:
+            usable = [executor for executor in executors if installed[executor] and (executor != "pi" or pi_supports)]
         provider_sources = []
-        if model.startswith("gpt-") and "pi" in usable:
+        if model.startswith("gpt-") and usable:
             provider_sources.append(unknown_usage("codex", "not-queried"))
         if model == "grok-4.7" and "pi" in usable:
             provider_sources.append(select_usage_window(sources["cursor"], "auto"))

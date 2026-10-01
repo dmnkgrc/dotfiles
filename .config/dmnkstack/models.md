@@ -11,7 +11,7 @@ feature, refactoring: opus-5.5 @ high
 UI: gpt-6-astra @ high, opus-5.5 @ high
 bug-fix: opus-5.5 @ high, gpt-6-astra @ high
 perf-issue, hillclimb: opus-5.5 @ high
-general implementation: gpt-6-sol @ medium, sonnet-5.5 @ medium
+general implementation: gpt-6.1-sol @ medium, sonnet-5.5 @ medium
 fast mechanical work: gpt-6-luna @ low
 judgment: opus-5.5 @ high, gpt-6-astra @ high
 prose: gpt-6-luna @ low, sonnet-5.5 @ medium
@@ -19,27 +19,27 @@ hardest tasks: opus-5.5 @ max
 
 how explorer: opus-5.5 @ medium
 how explainer: opus-5.5 @ medium
-how critics: opus-5.5 @ high, gpt-6-astra @ high, gpt-6-sol @ high
+how critics: opus-5.5 @ high, gpt-6-astra @ high, gpt-6.1-sol @ high
 why investigators: opus-5.5 @ medium
 why synthesizer: opus-5.5 @ medium
 
-reflect tooling: gpt-6-sol @ high
-reflect judgment, divergent, synthesizer: gpt-6-sol @ high
+reflect tooling: gpt-6.1-sol @ high
+reflect judgment, divergent, synthesizer: gpt-6.1-sol @ high
 
-arena runners: opus-5.5 @ high, gpt-6-astra @ high, gpt-6-sol @ high
-arena cross-judge pool: opus-5.5 @ high, gpt-6-astra @ high, gpt-6-sol @ high
-swarm workers: gpt-6-sol @ high
-architect runners: gpt-6-astra @ high, opus-5.5 @ high, gpt-6-sol @ high
-interrogate reviewers: opus-5.5 @ high, gpt-6-astra @ high, gpt-6-sol @ high
+arena runners: opus-5.5 @ high, gpt-6-astra @ high, gpt-6.1-sol @ high
+arena cross-judge pool: opus-5.5 @ high, gpt-6-astra @ high, gpt-6.1-sol @ high
+swarm workers: gpt-6.1-sol @ high
+architect runners: gpt-6-astra @ high, opus-5.5 @ high, gpt-6.1-sol @ high
+interrogate reviewers: opus-5.5 @ high, gpt-6-astra @ high, gpt-6.1-sol @ high
 
-fallback feature, refactoring, perf-issue, hillclimb: gpt-6-astra @ high, gpt-6-sol @ high, grok-4.7 @ high
-fallback UI: gpt-6-sol @ high, grok-4.7 @ high
-fallback bug-fix: gpt-6-sol @ high, grok-4.7 @ high
+fallback feature, refactoring, perf-issue, hillclimb: gpt-6-astra @ high, gpt-6.1-sol @ high, grok-4.7 @ high
+fallback UI: gpt-6.1-sol @ high, grok-4.7 @ high
+fallback bug-fix: gpt-6.1-sol @ high, grok-4.7 @ high
 fallback general implementation, swarm workers: opus-5.5 @ medium, grok-4.7 @ high, gpt-6-luna @ max
-fallback fast mechanical work: gpt-6-sol @ low, grok-4.7 @ low, opus-5.5 @ low
-fallback judgment: gpt-6-sol @ high, grok-4.7 @ high
-fallback prose: gpt-6-sol @ medium, gpt-6-astra @ high
-fallback hardest tasks: gpt-6-astra @ max, gpt-6-sol @ max
-fallback how explorer, how explainer, why investigators, why synthesizer: gpt-6-sol @ high, gpt-6-astra @ high, grok-4.7 @ high
+fallback fast mechanical work: gpt-6.1-sol @ low, grok-4.7 @ low, opus-5.5 @ low
+fallback judgment: gpt-6.1-sol @ high, grok-4.7 @ high
+fallback prose: gpt-6.1-sol @ medium, gpt-6-astra @ high
+fallback hardest tasks: gpt-6-astra @ max, gpt-6.1-sol @ max
+fallback how explorer, how explainer, why investigators, why synthesizer: gpt-6.1-sol @ high, gpt-6-astra @ high, grok-4.7 @ high
 fallback reflect tooling, reflect judgment, divergent, synthesizer: opus-5.5 @ high, grok-4.7 @ high
 fallback how critics, arena runners, arena cross-judge pool, architect runners, interrogate reviewers: grok-4.7 @ high, gpt-6-luna @ max

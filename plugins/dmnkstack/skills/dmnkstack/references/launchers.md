@@ -2,7 +2,7 @@
 
 Select the model first. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/launchers.toml`, then choose an executor that can run the model.
 
-Reuse the current session only when its actual model matches the selection, or the documented phase-retention rule applies. An executor supporting a model does not mean the current session is running it. Resolve `fallback ROLE` targets in order; stop when none satisfy the task. Never fall back to an unnamed current model. OpenAI Codex and Grok models launch only through Pi. Do not start the Codex CLI or Cursor CLI. Do not maintain separate Pi model routes.
+Reuse the current session only when its actual model matches the selection, or the documented phase-retention rule applies. An executor supporting a model does not mean the current session is running it. Resolve `fallback ROLE` targets in order; stop when none satisfy the task. Never fall back to an unnamed current model. When `CONDUCTOR_WORKSPACE_ID` is set, OpenAI models launch through Conductor's `codex` agent, using a model listed for that agent. Outside Conductor, OpenAI models launch only through Pi. Grok always launches only through Pi. Do not start the Codex CLI or Cursor CLI. Do not maintain separate Pi model routes.
 
 ## Conductor
 
@@ -21,14 +21,14 @@ Create a session in the current workspace with the resolved agent, model, effort
 ```sh
 conductor --json session create \
   --workspace "$CONDUCTOR_WORKSPACE_ID" \
-  --agent <claude|codex|cursor> \
+  --agent <claude|codex> \
   --model <model> \
   --effort <effort> \
   --name <short-name> \
   --message-file <prompt-file>
 ```
 
-`--model` is the executor alias from `launchers.toml`. Grok, Sol, Luna, and Astra launch through Pi (`grok-4.7@256k` for Grok). Do not pass `--agent cursor` or `--agent codex`.
+`--model` is the executor alias from `launchers.toml`. Sol, Luna, and Astra use `--agent codex` and the matching Conductor catalog model id. Sol is `gpt-6.1-sol`. Grok uses Pi (`grok-4.7@256k`), never `--agent cursor`. If Conductor does not list the selected OpenAI model for `codex`, use the role fallback chain or stop; do not substitute Pi inside Conductor.
 
 The parent owns the whole round trip:
 
