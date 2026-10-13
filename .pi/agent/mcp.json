@@ -19,7 +19,7 @@
       "lifecycle": "lazy"
     },
     "cortea": {
-      "url": "https://executor.sh/cortea/mcp"
+      "url": "https://executor.cortea.ai/mcp"
     },
     "conductor": {
       "url": "https://api.conductor.build/mcp",

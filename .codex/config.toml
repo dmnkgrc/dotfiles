@@ -495,7 +495,7 @@ command = "npx"
 args = ["-y", "@react-grab/mcp", "--stdio"]
 
 [mcp_servers.executor]
-url = "https://executor.sh/cortea/mcp"
+url = "https://executor.cortea.ai/mcp"
 
 [mcp_servers.expect]
 command = "npx"
