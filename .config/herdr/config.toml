@@ -6,23 +6,30 @@ default_shell = "/usr/local/bin/fish"
 [keys]
 prefix = "ctrl+a"
 
+# boat.dev sandbox
 [[keys.command]]
-key = "prefix+alt+e"
+key = "prefix+alt+b"
 type = "plugin_action"
-command = "exe-dev.start-agent"
-description = "Start worktree VM"
+command = "boat.open"
+description = "Open boat sandbox"
 
 [[keys.command]]
-key = "prefix+alt+r"
+key = "prefix+alt+p"
 type = "plugin_action"
-command = "exe-dev.reconnect"
-description = "Reconnect to worktree VM"
+command = "boat.pull"
+description = "Pull boat sandbox into worktree"
 
 [[keys.command]]
-key = "prefix+alt+d"
+key = "prefix+alt+s"
 type = "plugin_action"
-command = "exe-dev.delete"
-description = "Delete worktree VM"
+command = "boat.stop"
+description = "Stop boat sandbox"
+
+[[keys.command]]
+key = "prefix+alt+i"
+type = "plugin_action"
+command = "boat.status"
+description = "Boat sandbox status"
 
 [theme]
 name = "vesper"

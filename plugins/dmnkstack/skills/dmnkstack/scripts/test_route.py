@@ -1,5 +1,6 @@
 import io
 import json
+import ssl
 import subprocess
 import tempfile
 from contextlib import redirect_stdout
@@ -7,6 +8,45 @@ from pathlib import Path
 from unittest.mock import patch
 
 import route
+
+
+def check_https_trust() -> None:
+    empty = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    with (
+        patch.dict("os.environ", {}, clear=True),
+        patch("route.sys.platform", "darwin"),
+        patch("route.ssl.create_default_context", return_value=empty),
+        patch.object(empty, "load_verify_locations") as load,
+    ):
+        context = route.https_context()
+        load.assert_called_once_with(cafile="/etc/ssl/cert.pem")
+        assert context.verify_mode == ssl.CERT_REQUIRED and context.check_hostname
+
+    for platform, env in (
+        ("linux", {}),
+        ("darwin", {"SSL_CERT_FILE": "/explicit/cert.pem"}),
+        ("darwin", {"SSL_CERT_DIR": "/explicit/certs"}),
+    ):
+        empty = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        with (
+            patch.dict("os.environ", env, clear=True),
+            patch("route.sys.platform", platform),
+            patch("route.ssl.create_default_context", return_value=empty),
+            patch.object(empty, "load_verify_locations") as load,
+        ):
+            route.https_context()
+            load.assert_not_called()
+
+    trusted = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    with (
+        patch.dict("os.environ", {}, clear=True),
+        patch("route.sys.platform", "darwin"),
+        patch("route.ssl.create_default_context", return_value=trusted),
+        patch.object(trusted, "cert_store_stats", return_value={"x509_ca": 1}),
+        patch.object(trusted, "load_verify_locations") as load,
+    ):
+        route.https_context()
+        load.assert_not_called()
 
 
 def check_typesafe_key() -> None:
@@ -159,6 +199,7 @@ def check_sonnet_and_sol_share_model_call() -> None:
 
 
 def main() -> None:
+    check_https_trust()
     check_credential_safety()
     check_typesafe_key()
     check_optional_typesafe()

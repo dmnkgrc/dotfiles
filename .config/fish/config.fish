@@ -72,6 +72,7 @@ end
 
 set -gx TERM xterm-256color
 set -gx COLORTERM truecolor
+set -e NO_COLOR
 
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
@@ -91,3 +92,7 @@ source "$HOME/.cargo/env.fish"  # For fish
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /Users/dominikgarciabertapelle/.lmstudio/bin
 # End of LM Studio CLI section
+
+mise activate fish | source
+
+set -gx PATH "/Users/dominikgarciabertapelle/.ascii/bin" $PATH

@@ -211,6 +211,98 @@
     }
   },
   {
+    "plugin_id": "boat",
+    "name": "herdr-boat-sandbox",
+    "version": "0.1.0",
+    "min_herdr_version": "0.9.0",
+    "description": "Send a git worktree, uncommitted changes and all, to a boat.dev sandbox and drop into its shell. Pull the sandbox's changes back as a patch; the sandbox is stopped when the worktree is removed.",
+    "manifest_path": "/Users/dominikgarciabertapelle/code/herdr-boat-sandbox/herdr-plugin.toml",
+    "plugin_root": "/Users/dominikgarciabertapelle/code/herdr-boat-sandbox",
+    "enabled": true,
+    "platforms": [
+      "macos",
+      "linux"
+    ],
+    "actions": [
+      {
+        "id": "open",
+        "title": "Open boat sandbox",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "command": [
+          "node",
+          "src/boat.mjs",
+          "open"
+        ]
+      },
+      {
+        "id": "pull",
+        "title": "Pull boat sandbox → worktree",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "command": [
+          "node",
+          "src/boat.mjs",
+          "pull"
+        ]
+      },
+      {
+        "id": "status",
+        "title": "Boat sandbox status",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "command": [
+          "node",
+          "src/boat.mjs",
+          "status"
+        ]
+      },
+      {
+        "id": "stop",
+        "title": "Stop boat sandbox",
+        "contexts": [
+          "workspace",
+          "pane"
+        ],
+        "command": [
+          "node",
+          "src/boat.mjs",
+          "stop"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "on": "worktree.removed",
+        "command": [
+          "node",
+          "src/boat.mjs",
+          "teardown"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "box",
+        "title": "boat",
+        "placement": "split",
+        "command": [
+          "./src/boat.mjs",
+          "box"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "local"
+    }
+  },
+  {
     "plugin_id": "cortea-factory",
     "name": "cortea-factory",
     "version": "1.1.0",
@@ -381,81 +473,6 @@
           "handler.py",
           "pane",
           "tunnel"
-        ]
-      }
-    ],
-    "source": {
-      "kind": "local"
-    }
-  },
-  {
-    "plugin_id": "exe-dev",
-    "name": "exe.dev",
-    "version": "0.2.0",
-    "min_herdr_version": "0.9.0",
-    "description": "Persistent exe.dev VMs for clean committed Git worktrees.",
-    "manifest_path": "/Users/dominikgarciabertapelle/code/herdr-exe-dev-plugin/herdr-plugin.toml",
-    "plugin_root": "/Users/dominikgarciabertapelle/code/herdr-exe-dev-plugin",
-    "enabled": true,
-    "platforms": [
-      "linux",
-      "macos"
-    ],
-    "actions": [
-      {
-        "id": "delete",
-        "title": "Delete worktree VM…",
-        "contexts": [
-          "workspace",
-          "pane"
-        ],
-        "command": [
-          "node",
-          "src/action.mjs"
-        ]
-      },
-      {
-        "id": "reconnect",
-        "title": "Reconnect to worktree VM",
-        "contexts": [
-          "workspace",
-          "pane"
-        ],
-        "command": [
-          "node",
-          "src/action.mjs"
-        ]
-      },
-      {
-        "id": "start-agent",
-        "title": "Start worktree VM",
-        "contexts": [
-          "workspace",
-          "pane"
-        ],
-        "command": [
-          "node",
-          "src/action.mjs"
-        ]
-      }
-    ],
-    "panes": [
-      {
-        "id": "confirm",
-        "title": "Confirm exe.dev deletion",
-        "placement": "overlay",
-        "command": [
-          "node",
-          "src/confirm.mjs"
-        ]
-      },
-      {
-        "id": "provision",
-        "title": "Preparing exe.dev VM",
-        "placement": "split",
-        "command": [
-          "node",
-          "src/provision.mjs"
         ]
       }
     ],
@@ -795,176 +812,6 @@
       "resolved_commit": "a9f1d3bcdaa2354e336a5173da85cbe4970c0f2e",
       "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/nathanflurry.jj-workspace-19f0b858b2b4",
       "installed_unix_ms": 1786104090376
-    }
-  },
-  {
-    "plugin_id": "permgps.telegram-agents",
-    "name": "Telegram Agents",
-    "version": "0.10.0",
-    "min_herdr_version": "0.7.5",
-    "description": "One Telegram forum topic per live Herdr agent: status in the topic icon, questions and answers both ways.",
-    "manifest_path": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/permgps.telegram-agents-7b9b0a34d51d/herdr-plugin.toml",
-    "plugin_root": "/Users/dominikgarciabertapelle/dotfiles/.config/herdr/plugins/github/permgps.telegram-agents-7b9b0a34d51d",
-    "enabled": true,
-    "platforms": [
-      "linux",
-      "macos",
-      "windows"
-    ],
-    "build": [
-      {
-        "platforms": [
-          "linux",
-          "macos"
-        ],
-        "command": [
-          "sh",
-          "scripts/install.sh"
-        ]
-      },
-      {
-        "platforms": [
-          "windows"
-        ],
-        "command": [
-          "powershell",
-          "-NoProfile",
-          "-ExecutionPolicy",
-          "Bypass",
-          "-File",
-          "scripts/install.ps1"
-        ]
-      }
-    ],
-    "startup": [
-      {
-        "command": [
-          "bin/herdr-tg",
-          "startup"
-        ]
-      }
-    ],
-    "actions": [
-      {
-        "id": "doctor",
-        "title": "Telegram Agents: doctor",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "doctor"
-        ]
-      },
-      {
-        "id": "logs",
-        "title": "Telegram Agents: logs",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "logs"
-        ]
-      },
-      {
-        "id": "restart",
-        "title": "Telegram Agents: restart",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "restart"
-        ]
-      },
-      {
-        "id": "resync",
-        "title": "Telegram Agents: resync",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "resync"
-        ]
-      },
-      {
-        "id": "send-test",
-        "title": "Telegram Agents: send test message",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "send-test"
-        ]
-      },
-      {
-        "id": "setup",
-        "title": "Telegram Agents: setup",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "setup"
-        ]
-      },
-      {
-        "id": "start",
-        "title": "Telegram Agents: start",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "start"
-        ]
-      },
-      {
-        "id": "status",
-        "title": "Telegram Agents: status",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "status"
-        ]
-      },
-      {
-        "id": "stop",
-        "title": "Telegram Agents: stop",
-        "command": [
-          "bin/herdr-tg",
-          "action",
-          "stop"
-        ]
-      }
-    ],
-    "panes": [
-      {
-        "id": "doctor",
-        "title": "Telegram Agents doctor",
-        "placement": "overlay",
-        "command": [
-          "bin/herdr-tg",
-          "doctor-pane"
-        ]
-      },
-      {
-        "id": "logs",
-        "title": "Telegram Agents logs",
-        "placement": "overlay",
-        "command": [
-          "bin/herdr-tg",
-          "logs-pane"
-        ]
-      },
-      {
-        "id": "setup",
-        "title": "Telegram Agents setup",
-        "placement": "popup",
-        "width": "80%",
-        "height": "70%",
-        "command": [
-          "bin/herdr-tg",
-          "setup-pane"
-        ]
-      }
-    ],
-    "source": {
-      "kind": "github",
-      "owner": "permgps",
-      "repo": "herdr-telegram-agents",
-      "resolved_commit": "2be7bb8cd38eec2ee4b484d7c39fa250ee4ccc95",
-      "managed_path": "/Users/dominikgarciabertapelle/.config/herdr/plugins/github/permgps.telegram-agents-7b9b0a34d51d",
-      "installed_unix_ms": 1789053941121
     }
   },
   {

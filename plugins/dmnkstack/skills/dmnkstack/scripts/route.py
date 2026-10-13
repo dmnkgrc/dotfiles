@@ -6,6 +6,7 @@ import json
 import os
 import re
 import shutil
+import ssl
 import subprocess
 import sys
 import time
@@ -17,6 +18,17 @@ from typing import Any
 
 class RoutingError(RuntimeError):
     pass
+
+
+def https_context() -> ssl.SSLContext:
+    context = ssl.create_default_context()
+    if (
+        sys.platform == "darwin"
+        and not any(name in os.environ for name in ("SSL_CERT_FILE", "SSL_CERT_DIR"))
+        and context.cert_store_stats()["x509_ca"] == 0
+    ):
+        context.load_verify_locations(cafile="/etc/ssl/cert.pem")
+    return context
 
 
 ROUTES = {
@@ -251,7 +263,7 @@ def cursor_usage() -> dict[str, Any]:
             method="POST",
         )
         try:
-            with urllib.request.urlopen(request, timeout=8) as response:
+            with urllib.request.urlopen(request, timeout=8, context=https_context()) as response:
                 payload = json.load(response)
         except (OSError, urllib.error.HTTPError, json.JSONDecodeError, UnicodeDecodeError):
             continue
@@ -509,7 +521,7 @@ def typesafe_call(key: str, state: dict[str, Any], questions: dict[str, Any]) ->
     )
     for attempt in range(3):
         try:
-            with urllib.request.urlopen(request, timeout=12) as response:
+            with urllib.request.urlopen(request, timeout=12, context=https_context()) as response:
                 payload = json.load(response)
             break
         except urllib.error.HTTPError as error:

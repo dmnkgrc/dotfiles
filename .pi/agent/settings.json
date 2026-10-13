@@ -1,13 +1,13 @@
 {
   "packages": [
-    "npm:pi-subagents@0.50.0",
+    "npm:pi-subagents@0.78.0",
     "npm:pi-mcp-adapter@2.26.0",
-    "npm:pi-web-access@0.23.0",
+    "npm:pi-web-access@0.40.0",
     "git:github.com/badlogic/pi-diff-review@1584211692c49780ecd0f490a82762b0823fd475",
     "npm:pi-prompt-template-model@0.12.0",
     "npm:@tmustier/pi-usage-extension@0.9.4",
     "npm:@tmustier/pi-raw-paste@0.1.3",
-    "git:github.com/tintinweb/pi-manage-todo-list@b75c449aa85ce328e9a8b632f62bf642aed40359",
+    "git:github.com/tintinweb/pi-manage-todo-list@2eb22d3b0c9dd981398d928c8edcc4afce202fa1",
     "npm:pi-ask-user@0.14.0",
     "git:github.com/VandeeFeng/pi-memory-md@2c6e1948f0a594bf904c5f9dcd92a16be96710d9",
     "npm:@ff-labs/pi-fff@0.10.5",
@@ -17,27 +17,24 @@
     "npm:@dietrichgebert/ponytail@4.9.0",
     "npm:pi-zentui@0.20.1",
     "npm:@llblab/pi-codex-usage",
-    "npm:pi-cursor-sdk"
+    "npm:pi-observational-memory",
+    "npm:pi-claude-bridge",
+    "npm:pi-agents"
   ],
-  "lastChangelogVersion": "0.87.0",
-  "defaultProvider": "cursor",
-  "defaultModel": "grok-4.7@256k",
+  "lastChangelogVersion": "1.2.0",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "high",
   "enabledModels": [
     "openai-codex/gpt-6.1-sol",
     "openai-codex/gpt-6-luna",
-    "openai-codex/gpt-6-astra",
-    "cursor/grok-4.7@256k",
-    "cursor/opus-5.5@300k",
-    "cursor/fable-5-1@300k"
+    "openai-codex/gpt-6-astra"
   ],
   "subagents": {
     "modelScope": {
       "enforce": true,
       "strict": true,
-      "allow": [
-        "openai-codex/*"
-      ]
+      "allow": ["openai-codex/*"]
     },
     "agentOverrides": {
       "delegate": {
@@ -71,6 +68,7 @@
       }
     }
   },
+  "extensions": ["-builtin:mcp"],
   "quietStartup": true,
   "theme": "kanagawa-wave",
   "hideThinkingBlock": false
