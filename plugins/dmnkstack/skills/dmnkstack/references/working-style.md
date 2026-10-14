@@ -7,6 +7,7 @@
 - Reuse repository patterns and skills before adding new structure.
 - Do not add comments unless they explain a non-obvious constraint or a deliberate workaround. Keep them to one or two lines.
 - Verify the changed artifact with the narrowest useful check.
+- Before a push, run the checks the change can affect and the linters. Full suites belong to CI.
 - Preserve unrelated edits.
 - Do not publish changes unless the user asks.
 - Keep one coding owner per worktree.

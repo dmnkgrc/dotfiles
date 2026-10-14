@@ -17,12 +17,16 @@ Before starting another agent, write a complete prompt containing:
 - whether the child is read-only or is the sole writer;
 - authority limits inherited from the user;
 - the evidence or artifacts required for acceptance;
+- the targeted checks the child runs before reporting: the touched tests, the specs beside the changed code, wiring specs when wiring changed, and the linters. Full suites belong to CI;
+- the result artifact path, where the child records `completion_state`, `revision` (the commit it reports), and the protocol sections below;
 - the code hygiene rules the child must follow: a comment is allowed only for a non-obvious constraint or a deliberate workaround, stays at one or two lines, and never restates the code, the test name, or the change description;
 - explicit workspace, sender session, recipient session, task, and revision IDs;
 - assigned phase, next owner, completion state, and each owned background job;
 - delivery mode from [the delivery contract](../dmnkstack/references/delivery.md).
 
-Require the child's final response to use this compact protocol:
+Keep the contract short. Put the repository facts every child needs (environment setup, shared locks, known local-only failures, how to reach evidence sources) in `.context/dmnkstack/orientation.md` once, link it from each contract, and add to it when a child discovers a new fact. Repeat only what this task changes.
+
+Require the child's final response, and its result artifact, to use this compact protocol:
 
 ```text
 RESULT
@@ -51,7 +55,7 @@ When `CONDUCTOR_WORKSPACE_ID` is set, create a new session in that same workspac
 2. On a local Mac, run `conductor auth status` and use the macOS Keychain credential configured by `conductor auth login`. In other environments, use the workspace token or `CONDUCTOR_API_KEY`. Never read or print the credential.
 3. Run `conductor --json model` and resolve a valid agent, model, and effort combination.
 4. Save the child contract under `.context/dmnkstack/delegations/` when `.context` is available and ignored. Otherwise use a private temporary or XDG state location. Never commit the prompt.
-5. Create the session and retain the returned session ID:
+5. Prepare the child's worktree with its dependencies installed before launch, and reuse prepared worktrees for later rounds of the same task. Create the session and retain the returned session ID:
 
 ```sh
 conductor --json session create \
@@ -67,10 +71,22 @@ When `CONDUCTOR_WORKSPACE_ID` is set, Sol, Luna, and Astra launch through Conduc
 
 If local auth is absent, ask the user to run `conductor auth login`. If session creation reports that no credential is available, stop and report the missing prerequisite. Do not retry, expose a credential, store it in Dmnkstack config, or fall back to Herdr while inside Conductor.
 
-6. Poll status at reasonable intervals and collect the authoritative artifact. Idle alone does not prove completion; require the assigned phase and every owned background job to have an explicit terminal state or acknowledged transfer. Report transitions and findings while meeting runtime commentary requirements.
-7. Read `conductor --json session message <session-id> --limit 100`. Follow pagination or `--after` when needed and extract the latest complete assistant result.
-8. Inspect any claimed files, diff, commands, or external evidence yourself. Treat the child transcript as evidence to verify, not as an automatically trusted answer. Read the diff for comment volume as well as behavior: count the added comment lines and send back any comment that restates the code, the test name, or the change description before accepting the revision.
-9. Report the child agent, model, session ID, result, evidence, changes, and gaps in the parent session. Summarize the useful result instead of dumping the raw transcript.
+6. Wait in the background with this skill's `scripts/wait_child.py`. It returns only when the result artifact has a terminal `completion_state`, the session is idle, the worktree HEAD matches the artifact's `revision`, and the worktree has been quiet, since an idle child can still have subagents writing. Exit `0` is done, `3` is blocked, `4` is not done when the timeout passed. Completion comes from the artifact, never from transcript keywords or idle status alone. Report transitions and findings while meeting runtime commentary requirements.
+
+```sh
+python3 <this-skill-dir>/scripts/wait_child.py \
+  --artifact <result-artifact> --session <session-id> --worktree <child-worktree>
+```
+
+7. When new evidence or a changed requirement arrives while the child runs (a recording, a user correction, a new constraint), send it to the running child. Relaunch only when the scope changed enough to void its work so far.
+
+```sh
+conductor --json message create --session <session-id> --message-file <follow-up-file>
+```
+
+8. Read the result artifact, then `conductor --json session message <session-id> --limit 100` for context. Follow pagination or `--after` when needed.
+9. Inspect any claimed files, diff, commands, or external evidence yourself. Treat the child transcript as evidence to verify, not as an automatically trusted answer. Read the diff for comment volume as well as behavior: count the added comment lines and send back any comment that restates the code, the test name, or the change description before accepting the revision.
+10. Report the child agent, model, session ID, result, evidence, changes, and gaps in the parent session. Summarize the useful result instead of dumping the raw transcript. Append the attempt's model-route record through `reflect-dmnkstack`, with its actual effort and elapsed time.
 
 Parent collection is the default. User-requested callbacks use the same delivery contract and event identity. The parent verifies the authoritative artifact and reports the result once. Preserve the child session so the user can inspect it unless the user asks to close it.
 

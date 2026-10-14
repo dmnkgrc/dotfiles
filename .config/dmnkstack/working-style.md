@@ -21,6 +21,7 @@
 ## Verification and delivery
 
 - Verify the artifact that changed. Start with the narrowest useful check.
+- Before a push, run the checks the change can affect and the linters. Full suites belong to CI.
 - Do not suppress, ignore, baseline, or bypass a failing check.
 - Never bypass git hooks or add an agent as a commit co-author.
 - Do not commit, push, create a pull request, or write to an external service unless the user asks.

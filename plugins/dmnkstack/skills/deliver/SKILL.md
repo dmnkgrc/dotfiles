@@ -12,9 +12,10 @@ Publish only the actions the user authorized.
 3. Run the verification required by the changed artifact. Use `verify` when the completion claim needs a realistic behavior check. For pull requests, capture visual evidence as described below.
 4. Review the final diff for scope, generated artifacts, secrets, attribution, comment volume, and accidental project-specific content. Remove comments that restate the code or a test name; keep only those that record a non-obvious constraint or a deliberate workaround, at one or two lines each.
 5. Commit without bypassing hooks or adding an agent co-author.
-6. Push the intended branch without rewriting shared history.
+6. Push the intended branch without rewriting shared history. To bring a long-lived branch up to date (many commits, or a deployed preview built from it), merge the base: a rebase replays the same conflicts at every commit that touches a generated or list file. Rebase short branches, or when the user asks.
 7. Create or update the pull request against the requested base. State the behavior change and exact checks run. For visual changes, run `before-and-after` Publish in the same turn. `gh pr create` or `gh pr edit` must get `--body-file` and `--attach`. Pasting the comparison into the chat does not update the PR.
-8. Read the created remote object back and report its URL and state. For visual evidence, the fetched body must contain `https://github.com/user-attachments/assets/` URLs inside `<!-- before-and-after:start/end -->`. Open the rendered PR and confirm images load, videos play, and no local attachment paths remain.
+8. Watch the checks on the pushed head and report each failure when its job fails. Before fixing one, check whether the base branch fails the same check; report a base-branch failure instead of patching it into this change.
+9. Read the created remote object back and report its URL and state. For visual evidence, the fetched body must contain `https://github.com/user-attachments/assets/` URLs inside `<!-- before-and-after:start/end -->`. Open the rendered PR and confirm images load, videos play, and no local attachment paths remain.
 
 ## Visual evidence for pull requests
 

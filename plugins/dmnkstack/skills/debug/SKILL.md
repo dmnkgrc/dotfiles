@@ -13,7 +13,8 @@ Read the active repository instructions and matching project skills first. Use `
 
 ## Diagnose
 
-1. State the expected behavior, observed behavior, and smallest known reproduction.
+1. State the expected behavior, observed behavior, and smallest known reproduction. When the report carries no reproduction (steps, a recording, a failing check) and reading the code does not reproduce it, ask the reporter for a recording or exact steps before a long investigation.
+   When the report says something stopped working, confirm from history (`git log -S`, earlier deployments) that the behavior existed before treating it as a regression.
 2. Reproduce before editing when a practical reproduction exists. Capture the exact command, input, output, and environment.
 3. Trace backward from the failing boundary through real data and control flow. Inspect logs, traces, state transitions, and pinned dependency behavior when relevant.
 4. Write competing hypotheses. For each one, name the observation that would confirm or reject it.

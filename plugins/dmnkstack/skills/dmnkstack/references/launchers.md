@@ -34,7 +34,7 @@ The parent owns the whole round trip:
 
 1. Give the child a complete contract with scope, repository instructions, selected project skills, write authority, and expected evidence.
 2. Read and retain the session ID returned by `session create`.
-3. Poll status and collect the completion artifact using [the delivery contract](delivery.md). An idle session can still own background work.
+3. Wait for the completion artifact with `delegate`'s `scripts/wait_child.py`, following [the delivery contract](delivery.md). An idle session can still own background work. Send new evidence to the running child with `conductor --json message create --session <session-id> --message-file <file>` rather than relaunching it.
 4. Fetch the transcript with `conductor --json session message <session-id> --limit 100`, following pagination when required.
 5. Extract the child's final `RESULT`, `EVIDENCE`, `CHANGES`, `GAPS`, and `NEXT` sections.
 6. Verify claimed artifacts and evidence, then report the useful result in the parent session with the agent, model, and session ID.
