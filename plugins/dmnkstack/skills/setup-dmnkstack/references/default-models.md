@@ -5,9 +5,9 @@ Copy the complete map below into `models.md`. Lists are ordered candidate pools,
 The Claude Code aliases are `claude-opus-5-5` and `claude-sonnet-5-5`. Pi uses `opus-5.5@300k`, `claude-sonnet-5-5@300k`, and `grok-4.7@256k`; Pi exposes no thinking control for Sonnet 5.5, so prefer Claude Code for it. Anthropic models use Pi only while Cursor included API usage remains (`planUsage.apiPercentUsed` below 100). When `CONDUCTOR_WORKSPACE_ID` is set, OpenAI models (Sol, Luna, Astra) use Conductor's `codex` agent and its matching catalog model id. Outside Conductor they use Pi only. Grok always uses Pi, never `--agent cursor`. Never start the Codex CLI directly. Auto or Composer remaining does not count.
 
 ```md
-feature, refactoring: opus-5.5 @ high
-UI: gpt-6-astra @ high, opus-5.5 @ high
-bug-fix: opus-5.5 @ high, gpt-6-astra @ high
+feature, refactoring: opus-5.5 @ medium
+UI: gpt-6-astra @ medium, opus-5.5 @ medium
+bug-fix: opus-5.5 @ medium, gpt-6-astra @ medium
 perf-issue, hillclimb: opus-5.5 @ high
 general implementation: gpt-6.1-sol @ medium, sonnet-5.5 @ medium
 fast mechanical work: gpt-6-luna @ low
@@ -31,8 +31,8 @@ architect runners: gpt-6-astra @ high, opus-5.5 @ high, gpt-6.1-sol @ high
 interrogate reviewers: opus-5.5 @ high, gpt-6-astra @ high, gpt-6.1-sol @ high
 
 fallback feature, refactoring, perf-issue, hillclimb: gpt-6-astra @ high, gpt-6.1-sol @ high, grok-4.7 @ high
-fallback UI: gpt-6.1-sol @ high, grok-4.7 @ high
-fallback bug-fix: gpt-6.1-sol @ high, grok-4.7 @ high
+fallback UI: gpt-6.1-sol @ medium, grok-4.7 @ medium
+fallback bug-fix: gpt-6.1-sol @ medium, grok-4.7 @ medium
 fallback general implementation, swarm workers: opus-5.5 @ medium, grok-4.7 @ high, gpt-6-luna @ max
 fallback fast mechanical work: gpt-6.1-sol @ low, grok-4.7 @ low, opus-5.5 @ low
 fallback judgment: gpt-6.1-sol @ high, grok-4.7 @ high
