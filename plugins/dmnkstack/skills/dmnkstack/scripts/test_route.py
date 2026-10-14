@@ -274,7 +274,7 @@ def main() -> None:
     assert route.model_role("review", "bounded") == "interrogate reviewers"
     assert route.difficulty("Verify a migration with old and new writers", "verification") == "consequential"
     assert route.effort_for("high", "uncertain") == "high"
-    assert route.effort_for("high", "consequential") == "max"
+    assert route.effort_for("high", "consequential") == "high"
     with patch.dict(route.os.environ, {"XDG_CONFIG_HOME": ""}):
         assert route.default_models_path() == Path.home() / ".config/dmnkstack/models.md"
     try:
@@ -304,7 +304,7 @@ def main() -> None:
     assert general["fallback"] == [
         {"model": "opus-5.5", "effort": "medium"},
         {"model": "grok-4.7", "effort": "high"},
-        {"model": "gpt-6-luna", "effort": "max"},
+        {"model": "gpt-6-luna", "effort": "high"},
     ]
     prose = route.configured_pools(config, "prose")
     assert prose["primary"] == [

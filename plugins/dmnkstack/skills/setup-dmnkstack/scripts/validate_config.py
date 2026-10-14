@@ -36,7 +36,7 @@ ROLES = {
     "architect runners",
     "interrogate reviewers",
 }
-EFFORTS = {"off", "minimal", "low", "medium", "high", "xhigh", "max"}
+EFFORTS = {"off", "minimal", "low", "medium", "high", "xhigh"}
 
 
 def parse_routes(path: Path) -> tuple[list[dict[str, str]], list[str]]:
