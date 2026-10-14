@@ -77,9 +77,9 @@ Choose the role from scope and uncertainty, not just the task label:
 - Mechanical: deterministic edits with a known check, such as formatting or a proven rename. Use `fast mechanical work` at its configured low effort.
 - Bounded: clear acceptance criteria, established patterns, and a local verification path. Use `general implementation`, including small features, refactors, and fixes whose cause is already proven.
 - Uncertain: an unknown cause, competing designs, or changes across ownership boundaries. Use the task's specialist role at its configured starting effort.
-- Consequential: security, money, concurrency, durable state, or hard-to-reverse migrations. Keep the specialist model and raise effort to the highest supported level. Never trade away validation or independent review to save cost.
+- Consequential: security, money, concurrency, durable state, or hard-to-reverse migrations. Keep the specialist model and use high effort. Never trade away validation or independent review to save cost.
 
-Separate model choice from effort. Start at the configured effort; raise it one supported level when a hypothesis fails or verification exposes a reasoning gap. Do not escalate for a missing dependency, credential, or other environment prerequisite. After two failed reasoning attempts at the same problem, select the next capable model from the role's fallback chain and carry forward the evidence. If none is available, report the blocker. Do not loop through the chain indefinitely.
+Separate model choice from effort. Start at the configured effort; raise it one supported level when a hypothesis fails or verification exposes a reasoning gap. Escalation never goes to `max`: `high` is the ceiling for consequential work and the target when a role would otherwise need `max`. Do not escalate for a missing dependency, credential, or other environment prerequisite. After two failed reasoning attempts at the same problem, select the next capable model from the role's fallback chain and carry forward the evidence. If none is available, report the blocker. Do not loop through the chain indefinitely.
 
 ## Phase routing
 

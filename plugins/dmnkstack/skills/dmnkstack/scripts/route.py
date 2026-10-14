@@ -467,7 +467,7 @@ def model_role(route: str, level: str) -> str:
 
 
 def effort_for(configured: str, level: str) -> str:
-    return "max" if level == "consequential" else configured
+    return "high" if level == "consequential" else configured
 
 
 def validate_key(value: str) -> str | None:
