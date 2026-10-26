@@ -45,9 +45,21 @@ If local Keychain auth is absent or `session create` reports a missing credentia
 
 Do not create a new workspace for a read-only specialist. One delegated writer may use the current workspace while the parent stops editing. Use separate workspaces only for independent writers.
 
+## Amp
+
+Use Amp when `AMP_THREAD_ID` is set and Conductor is not active. Amp threads replace Herdr panes and Conductor sessions; do not start Pi, Claude, or Herdr behind them.
+
+- Bounded read-only help on the current task (a reviewer, a search, a panel member): use the harness's subagent tool. It sees only its prompt, so give it the full contract.
+- An independently owned task, such as one ticket or one PR: start a thread with `create_thread`. Pick the agent mode or external agent that runs the selected model (`external-agent:claude-code` with `model:` and `effort:` features for Claude models, the matching mode for GPT, Grok, and others). Each orb thread gets its own checkout, so independent writers do not need extra worktrees, and they do not see the parent's uncommitted work.
+- Put the delivery contract in the first prompt, including the parent's thread ID and the instruction to report back with `send_thread_message`. Do not also wait on a thread asked to reply.
+- Send new evidence or decisions to a running child with `send_thread_message` instead of starting a replacement. Use `wait_for_threads` only when the parent cannot continue without the result, and read the outcome before treating an idle thread as done.
+- Archive child threads the user no longer needs only when the user asks.
+
+`models.md` is usually absent in an orb. Use the role assignments from the dotfiles copy of `.config/dmnkstack/models.md` when reachable, otherwise the defaults in `setup-dmnkstack`, and say which source was used.
+
 ## Herdr on the current host
 
-Use Herdr when `HERDR_ENV=1` and Conductor is not active. This includes native agent panes inside VMs, regardless of which terminal hosts the laptop client. Before controlling panes, run `herdr --skill` and follow the installed instructions because its CLI is the authority.
+Use Herdr when `HERDR_ENV=1` and neither Conductor nor Amp is active. This includes native agent panes inside VMs, regardless of which terminal hosts the laptop client. Before controlling panes, run `herdr --skill` and follow the installed instructions because its CLI is the authority.
 
 Inside a VM, launch children with that VM's `herdr` CLI and inherited session/socket context. Discover executables on the VM, not the laptop. A Pi model is present when its id is in that VM's `~/.pi/agent/settings.json`. Do not run `pi --list-models`, `pi` auth checks, or provider login to decide presence. Do not substitute a hidden subagent runner, background agent process, laptop terminal or new SSH connection for a requested Herdr child. Missing prerequisites require an explicit fallback from the model routes or a reported blocker, not a silent change of host or runner.
 

@@ -1,6 +1,6 @@
 ---
 name: delegate
-description: Run work through another model or agent and collect its result into the parent session. Use when Dmnkstack selects a model unavailable to the current agent, the user asks for another agent or model, a panel needs independent judgments, or work inside Conductor should happen in a new same-workspace session and report back.
+description: Run work through another model or agent and collect its result into the parent session. Use when Dmnkstack selects a model unavailable to the current agent, the user asks for another agent or model, a panel needs independent judgments, work inside Conductor should happen in a new same-workspace session, or several tickets or PRs should each get their own Amp thread that reports back.
 ---
 
 # Delegate
@@ -96,7 +96,21 @@ Use the same workspace for read-only specialists and for one delegated writer. B
 
 Parallel read-only sessions may share the workspace. Independent writers need separate worktrees or Conductor workspaces. A panel never edits.
 
-## Delegate outside Conductor
+## Delegate inside Amp
+
+When `AMP_THREAD_ID` is set and Conductor is not active, follow the Amp section of [Dmnkstack's launcher reference](../dmnkstack/references/launchers.md): a subagent for bounded read-only help, a new thread for independently owned work. The contract and protocol above still apply; the result artifact is the child's final `RESULT`/`EVIDENCE`/`CHANGES`/`GAPS`/`NEXT` message sent back with `send_thread_message`.
+
+### One thread per ticket
+
+When the user hands over several tickets or PRs at once:
+
+1. Read every ticket first and map overlaps: shared files, shared UI, and sibling tickets that may already solve each other.
+2. Start one thread per ticket with the same contract: triage before implementing, treat the ticket's diagnosis as a hypothesis, stop and report when a product decision is needed or the ticket is already fixed. Name the overlapping siblings and the files to keep tight. Grant `deliver`'s full stop when the user asked for PRs; otherwise state the exact publishing limits.
+3. Collect the children's questions into one numbered list for the user, and pass each answer down to the child it belongs to. Do not repeat a question the user already answered or a fact a child already reported.
+4. When a sibling PR merges, tell every open child whose PR touches the same files to update its branch, regenerate generated files, rerun its checks, and request bot review again if the patch changed.
+5. Report one table: ticket, PR, state (ready, waiting on review, blocked, closed), and the open decisions.
+
+## Delegate outside Conductor and Amp
 
 When `HERDR_ENV=1`, use the current host's Herdr CLI according to [Dmnkstack's launcher reference](../dmnkstack/references/launchers.md), including inside a VM. Create a sibling pane for closely related work or a new tab for an independent task. Preserve the inherited VM/session context, assigned directory and user focus. Resolve models and authentication on that host. Start the selected agent in the returned new pane, collect its result, verify it, and report it through the same protocol. Do not silently substitute a hidden subagent runner or launch on the laptop.
 

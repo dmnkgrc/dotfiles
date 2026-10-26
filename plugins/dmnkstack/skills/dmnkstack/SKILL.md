@@ -21,7 +21,7 @@ Use TypeSafe Jev for routing when an API key is configured. Otherwise, choose th
 6. Read [references/integrations.md](references/integrations.md) when the request contains a design, bug capture, issue, document, trace, run, workflow, dashboard, or other external evidence source. If Executor MCP is connected, fetch those sources through it before a host-only Linear, Figma, or Notion connector.
 7. Read `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md`. If missing or a broken symlink, report the configuration problem and use `setup-dmnkstack` rather than silently ignoring the assignments. Verify the routed model and starting effort against current launcher configuration before launch.
 8. Load `delegate` when the selected model requires another agent, the user requests another agent, or the route calls for a panel. Then read [references/launchers.md](references/launchers.md).
-9. Inside Conductor, use a new same-workspace session for that delegation. The parent must wait for the child, collect its transcript, verify its evidence, and report the result back.
+9. Inside Conductor, use a new same-workspace session for that delegation. Inside Amp, use a subagent or a new thread as `launchers.md` describes. The parent must wait for the child, collect its transcript, verify its evidence, and report the result back.
 10. Execute, reassess at phase boundaries, verify the changed artifact, and report the evidence. Append a privacy-safe outcome through `reflect-dmnkstack` so future route changes can use measured results.
 
 Once invoked, keep Dmnkstack active for the thread until the user says to stop. Reclassify unrelated new tasks instead of carrying stale constraints into them.

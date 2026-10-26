@@ -20,7 +20,7 @@ This is an explanatory map, not the routing inventory. Routing uses currently in
 
 ## Design and compare
 
-- `delegate` runs work through another model or agent, collects its result, and returns verified evidence to the parent.
+- `delegate` runs work through another model or agent, collects its result, and returns verified evidence to the parent. In Amp it also coordinates one thread per ticket.
 - `design-handoff` turns Figma context into project-native UI code and browser proof.
 - `architect` settles caller usage, types, state ownership, and module shape.
 - `arena` compares independent attempts at the same task.
@@ -31,7 +31,7 @@ This is an explanatory map, not the routing inventory. Routing uses currently in
 ## Preserve and deliver
 
 - `show-me-your-work` keeps a compact decision trail.
-- `deliver` commits, pushes, and opens or updates a pull request when authorized.
+- `deliver` commits, pushes, opens or updates a pull request, and babysits it when authorized. "Full stop" runs it end to end and stops with the PR ready to merge.
 - `before-and-after` attaches screenshots and recordings to PRs; `deliver` uses it for visual changes.
 - `reflect-dmnkstack` records durable lessons without leaking project facts.
 - `automate-me` learns working preferences from local conversation history.
