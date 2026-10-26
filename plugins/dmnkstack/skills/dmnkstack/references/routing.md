@@ -67,6 +67,9 @@ Project skills own domain rules. Dmnkstack owns task classification, model choic
 | Keep an audit trail | state | `show-me-your-work` | current |
 | Run work through another model or agent | delegation | `delegate` | selected task role |
 | Publish an authorized change | delivery | `deliver` | current |
+| Watch a PR, fix its checks and findings, or keep it current with the base | delivery | `deliver` babysit | current |
+| "Full stop": take a change to a PR ready to merge | delivery | `deliver` full stop | current |
+| Split several tickets or PRs into owned threads | delegation | `delegate` one thread per ticket | selected task role |
 
 Use the narrow role when several match. A small mechanical edit does not need a feature model. An unknown failure stays in diagnosis until evidence identifies a change.
 
