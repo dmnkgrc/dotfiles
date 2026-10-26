@@ -46,3 +46,5 @@ result
 result-*
 .direnv/
 themes/dracula-pro
+/.codex/skills/.system/openai-docs
+/.codex/skills/.system/.codex-system-skills.marker

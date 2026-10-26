@@ -82,7 +82,7 @@ alias lazygit 'lazygit --use-config-dir ~/.config/lazygit'
 # pyenv. $PYENV_ROOT/bin is deliberately not on PATH: pyenv itself comes from nix and
 # that directory does not exist. `pyenv init -` adds the shims, which is what matters.
 set -gx PYENV_ROOT $HOME/.pyenv
-pyenv init - | source
+pyenv init - --no-rehash | source
 pyenv virtualenv-init - | source
 
 # opencode

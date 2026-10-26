@@ -21,7 +21,7 @@
     "npm:pi-claude-bridge",
     "npm:pi-agents"
   ],
-  "lastChangelogVersion": "1.2.0",
+  "lastChangelogVersion": "1.4.0",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "high",
@@ -34,7 +34,9 @@
     "modelScope": {
       "enforce": true,
       "strict": true,
-      "allow": ["openai-codex/*"]
+      "allow": [
+        "openai-codex/*"
+      ]
     },
     "agentOverrides": {
       "delegate": {
@@ -68,7 +70,9 @@
       }
     }
   },
-  "extensions": ["-builtin:mcp"],
+  "extensions": [
+    "-builtin:mcp"
+  ],
   "quietStartup": true,
   "theme": "kanagawa-wave",
   "hideThinkingBlock": false
