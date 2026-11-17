@@ -55,7 +55,7 @@ Use Amp when `AMP_THREAD_ID` is set and Conductor is not active. Amp threads rep
 - Send new evidence or decisions to a running child with `send_thread_message` instead of starting a replacement. Use `wait_for_threads` only when the parent cannot continue without the result, and read the outcome before treating an idle thread as done.
 - Archive child threads the user no longer needs only when the user asks.
 
-`models.md` is usually absent in an orb. Use the role assignments from the dotfiles copy of `.config/dmnkstack/models.md` when reachable, otherwise the defaults in `setup-dmnkstack`, and say which source was used.
+In an orb, the Amp plugin seeds `models.md` from the `setup-dmnkstack` defaults when it is missing. `route.py` treats every configured model as launchable through Amp, with unknown usage, so routing does not need Claude, Pi, or Conductor in the orb.
 
 ## Herdr on the current host
 

@@ -12,7 +12,7 @@ Use TypeSafe Jev for routing when an API key is configured. Otherwise, choose th
 1. Deterministically classify the message as a new task, continuation, correction, pause, or resume. A correction has priority over every task route.
 2. Run the router before execution, passing the exact current task and the deterministic conversation state. Use `--prior-task` and `--active-route` for continuations or corrections:
    ```sh
-   python3 ~/.agents/skills/dmnkstack/scripts/route.py --conversation-state new 'TASK'
+   python3 <this skill's directory>/scripts/route.py --conversation-state new 'TASK'
    ```
    Run it directly from the current shell; bash, zsh, and fish all work and no `fish -lc` wrapper is needed. `route.py` loads `TYPESAFE_API_KEY` from the process env, then `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/typesafe.env` when present, then a login shell (fish, bash, zsh). Do not print the command with an expanded key. With no key, it returns `status: local` and exits successfully without TypeSafe or quota calls. Continue with local routing using the same skill, model, effort, availability, and authority rules. Do not require key setup. With a configured key, a nonzero exit or `status: error` remains a failure: report it and stop rather than silently switching to local routing.
 3. Read active repository instructions, then load the selected installed skill when it is not `none`. An explicitly invoked or mandatory skill remains a deterministic constraint and takes precedence over a semantic suggestion. Select from installed skills' current `SKILL.md` frontmatter in either mode; [references/skill-map.md](references/skill-map.md) is explanatory, not the selection catalog.

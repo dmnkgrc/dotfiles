@@ -14,6 +14,22 @@ Use `dmnkstack` as the sticky router, or invoke a workflow directly with `debug`
 
 Inside Conductor, `delegate` starts the selected agent as a new session in the current workspace. With `CONDUCTOR_WORKSPACE_ID` set, OpenAI models use Conductor's `codex` agent only when its catalog lists the model, including `gpt-6.1-sol` for Sol. Outside Conductor, OpenAI models use Pi only. Grok always uses Pi, never `--agent cursor`. Never start the Codex CLI directly. The parent collects the authoritative result artifact and transcript, verifies the evidence, and reports the result back. The parent waits on that artifact with `delegate`'s `scripts/wait_child.py` and sends new evidence to a running child with `conductor message create` instead of relaunching it. Run its checks with `python3 plugins/dmnkstack/skills/delegate/scripts/test_wait_child.py`. User-requested callbacks follow the shared [delivery contract](skills/dmnkstack/references/delivery.md). Inside Amp (`AMP_THREAD_ID` set), `delegate` uses subagents for bounded help and a new thread per independently owned ticket or PR, each reporting back to the parent thread. Outside Conductor and Amp, the same workflow uses the current host's Herdr session, including inside VMs. Closely related work gets a sibling pane; independent tasks get a new tab. Children stay on the same host and preserve user focus. Concurrent writers still need separate worktrees.
 
+## Amp
+
+`index.ts` makes this directory an Amp plugin. On load it registers every skill as `dmnkstack:<name>` and seeds `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack/models.md` from [the setup defaults](skills/setup-dmnkstack/references/default-models.md) when the file is missing, so a new thread or orb routes without setup. It never overwrites an existing file. Without a local `working-style.md`, the router uses [the default working style](skills/dmnkstack/references/working-style.md).
+
+Install or update it in the Amp User Plugins repository so it loads in every thread:
+
+```sh
+clone=~/.cache/amp/repositories/ampcode.com-user-plugins
+[ -d "$clone/.git" ] || amp clone user-plugins "$clone"
+rm -rf "$clone/dmnkstack" && cp -R plugins/dmnkstack "$clone/dmnkstack"
+find "$clone/dmnkstack" -name __pycache__ -prune -exec rm -rf {} +
+git -C "$clone" add -A && git -C "$clone" commit -m "Update dmnkstack" && git -C "$clone" push origin HEAD:main
+```
+
+New threads load the pushed version. Reload plugins in a running thread to pick it up there.
+
 ## Routing and checks
 
 Keep `models.md`, `launchers.toml`, and `working-style.md` under `${XDG_CONFIG_HOME:-$HOME/.config}/dmnkstack`, or symlink that directory to the dotfiles copy. Verify that the link resolves before running setup.

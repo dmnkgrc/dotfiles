@@ -327,7 +327,7 @@ def main() -> None:
     }
     with (
         patch("route.shutil.which", side_effect=lambda name: f"/{name}"),
-        patch.dict(route.os.environ, {"CONDUCTOR_WORKSPACE_ID": ""}),
+        patch.dict(route.os.environ, {"CONDUCTOR_WORKSPACE_ID": "", "AMP_THREAD_ID": ""}),
     ):
         models = route.normalize_models(
             sources,
@@ -342,7 +342,7 @@ def main() -> None:
     assert models["sonnet-5.5"]["sources"] == models["opus-5.5"]["sources"]
 
     # Inside Conductor an executor is launchable from its agent catalog even without a local binary.
-    with patch("route.shutil.which", return_value=None):
+    with patch("route.shutil.which", return_value=None), patch.dict(route.os.environ, {"AMP_THREAD_ID": ""}):
         catalog_only = route.normalize_models(sources, set(), conductor={"claude": {"opus-5.5"}})
         no_catalog = route.normalize_models(sources, set(), conductor={})
     assert catalog_only["opus-5.5"]["available"] and catalog_only["opus-5.5"]["executors"] == ["claude"]
@@ -367,11 +367,18 @@ def main() -> None:
         assert grok_with_pi["grok-4.7"]["executors"] == ["pi"]
     with (
         patch("route.shutil.which", return_value=None),
-        patch.dict(route.os.environ, {"CONDUCTOR_WORKSPACE_ID": ""}),
+        patch.dict(route.os.environ, {"CONDUCTOR_WORKSPACE_ID": "", "AMP_THREAD_ID": ""}),
     ):
         outside_conductor = route.normalize_models(sources, set(), conductor=conductor_catalog)
         assert not outside_conductor["gpt-6.1-sol"]["available"]
         assert outside_conductor["gpt-6.1-sol"]["executors"] == []
+    # Inside Amp, threads and subagents launch every model without a local executor.
+    with (
+        patch("route.shutil.which", return_value=None),
+        patch.dict(route.os.environ, {"AMP_THREAD_ID": "T-test", "CONDUCTOR_WORKSPACE_ID": ""}),
+    ):
+        in_amp = route.normalize_models(sources, set(), conductor={})
+    assert all(entry["available"] and entry["executors"] == ["amp"] for entry in in_amp.values())
     assert models["grok-4.7"]["available"]
     assert models["grok-4.7"]["usage_known"] is True
     assert models["grok-4.7"]["remaining_percent"] == 50.5
