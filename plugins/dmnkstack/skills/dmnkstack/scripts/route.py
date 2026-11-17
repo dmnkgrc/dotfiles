@@ -342,7 +342,18 @@ def normalize_models(
         "pi": bool(catalog),
     }
     normalized = {}
+    # Inside Amp (and not Conductor), threads and subagents launch every configured model.
+    in_amp = bool(os.environ.get("AMP_THREAD_ID")) and not os.environ.get("CONDUCTOR_WORKSPACE_ID")
     for model, executors in MODEL_EXECUTORS.items():
+        if in_amp:
+            normalized[model] = {
+                "available": True,
+                "remaining_percent": None,
+                "usage_known": False,
+                "executors": ["amp"],
+                "sources": [unknown_usage("amp", "not-queried")],
+            }
+            continue
         aliases = MODEL_ALIASES.get(model, {model})
         pi_supports = bool(aliases & catalog)
         if model.startswith("gpt-") and os.environ.get("CONDUCTOR_WORKSPACE_ID"):
